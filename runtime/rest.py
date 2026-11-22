@@ -104,7 +104,12 @@ def _multipart(body: Any, files: Any, *, raw_fields: bool = False) -> tuple[str,
         name = entry.get("field")
         filename = entry.get("filename")
         data = entry.get("data_base64")
-        if not all(isinstance(v, str) and SAFE_NAME.fullmatch(v) for v in (name, filename)):
+        if (
+            not isinstance(name, str)
+            or not SAFE_NAME.fullmatch(name)
+            or not isinstance(filename, str)
+            or not SAFE_NAME.fullmatch(filename)
+        ):
             raise ValueError("Invalid multipart field or filename")
         if name in used or not isinstance(data, str):
             raise ValueError("Invalid or duplicate multipart file")
