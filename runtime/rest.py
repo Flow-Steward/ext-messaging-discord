@@ -41,6 +41,7 @@ BODY_CREDENTIALS = {
     "partner_sdk_unmerge_provisional_account": {"client_secret", "external_auth_token"},
 }
 SECRET_SUFFIXES = ("_token", "_secret", "_password", "_api_key", "_private_key")
+TOKENIZED_PATH = re.compile(r"(/(?:webhooks|interactions)/[0-9]+/)[A-Za-z0-9._~-]+")
 
 
 def _credential_field(key: str) -> bool:
@@ -248,6 +249,7 @@ def _redact(value: Any, credentials: tuple[str, ...]) -> Any:
     if isinstance(value, list):
         return [_redact(item, credentials) for item in value]
     if isinstance(value, str):
+        value = TOKENIZED_PATH.sub(r"\1[redacted]", value)
         for token in credentials:
             value = value.replace(token, "[redacted]")
     return value

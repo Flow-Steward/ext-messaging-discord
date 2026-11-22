@@ -181,3 +181,23 @@ def test_partner_sdk_injects_body_credentials_and_removes_all_returned_tokens(mo
     assert main.dispatch(request)["result"]["response"]["data"] == {"note": "[redacted]"}
     action["input"]["body"]["data"]["client_secret"] = "untrusted"
     assert main.dispatch(request)["error_code"] == "invalid_payload"
+
+
+def test_new_webhook_credentials_are_redacted_from_urls_and_fields(monkeypatch):
+    request, _ = sample_invocation("create_webhook", ROUTES["create_webhook"])
+    monkeypatch.setattr(
+        rest,
+        "request_raw",
+        lambda **kwargs: (
+            200,
+            "application/json",
+            b'{"id":"123","token":"new.webhook.token",'
+            b'"url":"https://discord.com/api/v10/webhooks/123/new.webhook.token"}',
+        ),
+    )
+    result = main.dispatch(request)
+    assert result["result"]["response"]["data"] == {
+        "id": "123",
+        "url": "https://discord.com/api/v10/webhooks/123/[redacted]",
+    }
+    assert "new.webhook.token" not in repr(result)

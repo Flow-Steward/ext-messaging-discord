@@ -23,7 +23,7 @@ The table lists the dedicated workflow actions that provide a narrower interface
 | `get_guild` | `get_guild` | Mocked server and count flag |
 | `list_guild_channels` | `list_guild_channels` | Mocked empty channel list |
 
-## Release review
+## Remaining release verification
 
 - Reconcile every inventory row against the Discord endpoint documentation. Record authorization, required permissions, request shape, success statuses and whether the operation can change Discord state.
 - Add a closed operation contract and tests for each supported row. Keep bot tokens, OAuth2 tokens and webhook or interaction tokens in the corresponding connection or ephemeral execution scope. Discord returns secrets on some routes. Review those responses before exposing outputs to workflows.
@@ -35,3 +35,5 @@ The table lists the dedicated workflow actions that provide a narrower interface
 ## Mutation replay
 
 Flow Steward claims mutating steps in its external-effect ledger before invoking the subprocess. The extension makes one upstream attempt. A lost response leaves the effect unresolved. Discord message creation also carries a deterministic nonce for the provider’s short deduplication window. Discord does not expose a general idempotency key for all mutations.
+
+Token-returning Partner SDK operations return status and non-credential fields. Returned tokens and credential-bearing webhook URLs are scrubbed before the result is available to a workflow.
