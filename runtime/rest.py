@@ -81,11 +81,11 @@ def _multipart(body: Any, files: Any, *, raw_fields: bool = False) -> tuple[str,
     if raw_fields and body is not None:
         if not isinstance(body, dict):
             raise ValueError("Multipart fields must be an object")
-        for name, value in _pairs(body):
-            if not SAFE_NAME.fullmatch(name):
+        for field_name, value in _pairs(body):
+            if not SAFE_NAME.fullmatch(field_name):
                 raise ValueError("Invalid multipart field")
             chunks.append(
-                f'--{boundary}\r\nContent-Disposition: form-data; name="{name}"\r\n\r\n'.encode()
+                f'--{boundary}\r\nContent-Disposition: form-data; name="{field_name}"\r\n\r\n'.encode()
                 + value.encode()
                 + b"\r\n"
             )
