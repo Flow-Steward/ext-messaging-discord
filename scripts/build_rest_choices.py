@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from importlib import import_module
 from pathlib import Path
 
 import yaml
@@ -13,12 +14,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def operation_choices() -> dict[str, list[dict[str, str]]]:
     # Preserve the picker for workflows authored against the original OpenAPI catalog.
-    if __package__:
-        from .build_rest_registry import SPEC, build_routes
-    else:
-        from build_rest_registry import SPEC, build_routes
-
-    routes = build_routes(json.loads(SPEC.read_text()))
+    registry = (
+        import_module(".build_rest_registry", __package__)
+        if __package__
+        else import_module("build_rest_registry")
+    )
+    routes = registry.build_routes(json.loads(registry.SPEC.read_text()))
     choices: dict[str, list[dict[str, str]]] = {
         "discord_rest_read": [],
         "discord_rest_write": [],
