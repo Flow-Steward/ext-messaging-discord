@@ -301,11 +301,12 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
 def render(path: Path, records: list[dict]) -> str:
     original = path.read_text()
     body = original.split(MARKER, 1)[0]
+    indent = "" if path.name == "step_ui_manifest.yaml" else "  "
     block = (
         MARKER
         + "\n"
         + "".join(
-            "  " + line + "\n"
+            indent + line + "\n"
             for line in yaml.safe_dump(records, sort_keys=False, allow_unicode=True).splitlines()
         )
     )
