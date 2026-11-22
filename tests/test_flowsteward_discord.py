@@ -49,7 +49,7 @@ def test_sends_one_message_and_disables_mentions(monkeypatch):
         "external_effect_status": "succeeded",
     }
     [(path, token, body)] = calls
-    assert path == f"/channels/{CHANNEL}/messages"
+    assert (path.method, path.path) == ("POST", f"/channels/{CHANNEL}/messages")
     assert token == "sample.bot.credential"
     assert body["content"] == "Hello @everyone"
     assert body["allowed_mentions"] == {"parse": []}
@@ -59,7 +59,7 @@ def test_sends_one_message_and_disables_mentions(monkeypatch):
 
 def test_connection_uses_bot_identity(monkeypatch):
     def request(path, token, body):
-        assert path == "/users/@me"
+        assert (path.method, path.path) == ("GET", "/users/@me")
         assert token == "sample.bot.credential"
         assert body is None
         return {"id": MESSAGE}

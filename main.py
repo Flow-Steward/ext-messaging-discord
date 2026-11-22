@@ -11,6 +11,7 @@ from urllib.error import URLError
 
 from flowsteward_extension_sdk import runtime_context_from_payload
 
+from runtime.routes import RequestTarget, request_target
 from runtime.transport import DiscordHTTPError, request_json
 
 MAX_INPUT = 32_768
@@ -36,13 +37,13 @@ def _failure(code: str, *, uncertain: bool = False) -> dict[str, Any]:
     }
 
 
-def _request(path: str, token: str, body: dict | None = None) -> dict:
+def _request(target: RequestTarget, token: str, body: dict | None = None) -> dict:
     result = request_json(
-        method="POST" if body is not None else "GET",
-        path=path,
+        method=target.method,
+        path=target.path,
         token=token,
         user_agent="DiscordBot (https://github.com/Flow-Steward, 0.1.0)",
-        success_statuses=(200,),
+        success_statuses=target.success_statuses,
         body=body,
     )
     if not isinstance(result, dict):
@@ -103,12 +104,12 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
         }
 
     body: dict[str, Any] | None = None
-    path = "/users/@me"
+    request = request_target("get_my_user")
     if write:
         execution_id = context.step_execution_id
         if not execution_id:
             return _failure("invalid_payload")
-        path = f"/channels/{channel_id}/messages"
+        request = request_target("create_message", path_parameters={"channel_id": channel_id})
         body = {
             "content": content,
             "allowed_mentions": {"parse": []},
@@ -116,7 +117,7 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
             "enforce_nonce": True,
         }
     try:
-        response = _request(path, token, body)
+        response = _request(request, token, body)
         provider_id = response.get("id")
         if not isinstance(provider_id, str) or not SNOWFLAKE.fullmatch(provider_id):
             raise ValueError("Discord response did not contain an ID")

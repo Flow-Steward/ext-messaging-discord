@@ -1,0 +1,5867 @@
+{
+  "action_guild_join_request": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/requests/{request_id}",
+    "path_parameters": [
+      "guild_id",
+      "request_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "add_group_dm_user": {
+    "method": "PUT",
+    "path": "/channels/{channel_id}/recipients/{user_id}",
+    "path_parameters": [
+      "channel_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      201,
+      204
+    ]
+  },
+  "add_guild_member": {
+    "method": "PUT",
+    "path": "/guilds/{guild_id}/members/{user_id}",
+    "path_parameters": [
+      "guild_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      201,
+      204
+    ]
+  },
+  "add_guild_member_role": {
+    "method": "PUT",
+    "path": "/guilds/{guild_id}/members/{user_id}/roles/{role_id}",
+    "path_parameters": [
+      "guild_id",
+      "user_id",
+      "role_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "add_invite_target_user": {
+    "method": "PUT",
+    "path": "/invites/{code}/target-users/{user_id}",
+    "path_parameters": [
+      "code",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "add_lobby_member": {
+    "method": "PUT",
+    "path": "/lobbies/{lobby_id}/members/{user_id}",
+    "path_parameters": [
+      "lobby_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "add_my_message_reaction": {
+    "method": "PUT",
+    "path": "/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me",
+    "path_parameters": [
+      "channel_id",
+      "message_id",
+      "emoji_name"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "add_thread_member": {
+    "method": "PUT",
+    "path": "/channels/{channel_id}/thread-members/{user_id}",
+    "path_parameters": [
+      "channel_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "applications_get_activity_instance": {
+    "method": "GET",
+    "path": "/applications/{application_id}/activity-instances/{instance_id}",
+    "path_parameters": [
+      "application_id",
+      "instance_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "ban_user_from_guild": {
+    "method": "PUT",
+    "path": "/guilds/{guild_id}/bans/{user_id}",
+    "path_parameters": [
+      "guild_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "bot_partner_sdk_token": {
+    "method": "POST",
+    "path": "/partner-sdk/token/bot",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "bot_partner_sdk_unmerge_provisional_account": {
+    "method": "POST",
+    "path": "/partner-sdk/provisional-accounts/unmerge/bot",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "bulk_add_invite_target_users": {
+    "method": "POST",
+    "path": "/invites/{code}/target-users/bulk-add",
+    "path_parameters": [
+      "code"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "bulk_ban_users_from_guild": {
+    "method": "POST",
+    "path": "/guilds/{guild_id}/bulk-ban",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "bulk_delete_messages": {
+    "method": "POST",
+    "path": "/channels/{channel_id}/messages/bulk-delete",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "bulk_remove_invite_target_users": {
+    "method": "POST",
+    "path": "/invites/{code}/target-users/bulk-delete",
+    "path_parameters": [
+      "code"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "bulk_set_application_commands": {
+    "method": "PUT",
+    "path": "/applications/{application_id}/commands",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "bulk_set_guild_application_commands": {
+    "method": "PUT",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands",
+    "path_parameters": [
+      "application_id",
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "bulk_update_guild_channels": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/channels",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "bulk_update_guild_roles": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/roles",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "bulk_update_lobby_members": {
+    "method": "POST",
+    "path": "/lobbies/{lobby_id}/members/bulk",
+    "path_parameters": [
+      "lobby_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "consume_entitlement": {
+    "method": "POST",
+    "path": "/applications/{application_id}/entitlements/{entitlement_id}/consume",
+    "path_parameters": [
+      "application_id",
+      "entitlement_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.entitlements"
+        ]
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "count_guild_scheduled_event_users": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users/counts",
+    "path_parameters": [
+      "guild_id",
+      "guild_scheduled_event_id"
+    ],
+    "query_parameters": [
+      "guild_scheduled_event_exception_ids"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_application_command": {
+    "method": "POST",
+    "path": "/applications/{application_id}/commands",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200,
+      201
+    ]
+  },
+  "create_application_emoji": {
+    "method": "POST",
+    "path": "/applications/{application_id}/emojis",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      201
+    ]
+  },
+  "create_auto_moderation_rule": {
+    "method": "POST",
+    "path": "/guilds/{guild_id}/auto-moderation/rules",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_channel_invite": {
+    "method": "POST",
+    "path": "/channels/{channel_id}/invites",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json",
+      "application/x-www-form-urlencoded",
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200,
+      204
+    ]
+  },
+  "create_dm": {
+    "method": "POST",
+    "path": "/users/@me/channels",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_entitlement": {
+    "method": "POST",
+    "path": "/applications/{application_id}/entitlements",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_guild_application_command": {
+    "method": "POST",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands",
+    "path_parameters": [
+      "application_id",
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200,
+      201
+    ]
+  },
+  "create_guild_channel": {
+    "method": "POST",
+    "path": "/guilds/{guild_id}/channels",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      201
+    ]
+  },
+  "create_guild_emoji": {
+    "method": "POST",
+    "path": "/guilds/{guild_id}/emojis",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      201
+    ]
+  },
+  "create_guild_role": {
+    "method": "POST",
+    "path": "/guilds/{guild_id}/roles",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_guild_scheduled_event": {
+    "method": "POST",
+    "path": "/guilds/{guild_id}/scheduled-events",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_guild_scheduled_event_exception": {
+    "method": "POST",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions",
+    "path_parameters": [
+      "guild_id",
+      "guild_scheduled_event_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_guild_soundboard_sound": {
+    "method": "POST",
+    "path": "/guilds/{guild_id}/soundboard-sounds",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      201
+    ]
+  },
+  "create_guild_sticker": {
+    "method": "POST",
+    "path": "/guilds/{guild_id}/stickers",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      201
+    ]
+  },
+  "create_guild_template": {
+    "method": "POST",
+    "path": "/guilds/{guild_id}/templates",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_interaction_response": {
+    "method": "POST",
+    "path": "/interactions/{interaction_id}/{interaction_token}/callback",
+    "path_parameters": [
+      "interaction_id",
+      "interaction_token"
+    ],
+    "query_parameters": [
+      "with_response"
+    ],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json",
+      "application/x-www-form-urlencoded",
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "interaction_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200,
+      204
+    ]
+  },
+  "create_linked_lobby_guild_invite_for_self": {
+    "method": "POST",
+    "path": "/lobbies/{lobby_id}/members/@me/invites",
+    "path_parameters": [
+      "lobby_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_linked_lobby_guild_invite_for_user": {
+    "method": "POST",
+    "path": "/lobbies/{lobby_id}/members/{user_id}/invites",
+    "path_parameters": [
+      "lobby_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_lobby": {
+    "method": "POST",
+    "path": "/lobbies",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      201
+    ]
+  },
+  "create_lobby_message": {
+    "method": "POST",
+    "path": "/lobbies/{lobby_id}/messages",
+    "path_parameters": [
+      "lobby_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json",
+      "application/x-www-form-urlencoded",
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": []
+      }
+    ],
+    "success_statuses": [
+      201
+    ]
+  },
+  "create_message": {
+    "method": "POST",
+    "path": "/channels/{channel_id}/messages",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json",
+      "application/x-www-form-urlencoded",
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_or_join_lobby": {
+    "method": "PUT",
+    "path": "/lobbies",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_pin": {
+    "method": "PUT",
+    "path": "/channels/{channel_id}/messages/pins/{message_id}",
+    "path_parameters": [
+      "channel_id",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "create_stage_instance": {
+    "method": "POST",
+    "path": "/stage-instances",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "create_thread": {
+    "method": "POST",
+    "path": "/channels/{channel_id}/threads",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json",
+      "application/x-www-form-urlencoded",
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      201
+    ]
+  },
+  "create_thread_from_message": {
+    "method": "POST",
+    "path": "/channels/{channel_id}/messages/{message_id}/threads",
+    "path_parameters": [
+      "channel_id",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      201
+    ]
+  },
+  "create_webhook": {
+    "method": "POST",
+    "path": "/channels/{channel_id}/webhooks",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "crosspost_message": {
+    "method": "POST",
+    "path": "/channels/{channel_id}/messages/{message_id}/crosspost",
+    "path_parameters": [
+      "channel_id",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "delete_all_message_reactions": {
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/messages/{message_id}/reactions",
+    "path_parameters": [
+      "channel_id",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_all_message_reactions_by_emoji": {
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}",
+    "path_parameters": [
+      "channel_id",
+      "message_id",
+      "emoji_name"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_application_command": {
+    "method": "DELETE",
+    "path": "/applications/{application_id}/commands/{command_id}",
+    "path_parameters": [
+      "application_id",
+      "command_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_application_emoji": {
+    "method": "DELETE",
+    "path": "/applications/{application_id}/emojis/{emoji_id}",
+    "path_parameters": [
+      "application_id",
+      "emoji_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_application_user_role_connection": {
+    "method": "DELETE",
+    "path": "/users/@me/applications/{application_id}/role-connection",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "OAuth2": [
+          "role_connections.write"
+        ]
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_auto_moderation_rule": {
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/auto-moderation/rules/{rule_id}",
+    "path_parameters": [
+      "guild_id",
+      "rule_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_channel": {
+    "method": "DELETE",
+    "path": "/channels/{channel_id}",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "delete_channel_permission_overwrite": {
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/permissions/{overwrite_id}",
+    "path_parameters": [
+      "channel_id",
+      "overwrite_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_entitlement": {
+    "method": "DELETE",
+    "path": "/applications/{application_id}/entitlements/{entitlement_id}",
+    "path_parameters": [
+      "application_id",
+      "entitlement_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.entitlements"
+        ]
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_group_dm_user": {
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/recipients/{user_id}",
+    "path_parameters": [
+      "channel_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_guild_application_command": {
+    "method": "DELETE",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/{command_id}",
+    "path_parameters": [
+      "application_id",
+      "guild_id",
+      "command_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_guild_emoji": {
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/emojis/{emoji_id}",
+    "path_parameters": [
+      "guild_id",
+      "emoji_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_guild_integration": {
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/integrations/{integration_id}",
+    "path_parameters": [
+      "guild_id",
+      "integration_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_guild_member": {
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/members/{user_id}",
+    "path_parameters": [
+      "guild_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_guild_member_role": {
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/members/{user_id}/roles/{role_id}",
+    "path_parameters": [
+      "guild_id",
+      "user_id",
+      "role_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_guild_role": {
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/roles/{role_id}",
+    "path_parameters": [
+      "guild_id",
+      "role_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_guild_scheduled_event": {
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}",
+    "path_parameters": [
+      "guild_id",
+      "guild_scheduled_event_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_guild_scheduled_event_exception": {
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions/{exception_id}",
+    "path_parameters": [
+      "guild_id",
+      "guild_scheduled_event_id",
+      "exception_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_guild_soundboard_sound": {
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/soundboard-sounds/{sound_id}",
+    "path_parameters": [
+      "guild_id",
+      "sound_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_guild_sticker": {
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/stickers/{sticker_id}",
+    "path_parameters": [
+      "guild_id",
+      "sticker_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_guild_template": {
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/templates/{code}",
+    "path_parameters": [
+      "guild_id",
+      "code"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "delete_lobby": {
+    "method": "DELETE",
+    "path": "/lobbies/{lobby_id}",
+    "path_parameters": [
+      "lobby_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_lobby_member": {
+    "method": "DELETE",
+    "path": "/lobbies/{lobby_id}/members/{user_id}",
+    "path_parameters": [
+      "lobby_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_message": {
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/messages/{message_id}",
+    "path_parameters": [
+      "channel_id",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_my_message_reaction": {
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me",
+    "path_parameters": [
+      "channel_id",
+      "message_id",
+      "emoji_name"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_original_webhook_message": {
+    "method": "DELETE",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/messages/@original",
+    "path_parameters": [
+      "webhook_id",
+      "webhook_token"
+    ],
+    "query_parameters": [
+      "thread_id"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "webhook_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_pin": {
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/messages/pins/{message_id}",
+    "path_parameters": [
+      "channel_id",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_stage_instance": {
+    "method": "DELETE",
+    "path": "/stage-instances/{channel_id}",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_thread_member": {
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/thread-members/{user_id}",
+    "path_parameters": [
+      "channel_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_user_message_reaction": {
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/{user_id}",
+    "path_parameters": [
+      "channel_id",
+      "message_id",
+      "emoji_name",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_webhook": {
+    "method": "DELETE",
+    "path": "/webhooks/{webhook_id}",
+    "path_parameters": [
+      "webhook_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_webhook_by_token": {
+    "method": "DELETE",
+    "path": "/webhooks/{webhook_id}/{webhook_token}",
+    "path_parameters": [
+      "webhook_id",
+      "webhook_token"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "webhook_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "delete_webhook_message": {
+    "method": "DELETE",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/messages/{message_id}",
+    "path_parameters": [
+      "webhook_id",
+      "webhook_token",
+      "message_id"
+    ],
+    "query_parameters": [
+      "thread_id"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "webhook_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "deprecated_create_pin": {
+    "method": "PUT",
+    "path": "/channels/{channel_id}/pins/{message_id}",
+    "path_parameters": [
+      "channel_id",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "deprecated_delete_pin": {
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/pins/{message_id}",
+    "path_parameters": [
+      "channel_id",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "deprecated_list_pins": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/pins",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "edit_lobby": {
+    "method": "PATCH",
+    "path": "/lobbies/{lobby_id}",
+    "path_parameters": [
+      "lobby_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "edit_lobby_channel_link": {
+    "method": "PATCH",
+    "path": "/lobbies/{lobby_id}/channel-linking",
+    "path_parameters": [
+      "lobby_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "execute_github_compatible_webhook": {
+    "method": "POST",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/github",
+    "path_parameters": [
+      "webhook_id",
+      "webhook_token"
+    ],
+    "query_parameters": [
+      "thread_id",
+      "wait"
+    ],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "webhook_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "execute_slack_compatible_webhook": {
+    "method": "POST",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/slack",
+    "path_parameters": [
+      "webhook_id",
+      "webhook_token"
+    ],
+    "query_parameters": [
+      "thread_id",
+      "wait"
+    ],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json",
+      "application/x-www-form-urlencoded",
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "webhook_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "execute_webhook": {
+    "method": "POST",
+    "path": "/webhooks/{webhook_id}/{webhook_token}",
+    "path_parameters": [
+      "webhook_id",
+      "webhook_token"
+    ],
+    "query_parameters": [
+      "thread_id",
+      "wait",
+      "with_components"
+    ],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json",
+      "application/x-www-form-urlencoded",
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "webhook_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200,
+      204
+    ]
+  },
+  "follow_channel": {
+    "method": "POST",
+    "path": "/channels/{channel_id}/followers",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_active_guild_threads": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/threads/active",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_answer_voters": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/polls/{message_id}/answers/{answer_id}",
+    "path_parameters": [
+      "channel_id",
+      "message_id",
+      "answer_id"
+    ],
+    "query_parameters": [
+      "after",
+      "limit"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_application": {
+    "method": "GET",
+    "path": "/applications/{application_id}",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_application_command": {
+    "method": "GET",
+    "path": "/applications/{application_id}/commands/{command_id}",
+    "path_parameters": [
+      "application_id",
+      "command_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_application_emoji": {
+    "method": "GET",
+    "path": "/applications/{application_id}/emojis/{emoji_id}",
+    "path_parameters": [
+      "application_id",
+      "emoji_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_application_role_connections_metadata": {
+    "method": "GET",
+    "path": "/applications/{application_id}/role-connections/metadata",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_application_user_role_connection": {
+    "method": "GET",
+    "path": "/users/@me/applications/{application_id}/role-connection",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "OAuth2": [
+          "role_connections.write"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_auto_moderation_rule": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/auto-moderation/rules/{rule_id}",
+    "path_parameters": [
+      "guild_id",
+      "rule_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_bot_gateway": {
+    "method": "GET",
+    "path": "/gateway/bot",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_channel": {
+    "method": "GET",
+    "path": "/channels/{channel_id}",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_channel_member_permissions": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/permissions/member/{user_id}",
+    "path_parameters": [
+      "channel_id",
+      "user_id"
+    ],
+    "query_parameters": [
+      "implicit"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_channel_role_permissions": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/permissions/role/{role_id}",
+    "path_parameters": [
+      "channel_id",
+      "role_id"
+    ],
+    "query_parameters": [
+      "implicit"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_current_user_application_entitlements": {
+    "method": "GET",
+    "path": "/users/@me/applications/{application_id}/entitlements",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [
+      "exclude_consumed",
+      "sku_ids"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "OAuth2": [
+          "activities.invites.write",
+          "activities.read",
+          "activities.write",
+          "applications.builds.read",
+          "applications.builds.upload",
+          "applications.commands",
+          "applications.commands.permissions.update",
+          "applications.commands.update",
+          "applications.entitlements",
+          "applications.store.update",
+          "bot",
+          "connections",
+          "dm_channels.read",
+          "email",
+          "gdm.join",
+          "guilds",
+          "guilds.join",
+          "guilds.members.read",
+          "identify",
+          "messages.read",
+          "openid",
+          "relationships.read",
+          "role_connections.write",
+          "rpc",
+          "rpc.activities.write",
+          "rpc.notifications.read",
+          "rpc.screenshare.read",
+          "rpc.screenshare.write",
+          "rpc.video.read",
+          "rpc.video.write",
+          "rpc.voice.read",
+          "rpc.voice.write",
+          "voice",
+          "webhook.incoming"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_entitlement": {
+    "method": "GET",
+    "path": "/applications/{application_id}/entitlements/{entitlement_id}",
+    "path_parameters": [
+      "application_id",
+      "entitlement_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.entitlements"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_entitlements": {
+    "method": "GET",
+    "path": "/applications/{application_id}/entitlements",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [
+      "after",
+      "before",
+      "exclude_deleted",
+      "exclude_ended",
+      "guild_id",
+      "limit",
+      "only_active",
+      "sku_ids",
+      "user_id"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.entitlements"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_gateway": {
+    "method": "GET",
+    "path": "/gateway",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [
+      "with_counts"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_application_command": {
+    "method": "GET",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/{command_id}",
+    "path_parameters": [
+      "application_id",
+      "guild_id",
+      "command_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_application_command_permissions": {
+    "method": "GET",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
+    "path_parameters": [
+      "application_id",
+      "guild_id",
+      "command_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.permissions.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_ban": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/bans/{user_id}",
+    "path_parameters": [
+      "guild_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_emoji": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/emojis/{emoji_id}",
+    "path_parameters": [
+      "guild_id",
+      "emoji_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_join_requests": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/requests",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [
+      "after",
+      "before",
+      "limit",
+      "status"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_member": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/members/{user_id}",
+    "path_parameters": [
+      "guild_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_member_permissions": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/permissions/member/{user_id}",
+    "path_parameters": [
+      "guild_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_new_member_welcome": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/new-member-welcome",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200,
+      204
+    ]
+  },
+  "get_guild_preview": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/preview",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_role": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/roles/{role_id}",
+    "path_parameters": [
+      "guild_id",
+      "role_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_role_permissions": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/permissions/role/{role_id}",
+    "path_parameters": [
+      "guild_id",
+      "role_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_scheduled_event": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}",
+    "path_parameters": [
+      "guild_id",
+      "guild_scheduled_event_id"
+    ],
+    "query_parameters": [
+      "with_user_count"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_soundboard_sound": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/soundboard-sounds/{sound_id}",
+    "path_parameters": [
+      "guild_id",
+      "sound_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_sticker": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/stickers/{sticker_id}",
+    "path_parameters": [
+      "guild_id",
+      "sticker_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_template": {
+    "method": "GET",
+    "path": "/guilds/templates/{code}",
+    "path_parameters": [
+      "code"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_vanity_url": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/vanity-url",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_webhooks": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/webhooks",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_welcome_screen": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/welcome-screen",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_widget": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/widget.json",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_widget_png": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/widget.png",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [
+      "style"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guild_widget_settings": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/widget",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_guilds_onboarding": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/onboarding",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_invite_target_users": {
+    "method": "GET",
+    "path": "/invites/{code}/target-users",
+    "path_parameters": [
+      "code"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_invite_target_users_job_status": {
+    "method": "GET",
+    "path": "/invites/{code}/target-users/job-status",
+    "path_parameters": [
+      "code"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_lobby": {
+    "method": "GET",
+    "path": "/lobbies/{lobby_id}",
+    "path_parameters": [
+      "lobby_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_lobby_messages": {
+    "method": "GET",
+    "path": "/lobbies/{lobby_id}/messages",
+    "path_parameters": [
+      "lobby_id"
+    ],
+    "query_parameters": [
+      "limit"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_message": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/messages/{message_id}",
+    "path_parameters": [
+      "channel_id",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_my_application": {
+    "method": "GET",
+    "path": "/applications/@me",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_my_guild_member": {
+    "method": "GET",
+    "path": "/users/@me/guilds/{guild_id}/member",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "OAuth2": [
+          "guilds.members.read"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_my_oauth2_application": {
+    "method": "GET",
+    "path": "/oauth2/applications/@me",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_my_oauth2_authorization": {
+    "method": "GET",
+    "path": "/oauth2/@me",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "activities.invites.write",
+          "activities.read",
+          "activities.write",
+          "applications.builds.read",
+          "applications.builds.upload",
+          "applications.commands",
+          "applications.commands.permissions.update",
+          "applications.commands.update",
+          "applications.entitlements",
+          "applications.store.update",
+          "bot",
+          "connections",
+          "dm_channels.read",
+          "email",
+          "gdm.join",
+          "guilds",
+          "guilds.join",
+          "guilds.members.read",
+          "identify",
+          "messages.read",
+          "openid",
+          "relationships.read",
+          "role_connections.write",
+          "rpc",
+          "rpc.activities.write",
+          "rpc.notifications.read",
+          "rpc.screenshare.read",
+          "rpc.screenshare.write",
+          "rpc.video.read",
+          "rpc.video.write",
+          "rpc.voice.read",
+          "rpc.voice.write",
+          "voice",
+          "webhook.incoming"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_my_user": {
+    "method": "GET",
+    "path": "/users/@me",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "identify"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_openid_connect_userinfo": {
+    "method": "GET",
+    "path": "/oauth2/userinfo",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "openid"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_original_webhook_message": {
+    "method": "GET",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/messages/@original",
+    "path_parameters": [
+      "webhook_id",
+      "webhook_token"
+    ],
+    "query_parameters": [
+      "thread_id"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "webhook_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_public_keys": {
+    "method": "GET",
+    "path": "/oauth2/keys",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_self_voice_state": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/voice-states/@me",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_sku_subscription": {
+    "method": "GET",
+    "path": "/skus/{sku_id}/subscriptions/{subscription_id}",
+    "path_parameters": [
+      "sku_id",
+      "subscription_id"
+    ],
+    "query_parameters": [
+      "user_id"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "activities.invites.write",
+          "activities.read",
+          "activities.write",
+          "applications.builds.read",
+          "applications.builds.upload",
+          "applications.commands",
+          "applications.commands.permissions.update",
+          "applications.commands.update",
+          "applications.entitlements",
+          "applications.store.update",
+          "bot",
+          "connections",
+          "dm_channels.read",
+          "email",
+          "gdm.join",
+          "guilds",
+          "guilds.join",
+          "guilds.members.read",
+          "identify",
+          "messages.read",
+          "openid",
+          "relationships.read",
+          "role_connections.write",
+          "rpc",
+          "rpc.activities.write",
+          "rpc.notifications.read",
+          "rpc.screenshare.read",
+          "rpc.screenshare.write",
+          "rpc.video.read",
+          "rpc.video.write",
+          "rpc.voice.read",
+          "rpc.voice.write",
+          "voice",
+          "webhook.incoming"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_sku_subscriptions": {
+    "method": "GET",
+    "path": "/skus/{sku_id}/subscriptions",
+    "path_parameters": [
+      "sku_id"
+    ],
+    "query_parameters": [
+      "after",
+      "before",
+      "limit",
+      "user_id"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "activities.invites.write",
+          "activities.read",
+          "activities.write",
+          "applications.builds.read",
+          "applications.builds.upload",
+          "applications.commands",
+          "applications.commands.permissions.update",
+          "applications.commands.update",
+          "applications.entitlements",
+          "applications.store.update",
+          "bot",
+          "connections",
+          "dm_channels.read",
+          "email",
+          "gdm.join",
+          "guilds",
+          "guilds.join",
+          "guilds.members.read",
+          "identify",
+          "messages.read",
+          "openid",
+          "relationships.read",
+          "role_connections.write",
+          "rpc",
+          "rpc.activities.write",
+          "rpc.notifications.read",
+          "rpc.screenshare.read",
+          "rpc.screenshare.write",
+          "rpc.video.read",
+          "rpc.video.write",
+          "rpc.voice.read",
+          "rpc.voice.write",
+          "voice",
+          "webhook.incoming"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_soundboard_default_sounds": {
+    "method": "GET",
+    "path": "/soundboard-default-sounds",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_stage_instance": {
+    "method": "GET",
+    "path": "/stage-instances/{channel_id}",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_sticker": {
+    "method": "GET",
+    "path": "/stickers/{sticker_id}",
+    "path_parameters": [
+      "sticker_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_sticker_pack": {
+    "method": "GET",
+    "path": "/sticker-packs/{pack_id}",
+    "path_parameters": [
+      "pack_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_thread_member": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/thread-members/{user_id}",
+    "path_parameters": [
+      "channel_id",
+      "user_id"
+    ],
+    "query_parameters": [
+      "with_member"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_user": {
+    "method": "GET",
+    "path": "/users/{user_id}",
+    "path_parameters": [
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_voice_state": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/voice-states/{user_id}",
+    "path_parameters": [
+      "guild_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_webhook": {
+    "method": "GET",
+    "path": "/webhooks/{webhook_id}",
+    "path_parameters": [
+      "webhook_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_webhook_by_token": {
+    "method": "GET",
+    "path": "/webhooks/{webhook_id}/{webhook_token}",
+    "path_parameters": [
+      "webhook_id",
+      "webhook_token"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "webhook_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_webhook_message": {
+    "method": "GET",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/messages/{message_id}",
+    "path_parameters": [
+      "webhook_id",
+      "webhook_token",
+      "message_id"
+    ],
+    "query_parameters": [
+      "thread_id"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "webhook_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "guild_role_member_counts": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/roles/member-counts",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "guild_search": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/messages/search",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [
+      "attachment_extension",
+      "attachment_filename",
+      "author_id",
+      "author_type",
+      "channel_id",
+      "content",
+      "embed_provider",
+      "embed_type",
+      "has",
+      "include_nsfw",
+      "limit",
+      "link_hostname",
+      "max_id",
+      "mention_everyone",
+      "mentions",
+      "mentions_role_id",
+      "min_id",
+      "offset",
+      "pinned",
+      "replied_to_message_id",
+      "replied_to_user_id",
+      "slop",
+      "sort_by",
+      "sort_order"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": []
+      }
+    ],
+    "success_statuses": [
+      200,
+      202
+    ]
+  },
+  "invite_resolve": {
+    "method": "GET",
+    "path": "/invites/{code}",
+    "path_parameters": [
+      "code"
+    ],
+    "query_parameters": [
+      "guild_scheduled_event_id",
+      "target_channel_id",
+      "target_message_id",
+      "with_counts"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "invite_revoke": {
+    "method": "DELETE",
+    "path": "/invites/{code}",
+    "path_parameters": [
+      "code"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "join_thread": {
+    "method": "PUT",
+    "path": "/channels/{channel_id}/thread-members/@me",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "leave_guild": {
+    "method": "DELETE",
+    "path": "/users/@me/guilds/{guild_id}",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "leave_lobby": {
+    "method": "DELETE",
+    "path": "/lobbies/{lobby_id}/members/@me",
+    "path_parameters": [
+      "lobby_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "leave_thread": {
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/thread-members/@me",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "list_application_commands": {
+    "method": "GET",
+    "path": "/applications/{application_id}/commands",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [
+      "with_localizations"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_application_emojis": {
+    "method": "GET",
+    "path": "/applications/{application_id}/emojis",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_auto_moderation_rules": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/auto-moderation/rules",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_channel_invites": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/invites",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_channel_webhooks": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/webhooks",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_application_command_permissions": {
+    "method": "GET",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/permissions",
+    "path_parameters": [
+      "application_id",
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.permissions.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_application_commands": {
+    "method": "GET",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands",
+    "path_parameters": [
+      "application_id",
+      "guild_id"
+    ],
+    "query_parameters": [
+      "with_localizations"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_audit_log_entries": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/audit-logs",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [
+      "action_type",
+      "after",
+      "before",
+      "limit",
+      "target_id",
+      "user_id"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_bans": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/bans",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [
+      "after",
+      "before",
+      "limit"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_channels": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/channels",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_emojis": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/emojis",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_integrations": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/integrations",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_invites": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/invites",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_members": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/members",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [
+      "after",
+      "limit"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_roles": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/roles",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_scheduled_event_exception_users": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/{guild_scheduled_event_exception_id}/users",
+    "path_parameters": [
+      "guild_id",
+      "guild_scheduled_event_id",
+      "guild_scheduled_event_exception_id"
+    ],
+    "query_parameters": [
+      "after",
+      "before",
+      "limit",
+      "with_member"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_scheduled_event_users": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users",
+    "path_parameters": [
+      "guild_id",
+      "guild_scheduled_event_id"
+    ],
+    "query_parameters": [
+      "after",
+      "before",
+      "limit",
+      "with_member"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_scheduled_events": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/scheduled-events",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [
+      "with_user_count"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_soundboard_sounds": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/soundboard-sounds",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_stickers": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/stickers",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_templates": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/templates",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_guild_voice_regions": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/regions",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_message_reactions_by_emoji": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}",
+    "path_parameters": [
+      "channel_id",
+      "message_id",
+      "emoji_name"
+    ],
+    "query_parameters": [
+      "after",
+      "limit",
+      "type"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_messages": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/messages",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [
+      "after",
+      "around",
+      "before",
+      "limit"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_my_connections": {
+    "method": "GET",
+    "path": "/users/@me/connections",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "connections"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_my_guilds": {
+    "method": "GET",
+    "path": "/users/@me/guilds",
+    "path_parameters": [],
+    "query_parameters": [
+      "after",
+      "before",
+      "limit",
+      "shard",
+      "with_counts"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "guilds"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_my_private_archived_threads": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/users/@me/threads/archived/private",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [
+      "before",
+      "limit"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_pins": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/messages/pins",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [
+      "before",
+      "limit"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_private_archived_threads": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/threads/archived/private",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [
+      "before",
+      "limit"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_public_archived_threads": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/threads/archived/public",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [
+      "before",
+      "limit"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_sticker_packs": {
+    "method": "GET",
+    "path": "/sticker-packs",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_thread_members": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/thread-members",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [
+      "after",
+      "limit",
+      "with_member"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_voice_regions": {
+    "method": "GET",
+    "path": "/voice/regions",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "partner_sdk_token": {
+    "method": "POST",
+    "path": "/partner-sdk/token",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "partner_sdk_unmerge_provisional_account": {
+    "method": "POST",
+    "path": "/partner-sdk/provisional-accounts/unmerge",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "poll_expire": {
+    "method": "POST",
+    "path": "/channels/{channel_id}/polls/{message_id}/expire",
+    "path_parameters": [
+      "channel_id",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "preview_prune_guild": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/prune",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [
+      "days",
+      "include_roles"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "prune_guild": {
+    "method": "POST",
+    "path": "/guilds/{guild_id}/prune",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "put_guilds_onboarding": {
+    "method": "PUT",
+    "path": "/guilds/{guild_id}/onboarding",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "remove_invite_target_user": {
+    "method": "DELETE",
+    "path": "/invites/{code}/target-users/{user_id}",
+    "path_parameters": [
+      "code",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "search_guild_members": {
+    "method": "GET",
+    "path": "/guilds/{guild_id}/members/search",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [
+      "limit",
+      "query"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [
+      "query"
+    ],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "send_soundboard_sound": {
+    "method": "POST",
+    "path": "/channels/{channel_id}/send-soundboard-sound",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "set_channel_permission_overwrite": {
+    "method": "PUT",
+    "path": "/channels/{channel_id}/permissions/{overwrite_id}",
+    "path_parameters": [
+      "channel_id",
+      "overwrite_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "set_guild_application_command_permissions": {
+    "method": "PUT",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
+    "path_parameters": [
+      "application_id",
+      "guild_id",
+      "command_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.permissions.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "sync_guild_template": {
+    "method": "PUT",
+    "path": "/guilds/{guild_id}/templates/{code}",
+    "path_parameters": [
+      "guild_id",
+      "code"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "thread_search": {
+    "method": "GET",
+    "path": "/channels/{channel_id}/threads/search",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [
+      "archived",
+      "limit",
+      "max_id",
+      "min_id",
+      "name",
+      "offset",
+      "slop",
+      "sort_by",
+      "sort_order",
+      "tag",
+      "tag_setting"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200,
+      202
+    ]
+  },
+  "trigger_typing_indicator": {
+    "method": "POST",
+    "path": "/channels/{channel_id}/typing",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200,
+      204
+    ]
+  },
+  "unban_user_from_guild": {
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/bans/{user_id}",
+    "path_parameters": [
+      "guild_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "update_application": {
+    "method": "PATCH",
+    "path": "/applications/{application_id}",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_application_command": {
+    "method": "PATCH",
+    "path": "/applications/{application_id}/commands/{command_id}",
+    "path_parameters": [
+      "application_id",
+      "command_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_application_emoji": {
+    "method": "PATCH",
+    "path": "/applications/{application_id}/emojis/{emoji_id}",
+    "path_parameters": [
+      "application_id",
+      "emoji_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_application_role_connections_metadata": {
+    "method": "PUT",
+    "path": "/applications/{application_id}/role-connections/metadata",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_application_user_role_connection": {
+    "method": "PUT",
+    "path": "/users/@me/applications/{application_id}/role-connection",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "OAuth2": [
+          "role_connections.write"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_auto_moderation_rule": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/auto-moderation/rules/{rule_id}",
+    "path_parameters": [
+      "guild_id",
+      "rule_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_channel": {
+    "method": "PATCH",
+    "path": "/channels/{channel_id}",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_guild": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_guild_application_command": {
+    "method": "PATCH",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/{command_id}",
+    "path_parameters": [
+      "application_id",
+      "guild_id",
+      "command_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "applications.commands.update"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_guild_emoji": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/emojis/{emoji_id}",
+    "path_parameters": [
+      "guild_id",
+      "emoji_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_guild_incident_actions": {
+    "method": "PUT",
+    "path": "/guilds/{guild_id}/incident-actions",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_guild_member": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/members/{user_id}",
+    "path_parameters": [
+      "guild_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200,
+      204
+    ]
+  },
+  "update_guild_role": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/roles/{role_id}",
+    "path_parameters": [
+      "guild_id",
+      "role_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_guild_scheduled_event": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}",
+    "path_parameters": [
+      "guild_id",
+      "guild_scheduled_event_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_guild_scheduled_event_exception": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions/{exception_id}",
+    "path_parameters": [
+      "guild_id",
+      "guild_scheduled_event_id",
+      "exception_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_guild_soundboard_sound": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/soundboard-sounds/{sound_id}",
+    "path_parameters": [
+      "guild_id",
+      "sound_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_guild_sticker": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/stickers/{sticker_id}",
+    "path_parameters": [
+      "guild_id",
+      "sticker_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_guild_template": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/templates/{code}",
+    "path_parameters": [
+      "guild_id",
+      "code"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_guild_welcome_screen": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/welcome-screen",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_guild_widget_settings": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/widget",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_invite_target_users": {
+    "method": "PUT",
+    "path": "/invites/{code}/target-users",
+    "path_parameters": [
+      "code"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "update_lobby_message_external_moderation_metadata": {
+    "method": "PUT",
+    "path": "/lobbies/{lobby_id}/messages/{message_id}/moderation-metadata",
+    "path_parameters": [
+      "lobby_id",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json",
+      "application/x-www-form-urlencoded",
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "update_message": {
+    "method": "PATCH",
+    "path": "/channels/{channel_id}/messages/{message_id}",
+    "path_parameters": [
+      "channel_id",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json",
+      "application/x-www-form-urlencoded",
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_my_application": {
+    "method": "PATCH",
+    "path": "/applications/@me",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_my_guild_member": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/members/@me",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_my_user": {
+    "method": "PATCH",
+    "path": "/users/@me",
+    "path_parameters": [],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_original_webhook_message": {
+    "method": "PATCH",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/messages/@original",
+    "path_parameters": [
+      "webhook_id",
+      "webhook_token"
+    ],
+    "query_parameters": [
+      "thread_id",
+      "with_components"
+    ],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json",
+      "application/x-www-form-urlencoded",
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "webhook_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_self_voice_state": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/voice-states/@me",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "update_stage_instance": {
+    "method": "PATCH",
+    "path": "/stage-instances/{channel_id}",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_user_message_external_moderation_metadata": {
+    "method": "PUT",
+    "path": "/partner-sdk/dms/{user_id_1}/{user_id_2}/messages/{message_id}/moderation-metadata",
+    "path_parameters": [
+      "user_id_1",
+      "user_id_2",
+      "message_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json",
+      "application/x-www-form-urlencoded",
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "update_voice_channel_status": {
+    "method": "PUT",
+    "path": "/channels/{channel_id}/voice-status",
+    "path_parameters": [
+      "channel_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "update_voice_state": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/voice-states/{user_id}",
+    "path_parameters": [
+      "guild_id",
+      "user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
+  "update_webhook": {
+    "method": "PATCH",
+    "path": "/webhooks/{webhook_id}",
+    "path_parameters": [
+      "webhook_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_webhook_by_token": {
+    "method": "PATCH",
+    "path": "/webhooks/{webhook_id}/{webhook_token}",
+    "path_parameters": [
+      "webhook_id",
+      "webhook_token"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "webhook_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "update_webhook_message": {
+    "method": "PATCH",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/messages/{message_id}",
+    "path_parameters": [
+      "webhook_id",
+      "webhook_token",
+      "message_id"
+    ],
+    "query_parameters": [
+      "thread_id",
+      "with_components"
+    ],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json",
+      "application/x-www-form-urlencoded",
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [
+      "webhook_token"
+    ],
+    "security": [
+      {},
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "upload_application_attachment": {
+    "method": "POST",
+    "path": "/applications/{application_id}/attachment",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "multipart/form-data"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      },
+      {
+        "OAuth2": [
+          "activities.invites.write",
+          "activities.read",
+          "activities.write",
+          "applications.builds.read",
+          "applications.builds.upload",
+          "applications.commands",
+          "applications.commands.permissions.update",
+          "applications.commands.update",
+          "applications.entitlements",
+          "applications.store.update",
+          "bot",
+          "connections",
+          "dm_channels.read",
+          "email",
+          "gdm.join",
+          "guilds",
+          "guilds.join",
+          "guilds.members.read",
+          "identify",
+          "messages.read",
+          "openid",
+          "relationships.read",
+          "role_connections.write",
+          "rpc",
+          "rpc.activities.write",
+          "rpc.notifications.read",
+          "rpc.screenshare.read",
+          "rpc.screenshare.write",
+          "rpc.video.read",
+          "rpc.video.write",
+          "rpc.voice.read",
+          "rpc.voice.write",
+          "voice",
+          "webhook.incoming"
+        ]
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  }
+}

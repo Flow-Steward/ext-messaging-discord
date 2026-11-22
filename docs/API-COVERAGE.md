@@ -4,6 +4,8 @@ The upstream [Discord REST v10 inventory](https://github.com/discord/discord-api
 
 The [REST inventory](discord-rest-inventory.json) enumerates 250 operations across 157 paths. For each operation it records its method, path template, declared authorization alternatives, request media types and success statuses.
 
+The runtime route registry is generated with `python scripts/build_rest_registry.py`. The route tests verify method, path binding and statuses for all 250 entries and verify the generated data against the pinned specification. These checks cover route construction. The action coverage table tracks what Flow Steward users can invoke.
+
 ## Current implementation
 
 | Discord operation | Flow Steward operation | Evidence |
