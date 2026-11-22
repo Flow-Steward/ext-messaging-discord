@@ -52,3 +52,18 @@ def test_workflow_forms_and_effects_match_declared_actions():
             assert effect["effect_kind"] == operation["effect_kind"]
             assert effect["idempotency"] == "required"
             assert effect["test_mode_behavior"] == "suppress"
+
+
+def test_rest_operation_pickers_cover_the_entire_catalog():
+    from scripts.build_rest_choices import operation_choices
+
+    manifest = load("contracts/step_ui_manifest.yaml")
+    actual = {
+        form["operation_id"]: field["options"]
+        for form in manifest["forms"]
+        for field in form["fields"]
+        if form["operation_id"] in {"discord_rest_read", "discord_rest_write"}
+        and field["name"] == "operation_id"
+    }
+    assert actual == operation_choices()
+    assert sum(len(options) for options in actual.values()) == 250

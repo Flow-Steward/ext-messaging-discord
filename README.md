@@ -15,7 +15,7 @@ Messages are limited to 2,000 UTF-16 code units. Mention notifications are suppr
 
 ## Discord REST v10 catalog
 
-Use **Run Discord REST read** for a GET operation or **Run Discord REST write** for a mutation. Copy its operation ID from the [API inventory](docs/discord-rest-inventory.json) and use named path and query parameter objects. The runtime chooses the method, URI template and allowed success statuses from the pinned catalog.
+Use **Run Discord REST read** for a GET operation or **Run Discord REST write** for a mutation. Select an operation in the picker and use named path and query parameter objects. The runtime chooses the method, URI template and allowed success statuses from the pinned catalog.
 
 - Select the **Discord bot**, **Discord OAuth2 token**, or **Discord webhook or interaction token** connection required by the endpoint. Choose the correct OAuth2 scopes in Discord. The OAuth2 token connection takes a manually issued bearer token and requires replacement on expiry. Interaction tokens are short-lived and scoped to an individual interaction. Store tokens in the project's secret fields.
 - For JSON or form bodies, put the provider body in a `data` field, for example `{"data":{"content":"Hello"}}`. The wrapper also supports array bodies. Choose another request media type when the endpoint requires it.

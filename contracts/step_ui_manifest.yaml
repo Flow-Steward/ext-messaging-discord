@@ -1,103 +1,612 @@
 forms:
-  - operation_id: test_connection
-    title: Test connection
-    fields: []
-  - operation_id: send_message
-    title: Send message
-    fields:
-      - {name: channel_id, label: Channel ID, widget_type: text, required: true}
-      - {name: content, label: Message, widget_type: textarea, required: true}
-  - operation_id: get_channel
-    title: Get channel
-    fields:
-    - name: channel_id
-      label: Channel id
-      widget_type: text
-      required: true
-  - operation_id: list_messages
-    title: List channel messages
-    fields:
-    - name: channel_id
-      label: Channel id
-      widget_type: text
-      required: true
-    - name: limit
-      label: Limit
-      widget_type: number
-      required: false
-    - name: before
-      label: Before
-      widget_type: text
-      required: false
-    - name: after
-      label: After
-      widget_type: text
-      required: false
-    - name: around
-      label: Around
-      widget_type: text
-      required: false
-  - operation_id: get_guild
-    title: Get server
-    fields:
-    - name: guild_id
-      label: Guild id
-      widget_type: text
-      required: true
-    - name: with_counts
-      label: With counts
-      widget_type: boolean
-      required: false
-  - operation_id: list_guild_channels
-    title: List server channels
-    fields:
-    - name: guild_id
-      label: Guild id
-      widget_type: text
-      required: true
-  - operation_id: discord_rest_read
-    title: Run Discord REST read
-    fields:
-    - name: operation_id
-      label: Operation ID
-      widget_type: text
-      required: true
-    - name: path_parameters
-      label: Path parameters
-      widget_type: json
-      required: false
-    - name: query_parameters
-      label: Query parameters
-      widget_type: json
-      required: false
-  - operation_id: discord_rest_write
-    title: Run Discord REST write
-    fields:
-    - name: operation_id
-      label: Operation ID
-      widget_type: text
-      required: true
-    - name: path_parameters
-      label: Path parameters
-      widget_type: json
-      required: false
-    - name: query_parameters
-      label: Query parameters
-      widget_type: json
-      required: false
-    - name: body
-      label: JSON or form body
-      widget_type: json
-      required: false
-    - name: media_type
-      label: Request media type
-      widget_type: text
-      required: false
-    - name: files
-      label: Multipart files
-      widget_type: json
-      required: false
-    - name: audit_reason
-      label: Audit log reason
-      widget_type: text
-      required: false
+- operation_id: test_connection
+  title: Test connection
+  fields: []
+- operation_id: send_message
+  title: Send message
+  fields:
+  - name: channel_id
+    label: Channel ID
+    widget_type: text
+    required: true
+  - name: content
+    label: Message
+    widget_type: textarea
+    required: true
+- operation_id: get_channel
+  title: Get channel
+  fields:
+  - name: channel_id
+    label: Channel id
+    widget_type: text
+    required: true
+- operation_id: list_messages
+  title: List channel messages
+  fields:
+  - name: channel_id
+    label: Channel id
+    widget_type: text
+    required: true
+  - name: limit
+    label: Limit
+    widget_type: number
+    required: false
+  - name: before
+    label: Before
+    widget_type: text
+    required: false
+  - name: after
+    label: After
+    widget_type: text
+    required: false
+  - name: around
+    label: Around
+    widget_type: text
+    required: false
+- operation_id: get_guild
+  title: Get server
+  fields:
+  - name: guild_id
+    label: Guild id
+    widget_type: text
+    required: true
+  - name: with_counts
+    label: With counts
+    widget_type: boolean
+    required: false
+- operation_id: list_guild_channels
+  title: List server channels
+  fields:
+  - name: guild_id
+    label: Guild id
+    widget_type: text
+    required: true
+- operation_id: discord_rest_read
+  title: Run Discord REST read
+  fields:
+  - name: operation_id
+    label: Operation ID
+    widget_type: select
+    required: true
+    options:
+    - value: applications_get_activity_instance
+      label: GET /applications/{application_id}/activity-instances/{instance_id}
+    - value: count_guild_scheduled_event_users
+      label: GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users/counts
+    - value: deprecated_list_pins
+      label: GET /channels/{channel_id}/pins
+    - value: get_active_guild_threads
+      label: GET /guilds/{guild_id}/threads/active
+    - value: get_answer_voters
+      label: GET /channels/{channel_id}/polls/{message_id}/answers/{answer_id}
+    - value: get_application
+      label: GET /applications/{application_id}
+    - value: get_application_command
+      label: GET /applications/{application_id}/commands/{command_id}
+    - value: get_application_emoji
+      label: GET /applications/{application_id}/emojis/{emoji_id}
+    - value: get_application_role_connections_metadata
+      label: GET /applications/{application_id}/role-connections/metadata
+    - value: get_application_user_role_connection
+      label: GET /users/@me/applications/{application_id}/role-connection
+    - value: get_auto_moderation_rule
+      label: GET /guilds/{guild_id}/auto-moderation/rules/{rule_id}
+    - value: get_bot_gateway
+      label: GET /gateway/bot
+    - value: get_channel
+      label: GET /channels/{channel_id}
+    - value: get_channel_member_permissions
+      label: GET /channels/{channel_id}/permissions/member/{user_id}
+    - value: get_channel_role_permissions
+      label: GET /channels/{channel_id}/permissions/role/{role_id}
+    - value: get_current_user_application_entitlements
+      label: GET /users/@me/applications/{application_id}/entitlements
+    - value: get_entitlement
+      label: GET /applications/{application_id}/entitlements/{entitlement_id}
+    - value: get_entitlements
+      label: GET /applications/{application_id}/entitlements
+    - value: get_gateway
+      label: GET /gateway
+    - value: get_guild
+      label: GET /guilds/{guild_id}
+    - value: get_guild_application_command
+      label: GET /applications/{application_id}/guilds/{guild_id}/commands/{command_id}
+    - value: get_guild_application_command_permissions
+      label: GET /applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions
+    - value: get_guild_ban
+      label: GET /guilds/{guild_id}/bans/{user_id}
+    - value: get_guild_emoji
+      label: GET /guilds/{guild_id}/emojis/{emoji_id}
+    - value: get_guild_join_requests
+      label: GET /guilds/{guild_id}/requests
+    - value: get_guild_member
+      label: GET /guilds/{guild_id}/members/{user_id}
+    - value: get_guild_member_permissions
+      label: GET /guilds/{guild_id}/permissions/member/{user_id}
+    - value: get_guild_new_member_welcome
+      label: GET /guilds/{guild_id}/new-member-welcome
+    - value: get_guild_preview
+      label: GET /guilds/{guild_id}/preview
+    - value: get_guild_role
+      label: GET /guilds/{guild_id}/roles/{role_id}
+    - value: get_guild_role_permissions
+      label: GET /guilds/{guild_id}/permissions/role/{role_id}
+    - value: get_guild_scheduled_event
+      label: GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}
+    - value: get_guild_soundboard_sound
+      label: GET /guilds/{guild_id}/soundboard-sounds/{sound_id}
+    - value: get_guild_sticker
+      label: GET /guilds/{guild_id}/stickers/{sticker_id}
+    - value: get_guild_template
+      label: GET /guilds/templates/{code}
+    - value: get_guild_vanity_url
+      label: GET /guilds/{guild_id}/vanity-url
+    - value: get_guild_webhooks
+      label: GET /guilds/{guild_id}/webhooks
+    - value: get_guild_welcome_screen
+      label: GET /guilds/{guild_id}/welcome-screen
+    - value: get_guild_widget
+      label: GET /guilds/{guild_id}/widget.json
+    - value: get_guild_widget_png
+      label: GET /guilds/{guild_id}/widget.png
+    - value: get_guild_widget_settings
+      label: GET /guilds/{guild_id}/widget
+    - value: get_guilds_onboarding
+      label: GET /guilds/{guild_id}/onboarding
+    - value: get_invite_target_users
+      label: GET /invites/{code}/target-users
+    - value: get_invite_target_users_job_status
+      label: GET /invites/{code}/target-users/job-status
+    - value: get_lobby
+      label: GET /lobbies/{lobby_id}
+    - value: get_lobby_messages
+      label: GET /lobbies/{lobby_id}/messages
+    - value: get_message
+      label: GET /channels/{channel_id}/messages/{message_id}
+    - value: get_my_application
+      label: GET /applications/@me
+    - value: get_my_guild_member
+      label: GET /users/@me/guilds/{guild_id}/member
+    - value: get_my_oauth2_application
+      label: GET /oauth2/applications/@me
+    - value: get_my_oauth2_authorization
+      label: GET /oauth2/@me
+    - value: get_my_user
+      label: GET /users/@me
+    - value: get_openid_connect_userinfo
+      label: GET /oauth2/userinfo
+    - value: get_original_webhook_message
+      label: GET /webhooks/{webhook_id}/{webhook_token}/messages/@original
+    - value: get_public_keys
+      label: GET /oauth2/keys
+    - value: get_self_voice_state
+      label: GET /guilds/{guild_id}/voice-states/@me
+    - value: get_sku_subscription
+      label: GET /skus/{sku_id}/subscriptions/{subscription_id}
+    - value: get_sku_subscriptions
+      label: GET /skus/{sku_id}/subscriptions
+    - value: get_soundboard_default_sounds
+      label: GET /soundboard-default-sounds
+    - value: get_stage_instance
+      label: GET /stage-instances/{channel_id}
+    - value: get_sticker
+      label: GET /stickers/{sticker_id}
+    - value: get_sticker_pack
+      label: GET /sticker-packs/{pack_id}
+    - value: get_thread_member
+      label: GET /channels/{channel_id}/thread-members/{user_id}
+    - value: get_user
+      label: GET /users/{user_id}
+    - value: get_voice_state
+      label: GET /guilds/{guild_id}/voice-states/{user_id}
+    - value: get_webhook
+      label: GET /webhooks/{webhook_id}
+    - value: get_webhook_by_token
+      label: GET /webhooks/{webhook_id}/{webhook_token}
+    - value: get_webhook_message
+      label: GET /webhooks/{webhook_id}/{webhook_token}/messages/{message_id}
+    - value: guild_role_member_counts
+      label: GET /guilds/{guild_id}/roles/member-counts
+    - value: guild_search
+      label: GET /guilds/{guild_id}/messages/search
+    - value: invite_resolve
+      label: GET /invites/{code}
+    - value: list_application_commands
+      label: GET /applications/{application_id}/commands
+    - value: list_application_emojis
+      label: GET /applications/{application_id}/emojis
+    - value: list_auto_moderation_rules
+      label: GET /guilds/{guild_id}/auto-moderation/rules
+    - value: list_channel_invites
+      label: GET /channels/{channel_id}/invites
+    - value: list_channel_webhooks
+      label: GET /channels/{channel_id}/webhooks
+    - value: list_guild_application_command_permissions
+      label: GET /applications/{application_id}/guilds/{guild_id}/commands/permissions
+    - value: list_guild_application_commands
+      label: GET /applications/{application_id}/guilds/{guild_id}/commands
+    - value: list_guild_audit_log_entries
+      label: GET /guilds/{guild_id}/audit-logs
+    - value: list_guild_bans
+      label: GET /guilds/{guild_id}/bans
+    - value: list_guild_channels
+      label: GET /guilds/{guild_id}/channels
+    - value: list_guild_emojis
+      label: GET /guilds/{guild_id}/emojis
+    - value: list_guild_integrations
+      label: GET /guilds/{guild_id}/integrations
+    - value: list_guild_invites
+      label: GET /guilds/{guild_id}/invites
+    - value: list_guild_members
+      label: GET /guilds/{guild_id}/members
+    - value: list_guild_roles
+      label: GET /guilds/{guild_id}/roles
+    - value: list_guild_scheduled_event_exception_users
+      label: GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/{guild_scheduled_event_exception_id}/users
+    - value: list_guild_scheduled_event_users
+      label: GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users
+    - value: list_guild_scheduled_events
+      label: GET /guilds/{guild_id}/scheduled-events
+    - value: list_guild_soundboard_sounds
+      label: GET /guilds/{guild_id}/soundboard-sounds
+    - value: list_guild_stickers
+      label: GET /guilds/{guild_id}/stickers
+    - value: list_guild_templates
+      label: GET /guilds/{guild_id}/templates
+    - value: list_guild_voice_regions
+      label: GET /guilds/{guild_id}/regions
+    - value: list_message_reactions_by_emoji
+      label: GET /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}
+    - value: list_messages
+      label: GET /channels/{channel_id}/messages
+    - value: list_my_connections
+      label: GET /users/@me/connections
+    - value: list_my_guilds
+      label: GET /users/@me/guilds
+    - value: list_my_private_archived_threads
+      label: GET /channels/{channel_id}/users/@me/threads/archived/private
+    - value: list_pins
+      label: GET /channels/{channel_id}/messages/pins
+    - value: list_private_archived_threads
+      label: GET /channels/{channel_id}/threads/archived/private
+    - value: list_public_archived_threads
+      label: GET /channels/{channel_id}/threads/archived/public
+    - value: list_sticker_packs
+      label: GET /sticker-packs
+    - value: list_thread_members
+      label: GET /channels/{channel_id}/thread-members
+    - value: list_voice_regions
+      label: GET /voice/regions
+    - value: preview_prune_guild
+      label: GET /guilds/{guild_id}/prune
+    - value: search_guild_members
+      label: GET /guilds/{guild_id}/members/search
+    - value: thread_search
+      label: GET /channels/{channel_id}/threads/search
+  - name: path_parameters
+    label: Path parameters
+    widget_type: json
+    required: false
+  - name: query_parameters
+    label: Query parameters
+    widget_type: json
+    required: false
+- operation_id: discord_rest_write
+  title: Run Discord REST write
+  fields:
+  - name: operation_id
+    label: Operation ID
+    widget_type: select
+    required: true
+    options:
+    - value: action_guild_join_request
+      label: PATCH /guilds/{guild_id}/requests/{request_id}
+    - value: add_group_dm_user
+      label: PUT /channels/{channel_id}/recipients/{user_id}
+    - value: add_guild_member
+      label: PUT /guilds/{guild_id}/members/{user_id}
+    - value: add_guild_member_role
+      label: PUT /guilds/{guild_id}/members/{user_id}/roles/{role_id}
+    - value: add_invite_target_user
+      label: PUT /invites/{code}/target-users/{user_id}
+    - value: add_lobby_member
+      label: PUT /lobbies/{lobby_id}/members/{user_id}
+    - value: add_my_message_reaction
+      label: PUT /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me
+    - value: add_thread_member
+      label: PUT /channels/{channel_id}/thread-members/{user_id}
+    - value: ban_user_from_guild
+      label: PUT /guilds/{guild_id}/bans/{user_id}
+    - value: bot_partner_sdk_token
+      label: POST /partner-sdk/token/bot
+    - value: bot_partner_sdk_unmerge_provisional_account
+      label: POST /partner-sdk/provisional-accounts/unmerge/bot
+    - value: bulk_add_invite_target_users
+      label: POST /invites/{code}/target-users/bulk-add
+    - value: bulk_ban_users_from_guild
+      label: POST /guilds/{guild_id}/bulk-ban
+    - value: bulk_delete_messages
+      label: POST /channels/{channel_id}/messages/bulk-delete
+    - value: bulk_remove_invite_target_users
+      label: POST /invites/{code}/target-users/bulk-delete
+    - value: bulk_set_application_commands
+      label: PUT /applications/{application_id}/commands
+    - value: bulk_set_guild_application_commands
+      label: PUT /applications/{application_id}/guilds/{guild_id}/commands
+    - value: bulk_update_guild_channels
+      label: PATCH /guilds/{guild_id}/channels
+    - value: bulk_update_guild_roles
+      label: PATCH /guilds/{guild_id}/roles
+    - value: bulk_update_lobby_members
+      label: POST /lobbies/{lobby_id}/members/bulk
+    - value: consume_entitlement
+      label: POST /applications/{application_id}/entitlements/{entitlement_id}/consume
+    - value: create_application_command
+      label: POST /applications/{application_id}/commands
+    - value: create_application_emoji
+      label: POST /applications/{application_id}/emojis
+    - value: create_auto_moderation_rule
+      label: POST /guilds/{guild_id}/auto-moderation/rules
+    - value: create_channel_invite
+      label: POST /channels/{channel_id}/invites
+    - value: create_dm
+      label: POST /users/@me/channels
+    - value: create_entitlement
+      label: POST /applications/{application_id}/entitlements
+    - value: create_guild_application_command
+      label: POST /applications/{application_id}/guilds/{guild_id}/commands
+    - value: create_guild_channel
+      label: POST /guilds/{guild_id}/channels
+    - value: create_guild_emoji
+      label: POST /guilds/{guild_id}/emojis
+    - value: create_guild_role
+      label: POST /guilds/{guild_id}/roles
+    - value: create_guild_scheduled_event
+      label: POST /guilds/{guild_id}/scheduled-events
+    - value: create_guild_scheduled_event_exception
+      label: POST /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions
+    - value: create_guild_soundboard_sound
+      label: POST /guilds/{guild_id}/soundboard-sounds
+    - value: create_guild_sticker
+      label: POST /guilds/{guild_id}/stickers
+    - value: create_guild_template
+      label: POST /guilds/{guild_id}/templates
+    - value: create_interaction_response
+      label: POST /interactions/{interaction_id}/{interaction_token}/callback
+    - value: create_linked_lobby_guild_invite_for_self
+      label: POST /lobbies/{lobby_id}/members/@me/invites
+    - value: create_linked_lobby_guild_invite_for_user
+      label: POST /lobbies/{lobby_id}/members/{user_id}/invites
+    - value: create_lobby
+      label: POST /lobbies
+    - value: create_lobby_message
+      label: POST /lobbies/{lobby_id}/messages
+    - value: create_message
+      label: POST /channels/{channel_id}/messages
+    - value: create_or_join_lobby
+      label: PUT /lobbies
+    - value: create_pin
+      label: PUT /channels/{channel_id}/messages/pins/{message_id}
+    - value: create_stage_instance
+      label: POST /stage-instances
+    - value: create_thread
+      label: POST /channels/{channel_id}/threads
+    - value: create_thread_from_message
+      label: POST /channels/{channel_id}/messages/{message_id}/threads
+    - value: create_webhook
+      label: POST /channels/{channel_id}/webhooks
+    - value: crosspost_message
+      label: POST /channels/{channel_id}/messages/{message_id}/crosspost
+    - value: delete_all_message_reactions
+      label: DELETE /channels/{channel_id}/messages/{message_id}/reactions
+    - value: delete_all_message_reactions_by_emoji
+      label: DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}
+    - value: delete_application_command
+      label: DELETE /applications/{application_id}/commands/{command_id}
+    - value: delete_application_emoji
+      label: DELETE /applications/{application_id}/emojis/{emoji_id}
+    - value: delete_application_user_role_connection
+      label: DELETE /users/@me/applications/{application_id}/role-connection
+    - value: delete_auto_moderation_rule
+      label: DELETE /guilds/{guild_id}/auto-moderation/rules/{rule_id}
+    - value: delete_channel
+      label: DELETE /channels/{channel_id}
+    - value: delete_channel_permission_overwrite
+      label: DELETE /channels/{channel_id}/permissions/{overwrite_id}
+    - value: delete_entitlement
+      label: DELETE /applications/{application_id}/entitlements/{entitlement_id}
+    - value: delete_group_dm_user
+      label: DELETE /channels/{channel_id}/recipients/{user_id}
+    - value: delete_guild_application_command
+      label: DELETE /applications/{application_id}/guilds/{guild_id}/commands/{command_id}
+    - value: delete_guild_emoji
+      label: DELETE /guilds/{guild_id}/emojis/{emoji_id}
+    - value: delete_guild_integration
+      label: DELETE /guilds/{guild_id}/integrations/{integration_id}
+    - value: delete_guild_member
+      label: DELETE /guilds/{guild_id}/members/{user_id}
+    - value: delete_guild_member_role
+      label: DELETE /guilds/{guild_id}/members/{user_id}/roles/{role_id}
+    - value: delete_guild_role
+      label: DELETE /guilds/{guild_id}/roles/{role_id}
+    - value: delete_guild_scheduled_event
+      label: DELETE /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}
+    - value: delete_guild_scheduled_event_exception
+      label: DELETE /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions/{exception_id}
+    - value: delete_guild_soundboard_sound
+      label: DELETE /guilds/{guild_id}/soundboard-sounds/{sound_id}
+    - value: delete_guild_sticker
+      label: DELETE /guilds/{guild_id}/stickers/{sticker_id}
+    - value: delete_guild_template
+      label: DELETE /guilds/{guild_id}/templates/{code}
+    - value: delete_lobby
+      label: DELETE /lobbies/{lobby_id}
+    - value: delete_lobby_member
+      label: DELETE /lobbies/{lobby_id}/members/{user_id}
+    - value: delete_message
+      label: DELETE /channels/{channel_id}/messages/{message_id}
+    - value: delete_my_message_reaction
+      label: DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me
+    - value: delete_original_webhook_message
+      label: DELETE /webhooks/{webhook_id}/{webhook_token}/messages/@original
+    - value: delete_pin
+      label: DELETE /channels/{channel_id}/messages/pins/{message_id}
+    - value: delete_stage_instance
+      label: DELETE /stage-instances/{channel_id}
+    - value: delete_thread_member
+      label: DELETE /channels/{channel_id}/thread-members/{user_id}
+    - value: delete_user_message_reaction
+      label: DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/{user_id}
+    - value: delete_webhook
+      label: DELETE /webhooks/{webhook_id}
+    - value: delete_webhook_by_token
+      label: DELETE /webhooks/{webhook_id}/{webhook_token}
+    - value: delete_webhook_message
+      label: DELETE /webhooks/{webhook_id}/{webhook_token}/messages/{message_id}
+    - value: deprecated_create_pin
+      label: PUT /channels/{channel_id}/pins/{message_id}
+    - value: deprecated_delete_pin
+      label: DELETE /channels/{channel_id}/pins/{message_id}
+    - value: edit_lobby
+      label: PATCH /lobbies/{lobby_id}
+    - value: edit_lobby_channel_link
+      label: PATCH /lobbies/{lobby_id}/channel-linking
+    - value: execute_github_compatible_webhook
+      label: POST /webhooks/{webhook_id}/{webhook_token}/github
+    - value: execute_slack_compatible_webhook
+      label: POST /webhooks/{webhook_id}/{webhook_token}/slack
+    - value: execute_webhook
+      label: POST /webhooks/{webhook_id}/{webhook_token}
+    - value: follow_channel
+      label: POST /channels/{channel_id}/followers
+    - value: invite_revoke
+      label: DELETE /invites/{code}
+    - value: join_thread
+      label: PUT /channels/{channel_id}/thread-members/@me
+    - value: leave_guild
+      label: DELETE /users/@me/guilds/{guild_id}
+    - value: leave_lobby
+      label: DELETE /lobbies/{lobby_id}/members/@me
+    - value: leave_thread
+      label: DELETE /channels/{channel_id}/thread-members/@me
+    - value: partner_sdk_token
+      label: POST /partner-sdk/token
+    - value: partner_sdk_unmerge_provisional_account
+      label: POST /partner-sdk/provisional-accounts/unmerge
+    - value: poll_expire
+      label: POST /channels/{channel_id}/polls/{message_id}/expire
+    - value: prune_guild
+      label: POST /guilds/{guild_id}/prune
+    - value: put_guilds_onboarding
+      label: PUT /guilds/{guild_id}/onboarding
+    - value: remove_invite_target_user
+      label: DELETE /invites/{code}/target-users/{user_id}
+    - value: send_soundboard_sound
+      label: POST /channels/{channel_id}/send-soundboard-sound
+    - value: set_channel_permission_overwrite
+      label: PUT /channels/{channel_id}/permissions/{overwrite_id}
+    - value: set_guild_application_command_permissions
+      label: PUT /applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions
+    - value: sync_guild_template
+      label: PUT /guilds/{guild_id}/templates/{code}
+    - value: trigger_typing_indicator
+      label: POST /channels/{channel_id}/typing
+    - value: unban_user_from_guild
+      label: DELETE /guilds/{guild_id}/bans/{user_id}
+    - value: update_application
+      label: PATCH /applications/{application_id}
+    - value: update_application_command
+      label: PATCH /applications/{application_id}/commands/{command_id}
+    - value: update_application_emoji
+      label: PATCH /applications/{application_id}/emojis/{emoji_id}
+    - value: update_application_role_connections_metadata
+      label: PUT /applications/{application_id}/role-connections/metadata
+    - value: update_application_user_role_connection
+      label: PUT /users/@me/applications/{application_id}/role-connection
+    - value: update_auto_moderation_rule
+      label: PATCH /guilds/{guild_id}/auto-moderation/rules/{rule_id}
+    - value: update_channel
+      label: PATCH /channels/{channel_id}
+    - value: update_guild
+      label: PATCH /guilds/{guild_id}
+    - value: update_guild_application_command
+      label: PATCH /applications/{application_id}/guilds/{guild_id}/commands/{command_id}
+    - value: update_guild_emoji
+      label: PATCH /guilds/{guild_id}/emojis/{emoji_id}
+    - value: update_guild_incident_actions
+      label: PUT /guilds/{guild_id}/incident-actions
+    - value: update_guild_member
+      label: PATCH /guilds/{guild_id}/members/{user_id}
+    - value: update_guild_role
+      label: PATCH /guilds/{guild_id}/roles/{role_id}
+    - value: update_guild_scheduled_event
+      label: PATCH /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}
+    - value: update_guild_scheduled_event_exception
+      label: PATCH /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions/{exception_id}
+    - value: update_guild_soundboard_sound
+      label: PATCH /guilds/{guild_id}/soundboard-sounds/{sound_id}
+    - value: update_guild_sticker
+      label: PATCH /guilds/{guild_id}/stickers/{sticker_id}
+    - value: update_guild_template
+      label: PATCH /guilds/{guild_id}/templates/{code}
+    - value: update_guild_welcome_screen
+      label: PATCH /guilds/{guild_id}/welcome-screen
+    - value: update_guild_widget_settings
+      label: PATCH /guilds/{guild_id}/widget
+    - value: update_invite_target_users
+      label: PUT /invites/{code}/target-users
+    - value: update_lobby_message_external_moderation_metadata
+      label: PUT /lobbies/{lobby_id}/messages/{message_id}/moderation-metadata
+    - value: update_message
+      label: PATCH /channels/{channel_id}/messages/{message_id}
+    - value: update_my_application
+      label: PATCH /applications/@me
+    - value: update_my_guild_member
+      label: PATCH /guilds/{guild_id}/members/@me
+    - value: update_my_user
+      label: PATCH /users/@me
+    - value: update_original_webhook_message
+      label: PATCH /webhooks/{webhook_id}/{webhook_token}/messages/@original
+    - value: update_self_voice_state
+      label: PATCH /guilds/{guild_id}/voice-states/@me
+    - value: update_stage_instance
+      label: PATCH /stage-instances/{channel_id}
+    - value: update_user_message_external_moderation_metadata
+      label: PUT /partner-sdk/dms/{user_id_1}/{user_id_2}/messages/{message_id}/moderation-metadata
+    - value: update_voice_channel_status
+      label: PUT /channels/{channel_id}/voice-status
+    - value: update_voice_state
+      label: PATCH /guilds/{guild_id}/voice-states/{user_id}
+    - value: update_webhook
+      label: PATCH /webhooks/{webhook_id}
+    - value: update_webhook_by_token
+      label: PATCH /webhooks/{webhook_id}/{webhook_token}
+    - value: update_webhook_message
+      label: PATCH /webhooks/{webhook_id}/{webhook_token}/messages/{message_id}
+    - value: upload_application_attachment
+      label: POST /applications/{application_id}/attachment
+  - name: path_parameters
+    label: Path parameters
+    widget_type: json
+    required: false
+  - name: query_parameters
+    label: Query parameters
+    widget_type: json
+    required: false
+  - name: body
+    label: JSON or form body
+    widget_type: json
+    required: false
+    help_text: Put the provider body in the data field, for example {"data":{"content":"Hello"}}.
+  - name: media_type
+    label: Request media type
+    widget_type: text
+    required: false
+  - name: files
+    label: Multipart files
+    widget_type: json
+    required: false
+  - name: audit_reason
+    label: Audit log reason
+    widget_type: text
+    required: false
