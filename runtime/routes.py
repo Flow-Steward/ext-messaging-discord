@@ -21,6 +21,13 @@ class RequestTarget:
     success_statuses: tuple[int, ...]
 
 
+def route_for(operation_id: str) -> dict[str, Any]:
+    row = _ROUTE_DATA.get(operation_id)
+    if row is None:
+        raise ValueError("Unregistered Discord API operation")
+    return row
+
+
 def request_target(
     operation_id: str,
     *,
@@ -28,9 +35,7 @@ def request_target(
     connection_secrets: dict[str, str] | None = None,
 ) -> RequestTarget:
     """Bind each path segment once, sourcing route credentials from the connection."""
-    route = _ROUTE_DATA.get(operation_id)
-    if route is None:
-        raise ValueError("Unregistered Discord API operation")
+    route = route_for(operation_id)
     values = path_parameters or {}
     secrets = connection_secrets or {}
     secret_names = set(route["secret_path_parameters"])

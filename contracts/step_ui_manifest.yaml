@@ -55,3 +55,49 @@ forms:
       label: Guild id
       widget_type: text
       required: true
+  - operation_id: discord_rest_read
+    title: Run Discord REST read
+    fields:
+    - name: operation_id
+      label: Operation ID
+      widget_type: text
+      required: true
+    - name: path_parameters
+      label: Path parameters
+      widget_type: json
+      required: false
+    - name: query_parameters
+      label: Query parameters
+      widget_type: json
+      required: false
+  - operation_id: discord_rest_write
+    title: Run Discord REST write
+    fields:
+    - name: operation_id
+      label: Operation ID
+      widget_type: text
+      required: true
+    - name: path_parameters
+      label: Path parameters
+      widget_type: json
+      required: false
+    - name: query_parameters
+      label: Query parameters
+      widget_type: json
+      required: false
+    - name: body
+      label: JSON or form body
+      widget_type: json
+      required: false
+    - name: media_type
+      label: Request media type
+      widget_type: text
+      required: false
+    - name: files
+      label: Multipart files
+      widget_type: json
+      required: false
+    - name: audit_reason
+      label: Audit log reason
+      widget_type: text
+      required: false

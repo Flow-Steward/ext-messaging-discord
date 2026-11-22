@@ -20,3 +20,46 @@ connection_types:
           title: Bot token
     capabilities:
       test_connection: true
+  - connection_type_id: discord_oauth_token
+    display_name: Discord OAuth2 token
+    description: A scoped Discord credential. Discord controls its access and expiry.
+    auth:
+      type: api_key
+    config_schema:
+      type: object
+      additionalProperties: false
+      properties: {}
+    secret_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        access_token:
+          type: string
+          minLength: 1
+          maxLength: 512
+          title: Access token
+      required:
+      - access_token
+  - connection_type_id: discord_route_token
+    display_name: Discord webhook or interaction token
+    description: A scoped Discord credential. Discord controls its access and expiry.
+    auth:
+      type: api_key
+    config_schema:
+      type: object
+      additionalProperties: false
+      properties: {}
+    secret_schema:
+      type: object
+      additionalProperties: false
+      properties:
+        webhook_token:
+          type: string
+          minLength: 1
+          maxLength: 512
+          title: Webhook token
+        interaction_token:
+          type: string
+          minLength: 1
+          maxLength: 512
+          title: Interaction token

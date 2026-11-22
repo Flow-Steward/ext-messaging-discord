@@ -206,3 +206,106 @@ operations:
     - not_found
     - rate_limited
     - provider_unavailable
+  - operation_id: discord_rest_read
+    display_name: Run Discord REST read
+    description: Invoke an operation by ID from the pinned Discord v10 registry.
+    operation_kind: source
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    - discord_oauth_token
+    - discord_route_token
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: operation_id
+      value_type: text
+      required: true
+    - name: path_parameters
+      value_type: object
+      required: false
+    - name: query_parameters
+      value_type: object
+      required: false
+    outputs:
+    - name: response
+      value_type: object
+      schema:
+        type: object
+    - name: suppressed
+      value_type: boolean
+      schema:
+        type: boolean
+    result_fields:
+    - result.response
+    - result.suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+    - timeout_unknown
+  - operation_id: discord_rest_write
+    display_name: Run Discord REST write
+    description: Invoke an operation by ID from the pinned Discord v10 registry.
+    operation_kind: action
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    - discord_oauth_token
+    - discord_route_token
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: operation_id
+      value_type: text
+      required: true
+    - name: path_parameters
+      value_type: object
+      required: false
+    - name: query_parameters
+      value_type: object
+      required: false
+    - name: body
+      value_type: object
+      required: false
+    - name: media_type
+      value_type: text
+      required: false
+    - name: files
+      value_type: array
+      required: false
+    - name: audit_reason
+      value_type: text
+      required: false
+    outputs:
+    - name: response
+      value_type: object
+      schema:
+        type: object
+    - name: suppressed
+      value_type: boolean
+      schema:
+        type: boolean
+    result_fields:
+    - result.response
+    - result.suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+    - timeout_unknown
+    effect_kind: discord_rest_write

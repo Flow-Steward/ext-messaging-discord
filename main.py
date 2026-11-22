@@ -12,11 +12,12 @@ from urllib.error import URLError
 from flowsteward_extension_sdk import runtime_context_from_payload
 
 from runtime.reads import READ_OPERATIONS, execute_read, read_arguments
+from runtime.rest_action import dispatch_rest
 from runtime.routes import RequestTarget, request_target
 from runtime.transport import DiscordHTTPError, request_json
 
 USER_AGENT = "DiscordBot (https://github.com/Flow-Steward, 0.1.0)"
-MAX_INPUT = 32_768
+MAX_INPUT = 2_700_000
 SNOWFLAKE = re.compile(r"[0-9]{1,20}")
 TOKEN = re.compile(r"[A-Za-z0-9._-]{1,512}")
 STATUS_ERRORS = {
@@ -65,6 +66,14 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
     inputs = action.get("input", {})
     if not isinstance(operation, str) or not isinstance(inputs, dict):
         return _failure("invalid_payload")
+    if operation in {"discord_rest_read", "discord_rest_write"}:
+        return dispatch_rest(
+            action,
+            inputs,
+            context,
+            write=operation == "discord_rest_write",
+            user_agent=USER_AGENT,
+        )
     write = operation == "send_message"
     read = operation in READ_OPERATIONS
     if not (write or read or operation == "test_connection"):

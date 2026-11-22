@@ -99,3 +99,42 @@ def request_json(
     if not isinstance(parsed, (dict, list)):
         raise ValueError("Discord response was not an object or array")
     return parsed
+
+
+def request_raw(
+    *,
+    method: str,
+    path: str,
+    authorization: str | None,
+    user_agent: str,
+    success_statuses: tuple[int, ...],
+    data: bytes | None,
+    content_type: str | None,
+    query: list[tuple[str, str]],
+    audit_reason: str,
+) -> tuple[int, str, bytes]:
+    """Send a prepared registry request once and bound its response."""
+    from urllib.parse import quote
+
+    if not path.startswith("/") or path.startswith("//") or any(c in path for c in "?#"):
+        raise ValueError("Invalid Discord API path")
+    headers = {"User-Agent": user_agent}
+    if authorization:
+        headers["Authorization"] = authorization
+    if content_type:
+        headers["Content-Type"] = content_type
+    if audit_reason:
+        headers["X-Audit-Log-Reason"] = quote(audit_reason, safe="")
+    suffix = f"?{urlencode(query)}" if query else ""
+    request = Request(f"{API}{path}{suffix}", data=data, headers=headers, method=method)  # nosec B310
+    try:
+        with build_opener(NoRedirect()).open(request, timeout=10) as response:
+            if response.status not in success_statuses:
+                raise ValueError("Unexpected Discord response status")
+            media_type = response.headers.get_content_type()
+            raw = response.read(MAX_RESPONSE + 1) if response.status != 204 else b""
+            if len(raw) > MAX_RESPONSE:
+                raise ValueError("Discord response exceeded its limit")
+            return response.status, media_type, raw
+    except HTTPError as error:
+        raise _http_error(error) from None

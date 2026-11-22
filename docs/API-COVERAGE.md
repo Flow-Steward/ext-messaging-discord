@@ -6,7 +6,13 @@ The [REST inventory](discord-rest-inventory.json) enumerates 250 operations acro
 
 The runtime route registry is generated with `python scripts/build_rest_registry.py`. The route tests verify method, path binding and statuses for all 250 entries and verify the generated data against the pinned specification. These checks cover route construction. The action coverage table tracks what Flow Steward users can invoke.
 
-## Current implementation
+## Execution coverage
+
+Every operation in the pinned registry can be selected by ID through the REST read or write workflow action. The dispatcher tests exercise all 250 registered routes with mocked transport, including connection selection, fixed path binding and response statuses. Separate tests exercise write suppression. The spec is the route contract. Discord validates provider-specific body fields and permissions.
+
+The table lists the dedicated workflow actions that provide a narrower interface to frequently used endpoints.
+
+## Dedicated actions
 
 | Discord operation | Flow Steward operation | Evidence |
 | --- | --- | --- |

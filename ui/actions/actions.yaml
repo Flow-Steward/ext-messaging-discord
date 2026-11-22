@@ -141,3 +141,84 @@ actions:
     - not_found
     - rate_limited
     - provider_unavailable
+  - action_id: discord_rest_read
+    title: Run Discord REST read
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: false
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: operation_id
+      type: string
+      required: true
+    - name: path_parameters
+      type: object
+      required: false
+    - name: query_parameters
+      type: object
+      required: false
+    result_fields:
+    - response
+    - suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+    - timeout_unknown
+  - action_id: discord_rest_write
+    title: Run Discord REST write
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: true
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: operation_id
+      type: string
+      required: true
+    - name: path_parameters
+      type: object
+      required: false
+    - name: query_parameters
+      type: object
+      required: false
+    - name: body
+      type: object
+      required: false
+    - name: media_type
+      type: string
+      required: false
+    - name: files
+      type: array
+      required: false
+    - name: audit_reason
+      type: string
+      required: false
+    result_fields:
+    - response
+    - suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+    - timeout_unknown
+    command_type: invoke_extension_action
