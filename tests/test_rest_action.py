@@ -153,3 +153,31 @@ def test_acknowledged_write_preserves_success_when_response_data_is_too_large(mo
     result = main.dispatch(request)
     assert result["external_effect_status"] == "succeeded"
     assert result["result"]["response"]["warning"] == "response_too_large"
+
+
+def test_partner_sdk_injects_body_credentials_and_removes_all_returned_tokens(monkeypatch):
+    request, _ = sample_invocation("partner_sdk_token", ROUTES["partner_sdk_token"])
+    action = request["action"]
+    action["input"]["body"] = {"data": {"client_id": "123", "external_auth_type": "example"}}
+    action["target"]["connection"]["secrets"].update(
+        client_secret="example.client.secret",
+        external_auth_token="example.external.token",
+    )
+
+    def send(**kwargs):
+        body = json.loads(kwargs["data"])
+        assert body["client_secret"] == "example.client.secret"
+        assert body["external_auth_token"] == "example.external.token"
+        return (
+            200,
+            "application/json",
+            (
+                b'{"id_token":"jwt", "access_token":"bearer", "refresh_token":"refresh",'
+                b' "note":"example.external.token"}'
+            ),
+        )
+
+    monkeypatch.setattr(rest, "request_raw", send)
+    assert main.dispatch(request)["result"]["response"]["data"] == {"note": "[redacted]"}
+    action["input"]["body"]["data"]["client_secret"] = "untrusted"
+    assert main.dispatch(request)["error_code"] == "invalid_payload"

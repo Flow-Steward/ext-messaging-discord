@@ -32,6 +32,22 @@ SECRET_FIELDS = frozenset(
 )
 
 
+# Provider credentials in JSON bodies come from the connection, never step inputs.
+BODY_CREDENTIALS = {
+    "add_group_dm_user": {"access_token"},
+    "add_guild_member": {"access_token"},
+    "create_or_join_lobby": {"secret"},
+    "partner_sdk_token": {"client_secret", "external_auth_token"},
+    "partner_sdk_unmerge_provisional_account": {"client_secret", "external_auth_token"},
+}
+SECRET_SUFFIXES = ("_token", "_secret", "_password", "_api_key", "_private_key")
+
+
+def _credential_field(key: str) -> bool:
+    normalized = key.casefold().replace("-", "_")
+    return normalized in SECRET_FIELDS or normalized.endswith(SECRET_SUFFIXES)
+
+
 @dataclass(frozen=True)
 class Prepared:
     target: RequestTarget
@@ -167,6 +183,18 @@ def prepare(
     if body_input is not None and (not isinstance(body_input, dict) or set(body_input) != {"data"}):
         raise ValueError("The body must be wrapped in a data field")
     body = body_input["data"] if body_input is not None else None
+    credential_names = BODY_CREDENTIALS.get(operation_id, set())
+    if credential_names:
+        if not isinstance(body, dict) or credential_names.intersection(body):
+            raise ValueError("Body credentials must come from the selected connection")
+        body = {
+            **body,
+            **{
+                name: value
+                for name in credential_names
+                if isinstance(value := secrets.get(name), str) and value
+            },
+        }
     media_type, encoded = None, None
     if body is not None or files:
         supported = route["request_media_types"]
@@ -214,8 +242,7 @@ def _redact(value: Any, credentials: tuple[str, ...]) -> Any:
         return {
             key: _redact(item, credentials)
             for key, item in value.items()
-            if key.casefold().replace("-", "_") not in SECRET_FIELDS
-            and all(token not in key for token in credentials)
+            if not _credential_field(key) and all(token not in key for token in credentials)
         }
     if isinstance(value, list):
         return [_redact(item, credentials) for item in value]

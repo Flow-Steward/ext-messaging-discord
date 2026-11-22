@@ -18,6 +18,22 @@ connection_types:
           minLength: 1
           maxLength: 512
           title: Bot token
+        access_token:
+          type: string
+          title: Delegated user OAuth2 token
+          maxLength: 10240
+        client_secret:
+          type: string
+          title: Application client secret
+          maxLength: 1024
+        external_auth_token:
+          type: string
+          title: Partner external auth token
+          maxLength: 10240
+        secret:
+          type: string
+          title: Lobby join secret
+          maxLength: 10240
     capabilities:
       test_connection: true
   - connection_type_id: discord_oauth_token
