@@ -1,0 +1,2 @@
+# Add direct runtime dependencies here before running extensions lock-deps.
+# Leave this file comment-only when the extension has no runtime dependencies.

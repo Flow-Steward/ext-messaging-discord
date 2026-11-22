@@ -1,0 +1,38 @@
+operations:
+  - operation_id: test_connection
+    display_name: Test connection
+    description: Check the identity of the bot behind the project connection.
+    operation_kind: source
+    category: messaging
+    connection_type_ids: [discord_bot]
+    workflow_visible: true
+    inputs:
+      - {name: connection_ref, value_type: connection_ref, required: true}
+    outputs:
+      - {name: bot_id, value_type: text, schema: {type: string}}
+    result_fields: [result.bot_id]
+    error_codes: [invalid_payload, invalid_connection, authentication_failed, access_denied, not_found, rate_limited, provider_unavailable]
+  - operation_id: send_message
+    display_name: Send message
+    description: Send a text message to a Discord channel without notifying mentions.
+    operation_kind: action
+    category: messaging
+    connection_type_ids: [discord_bot]
+    workflow_visible: true
+    effect_kind: discord_send_message
+    inputs:
+      - {name: connection_ref, value_type: connection_ref, required: true}
+      - name: channel_id
+        value_type: text
+        required: true
+        schema: {type: string, pattern: '^[0-9]{1,20}$'}
+      - name: content
+        value_type: text
+        required: true
+        schema: {type: string, minLength: 1, maxLength: 2000}
+    outputs:
+      - {name: message_id, value_type: text, schema: {type: string}}
+      - {name: channel_id, value_type: text, schema: {type: string}}
+      - {name: suppressed, value_type: boolean, schema: {type: boolean}}
+    result_fields: [result.message_id, result.channel_id, result.suppressed]
+    error_codes: [invalid_payload, invalid_connection, authentication_failed, access_denied, not_found, rate_limited, provider_unavailable, timeout_unknown]

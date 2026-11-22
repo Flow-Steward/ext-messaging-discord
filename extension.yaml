@@ -1,0 +1,43 @@
+manifest_version: 2
+extension_id: flowsteward.discord
+kind: tool_provider
+version: 0.1.0
+release_stage: active
+billing_mode: free
+display_name: Discord
+description: Send a message to a Discord channel from a Flow Steward workflow.
+vendor:
+  name: Flow Steward
+listing:
+  category: messaging
+  tags: [discord, notifications, messaging]
+  summary: Send workflow messages to Discord channels using a bot connection.
+  setup_summary: Add a Discord bot to your server and store its token in a project connection.
+features: [tool, action]
+required_scopes: [extension:invoke]
+account_scope:
+  scope_type: project
+  description: Each project connection selects one Discord bot.
+egress:
+  hosts: [discord.com]
+external_effects:
+  - operation_id: send_message
+    effect_kind: discord_send_message
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+runtime:
+  contract_version: extension_host_v2
+  extension_contract_v2:
+    connection_types: contracts/connection_types.yaml
+    operation_manifest: contracts/operation_manifest.yaml
+    step_ui_manifest: contracts/step_ui_manifest.yaml
+entrypoint:
+  mode: subprocess
+  command: [python3, main.py]
+  timeout_seconds: 30
+health:
+  command: [python3, health.py]
+  timeout_seconds: 5
+action_manifest: ui/actions/actions.yaml
+python_requirements: []

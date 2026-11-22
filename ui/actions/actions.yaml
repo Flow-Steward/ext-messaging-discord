@@ -1,0 +1,24 @@
+actions:
+  - action_id: test_connection
+    title: Test connection
+    required_scopes: [extension:invoke]
+    handler: {mode: extension}
+    mutates_platform: false
+    workflow_visible: true
+    parameters:
+      - {name: connection_ref, type: connection_ref, required: true}
+    result_fields: [bot_id]
+    error_codes: [invalid_payload, invalid_connection, authentication_failed, access_denied, not_found, rate_limited, provider_unavailable]
+  - action_id: send_message
+    title: Send message
+    required_scopes: [extension:invoke]
+    handler: {mode: extension}
+    command_type: invoke_extension_action
+    mutates_platform: true
+    workflow_visible: true
+    parameters:
+      - {name: connection_ref, type: connection_ref, required: true}
+      - {name: channel_id, type: string, required: true}
+      - {name: content, type: string, required: true}
+    result_fields: [message_id, channel_id, suppressed]
+    error_codes: [invalid_payload, invalid_connection, authentication_failed, access_denied, not_found, rate_limited, provider_unavailable, timeout_unknown]

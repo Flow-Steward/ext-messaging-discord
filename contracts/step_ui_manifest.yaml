@@ -1,0 +1,9 @@
+forms:
+  - operation_id: test_connection
+    title: Test connection
+    fields: []
+  - operation_id: send_message
+    title: Send message
+    fields:
+      - {name: channel_id, label: Channel ID, widget_type: text, required: true}
+      - {name: content, label: Message, widget_type: textarea, required: true}
