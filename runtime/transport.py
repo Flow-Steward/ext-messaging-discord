@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+from http.client import HTTPException
 from typing import Any
 from urllib.error import HTTPError
 from urllib.parse import urlencode
@@ -141,7 +142,10 @@ def request_raw(
             if response.status not in success_statuses:
                 raise DiscordResponseError(response.status, "unexpected_status")
             media_type = response.headers.get_content_type()
-            raw = response.read(MAX_RESPONSE + 1) if response.status != 204 else b""
+            try:
+                raw = response.read(MAX_RESPONSE + 1) if response.status != 204 else b""
+            except (OSError, HTTPException):
+                raise DiscordResponseError(response.status, "incomplete_response") from None
             if len(raw) > MAX_RESPONSE:
                 raise DiscordResponseError(response.status, "response_too_large")
             return response.status, media_type, raw

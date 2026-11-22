@@ -126,7 +126,7 @@ def test_multipart_sticker_payload_and_form_fields_are_encoded():
     [
         ("text/csv", b"id\n123\n", "id\n123\n"),
         ("image/png", b"\x89PNG", {"base64": "iVBORw=="}),
-        ("application/json", b'{"note":"example.bot.credential"}', {"note": "[redacted]"}),
+        ("application/json", b'{"note":"sample.bot.credential"}', {"note": "[redacted]"}),
     ],
 )
 def test_raw_responses_are_decoded_without_reflecting_credentials(monkeypatch, mime, raw, expected):
