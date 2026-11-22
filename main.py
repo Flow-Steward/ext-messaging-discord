@@ -7,30 +7,22 @@ import json
 import re
 import sys
 from typing import Any
-from urllib.error import HTTPError, URLError
-from urllib.request import HTTPRedirectHandler, Request, build_opener
+from urllib.error import URLError
 
 from flowsteward_extension_sdk import runtime_context_from_payload
 
-API = "https://discord.com/api/v10"
+from runtime.transport import DiscordHTTPError, request_json
+
 MAX_INPUT = 32_768
-MAX_RESPONSE = 256_000
 SNOWFLAKE = re.compile(r"[0-9]{1,20}")
 TOKEN = re.compile(r"[A-Za-z0-9._-]{1,512}")
 STATUS_ERRORS = {
-    400: "invalid_payload",
+    400: "upstream_validation_failed",
     401: "authentication_failed",
     403: "access_denied",
     404: "not_found",
     429: "rate_limited",
 }
-
-
-class NoRedirect(HTTPRedirectHandler):
-    """A bot credential may only be sent to the fixed Discord API origin."""
-
-    def redirect_request(self, req, fp, code, msg, headers, newurl):
-        return None
 
 
 def _failure(code: str, *, uncertain: bool = False) -> dict[str, Any]:
@@ -45,25 +37,17 @@ def _failure(code: str, *, uncertain: bool = False) -> dict[str, Any]:
 
 
 def _request(path: str, token: str, body: dict | None = None) -> dict:
-    request = Request(  # nosec B310 -- fixed HTTPS origin and validated path segments
-        f"{API}{path}",
-        data=json.dumps(body).encode() if body is not None else None,
-        headers={
-            "Authorization": f"Bot {token}",
-            "Content-Type": "application/json",
-            "User-Agent": "DiscordBot (https://github.com/Flow-Steward, 0.1.0)",
-        },
+    result = request_json(
+        method="POST" if body is not None else "GET",
+        path=path,
+        token=token,
+        user_agent="DiscordBot (https://github.com/Flow-Steward, 0.1.0)",
+        success_statuses=(200,),
+        body=body,
     )
-    with build_opener(NoRedirect()).open(request, timeout=10) as response:
-        if response.status != 200:
-            raise ValueError("Unexpected Discord response status")
-        raw = response.read(MAX_RESPONSE + 1)
-    if len(raw) > MAX_RESPONSE:
-        raise ValueError("Discord response exceeded its limit")
-    parsed = json.loads(raw)
-    if not isinstance(parsed, dict):
+    if not isinstance(result, dict):
         raise ValueError("Discord response was not an object")
-    return parsed
+    return result
 
 
 def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
@@ -95,48 +79,57 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
     test_mode = context.raw.get("test_mode", False)
     if not isinstance(test_mode, bool):
         return _failure("invalid_payload")
-    if write and test_mode:
-        return {
-            "ok": True,
-            "result": {"message_id": "", "channel_id": channel_id, "suppressed": True},
-        }
-
     target = action.get("target")
     connection = target.get("connection") if isinstance(target, dict) else None
     connection_ref = inputs.get("connection_ref")
     if not isinstance(connection, dict) or not connection.get("connection_id"):
         return _failure("invalid_connection")
-    if connection_ref and connection["connection_id"] != connection_ref:
+    if not isinstance(connection_ref, str) or not connection_ref:
+        return _failure("invalid_connection")
+    if connection["connection_id"] != connection_ref:
         return _failure("invalid_connection")
     connection_type = connection.get("connection_type_id") or connection.get("connection_type")
-    if connection_type and connection_type != "discord_bot":
+    if connection_type != "discord_bot":
         return _failure("invalid_connection")
     secrets = connection.get("secrets")
     token = secrets.get("bot_token") if isinstance(secrets, dict) else None
     if not isinstance(token, str) or not TOKEN.fullmatch(token):
         return _failure("invalid_connection")
 
+    if write and test_mode:
+        return {
+            "ok": True,
+            "result": {"message_id": "", "channel_id": channel_id, "suppressed": True},
+        }
+
     body: dict[str, Any] | None = None
     path = "/users/@me"
     if write:
+        execution_id = context.step_execution_id
+        if not execution_id:
+            return _failure("invalid_payload")
         path = f"/channels/{channel_id}/messages"
-        body = {"content": content, "allowed_mentions": {"parse": []}}
-        if context.step_execution_id:
-            body.update(
-                nonce=hashlib.sha256(context.step_execution_id.encode()).hexdigest()[:25],
-                enforce_nonce=True,
-            )
+        body = {
+            "content": content,
+            "allowed_mentions": {"parse": []},
+            "nonce": hashlib.sha256(execution_id.encode()).hexdigest()[:25],
+            "enforce_nonce": True,
+        }
     try:
         response = _request(path, token, body)
         provider_id = response.get("id")
         if not isinstance(provider_id, str) or not SNOWFLAKE.fullmatch(provider_id):
             raise ValueError("Discord response did not contain an ID")
-    except HTTPError as exc:
-        exc.close()
-        if exc.code in STATUS_ERRORS:
-            return _failure(STATUS_ERRORS[exc.code])
+    except DiscordHTTPError as exc:
+        if exc.status in STATUS_ERRORS:
+            failure = _failure(STATUS_ERRORS[exc.status])
+            if exc.code is not None:
+                failure["provider_error_code"] = exc.code
+            if exc.retry_after is not None:
+                failure["retry_after_seconds"] = exc.retry_after
+            return failure
         return _failure("timeout_unknown" if write else "provider_unavailable", uncertain=write)
-    except (URLError, OSError, ValueError):
+    except (URLError, OSError, ValueError, RecursionError):
         return _failure("timeout_unknown" if write else "provider_unavailable", uncertain=write)
 
     if write:

@@ -11,7 +11,7 @@ operations:
     outputs:
       - {name: bot_id, value_type: text, schema: {type: string}}
     result_fields: [result.bot_id]
-    error_codes: [invalid_payload, invalid_connection, authentication_failed, access_denied, not_found, rate_limited, provider_unavailable]
+    error_codes: [invalid_payload, upstream_validation_failed, invalid_connection, authentication_failed, access_denied, not_found, rate_limited, provider_unavailable]
   - operation_id: send_message
     display_name: Send message
     description: Send a text message to a Discord channel without notifying mentions.
@@ -35,4 +35,4 @@ operations:
       - {name: channel_id, value_type: text, schema: {type: string}}
       - {name: suppressed, value_type: boolean, schema: {type: boolean}}
     result_fields: [result.message_id, result.channel_id, result.suppressed]
-    error_codes: [invalid_payload, invalid_connection, authentication_failed, access_denied, not_found, rate_limited, provider_unavailable, timeout_unknown]
+    error_codes: [invalid_payload, upstream_validation_failed, invalid_connection, authentication_failed, access_denied, not_found, rate_limited, provider_unavailable, timeout_unknown]

@@ -100,3 +100,26 @@ def test_uncertain_write_is_not_retried_or_reflected(monkeypatch):
     assert response["external_effect_status"] == "timeout_unknown"
     assert response["definitely_no_external_effect"] is False
     assert "sample.bot.credential" not in repr(response)
+
+
+def test_rejects_writes_without_a_logical_execution_id(monkeypatch):
+    def unexpected(*args):
+        raise AssertionError("Unexpected outbound request")
+
+    monkeypatch.setattr(main, "_request", unexpected)
+    request = invocation()
+    request["runtime_context"].update(step_id=None, step_execution_id=None)
+    assert main.dispatch(request)["error_code"] == "invalid_payload"
+
+
+def test_dry_run_checks_that_the_connection_is_scoped_and_typed(monkeypatch):
+    def unexpected(*args):
+        raise AssertionError("Unexpected outbound request")
+
+    monkeypatch.setattr(main, "_request", unexpected)
+    request = invocation(test_mode=True)
+    request["action"]["target"]["connection"].pop("connection_type")
+    assert main.dispatch(request)["error_code"] == "invalid_connection"
+    request = invocation(test_mode=True)
+    request["action"]["input"].pop("connection_ref")
+    assert main.dispatch(request)["error_code"] == "invalid_connection"
