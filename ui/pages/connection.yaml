@@ -1,0 +1,30 @@
+page_id: connection
+title: Connection
+description: Add and test a Discord bot connection.
+components:
+  - component_id: discord_bot_connection
+    type: connection_form
+    title: Discord bot
+    description: Store the bot token and test the connection.
+    data:
+      connection_kind: extension
+      connection_type: discord_bot
+      config_fields: []
+      secret_fields: [bot_token]
+      test_action: test_connection
+    fields:
+      - path: bot_token
+        widget: secret
+        label: Bot token
+        required: true
+    ui_schema:
+      actions:
+        test_label: Test connection
+  - component_id: discord_bot_setup
+    type: markdown
+    title: Set up the bot
+    body: |
+      1. Create an application with a bot in the [Discord Developer Portal](https://discord.com/developers/applications).
+      2. Install the bot in your server and grant it **View Channel** and **Send Messages** in the destination channel.
+      3. Save the bot token above and select **Test connection**.
+      4. Add **Discord → Send message** to a workflow and select this connection.

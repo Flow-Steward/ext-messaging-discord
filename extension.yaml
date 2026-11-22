@@ -1,4 +1,7 @@
 manifest_version: 2
+lifecycle:
+  data_schema_version: 1
+  data_migrations: []
 extension_id: flowsteward.discord
 kind: tool_provider
 version: 0.1.0
@@ -39,5 +42,6 @@ entrypoint:
 health:
   command: [python3, health.py]
   timeout_seconds: 5
+ui_manifest: ui/ui_manifest.yaml
 action_manifest: ui/actions/actions.yaml
 python_requirements: []
