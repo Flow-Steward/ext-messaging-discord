@@ -10,7 +10,7 @@ from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
-from flowsteward_extension_sdk import connection_from_payload, runtime_context_from_payload
+from flowsteward_extension_sdk import runtime_context_from_payload
 
 API = "https://discord.com/api/v10"
 MAX_INPUT = 32_768
@@ -101,13 +101,18 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
             "result": {"message_id": "", "channel_id": channel_id, "suppressed": True},
         }
 
-    connection = connection_from_payload(payload)
+    target = action.get("target")
+    connection = target.get("connection") if isinstance(target, dict) else None
     connection_ref = inputs.get("connection_ref")
-    if connection is None or (connection_ref and connection.connection_id != connection_ref):
+    if not isinstance(connection, dict) or not connection.get("connection_id"):
         return _failure("invalid_connection")
-    if connection.connection_type and connection.connection_type != "discord_bot":
+    if connection_ref and connection["connection_id"] != connection_ref:
         return _failure("invalid_connection")
-    token = connection.secrets.get("bot_token")
+    connection_type = connection.get("connection_type_id") or connection.get("connection_type")
+    if connection_type and connection_type != "discord_bot":
+        return _failure("invalid_connection")
+    secrets = connection.get("secrets")
+    token = secrets.get("bot_token") if isinstance(secrets, dict) else None
     if not isinstance(token, str) or not TOKEN.fullmatch(token):
         return _failure("invalid_connection")
 
