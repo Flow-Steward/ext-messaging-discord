@@ -234,7 +234,8 @@ def prepare(
     elif route["request_body_required"]:
         raise ValueError("Request body is required")
 
-    return Prepared(target, authorization, (token,), media_type, encoded, _pairs(query), reason)
+    credentials = tuple(value for value in secrets.values() if isinstance(value, str) and value)
+    return Prepared(target, authorization, credentials, media_type, encoded, _pairs(query), reason)
 
 
 def _redact(value: Any, credentials: tuple[str, ...]) -> Any:
