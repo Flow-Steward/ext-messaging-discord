@@ -46,7 +46,7 @@ def test_sends_one_message_and_disables_mentions(monkeypatch):
     assert result == {
         "ok": True,
         "result": {"message_id": MESSAGE, "channel_id": CHANNEL, "suppressed": False},
-        "external_effect_status": "applied",
+        "external_effect_status": "succeeded",
     }
     [(path, token, body)] = calls
     assert path == f"/channels/{CHANNEL}/messages"
@@ -97,5 +97,6 @@ def test_uncertain_write_is_not_retried_or_reflected(monkeypatch):
     response = main.dispatch(invocation())
     assert len(calls) == 1
     assert response["error_code"] == "timeout_unknown"
+    assert response["external_effect_status"] == "timeout_unknown"
     assert response["definitely_no_external_effect"] is False
     assert "sample.bot.credential" not in repr(response)

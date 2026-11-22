@@ -40,7 +40,7 @@ def _failure(code: str, *, uncertain: bool = False) -> dict[str, Any]:
         "error_code": code,
         "error": code.replace("_", " "),
         "definitely_no_external_effect": not uncertain,
-        "external_effect_status": "unknown" if uncertain else "failed",
+        "external_effect_status": "timeout_unknown" if uncertain else "failed",
     }
 
 
@@ -143,7 +143,7 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
         return {
             "ok": True,
             "result": {"message_id": provider_id, "channel_id": channel_id, "suppressed": False},
-            "external_effect_status": "applied",
+            "external_effect_status": "succeeded",
         }
     return {"ok": True, "result": {"bot_id": provider_id}}
 
