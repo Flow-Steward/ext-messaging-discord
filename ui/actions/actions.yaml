@@ -22,3 +22,122 @@ actions:
       - {name: content, type: string, required: true}
     result_fields: [message_id, channel_id, suppressed]
     error_codes: [invalid_payload, upstream_validation_failed, invalid_connection, authentication_failed, access_denied, not_found, rate_limited, provider_unavailable, timeout_unknown]
+  - action_id: get_channel
+    title: Get channel
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: false
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: channel_id
+      type: string
+      required: true
+    result_fields:
+    - item
+    error_codes:
+    - invalid_payload
+    - upstream_validation_failed
+    - invalid_connection
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+  - action_id: list_messages
+    title: List channel messages
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: false
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: channel_id
+      type: string
+      required: true
+    - name: limit
+      type: integer
+      required: false
+    - name: before
+      type: string
+      required: false
+    - name: after
+      type: string
+      required: false
+    - name: around
+      type: string
+      required: false
+    result_fields:
+    - items
+    error_codes:
+    - invalid_payload
+    - upstream_validation_failed
+    - invalid_connection
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+  - action_id: get_guild
+    title: Get server
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: false
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: guild_id
+      type: string
+      required: true
+    - name: with_counts
+      type: boolean
+      required: false
+    result_fields:
+    - item
+    error_codes:
+    - invalid_payload
+    - upstream_validation_failed
+    - invalid_connection
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+  - action_id: list_guild_channels
+    title: List server channels
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: false
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: guild_id
+      type: string
+      required: true
+    result_fields:
+    - items
+    error_codes:
+    - invalid_payload
+    - upstream_validation_failed
+    - invalid_connection
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable

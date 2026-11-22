@@ -13,6 +13,11 @@ The runtime route registry is generated with `python scripts/build_rest_registry
 | `get_my_user` | `test_connection` | Mocked bot identity response |
 | `create_message` | `send_message` | Mocked text send, suppressed test send and uncertain response. Multipart uploads remain pending. |
 
+| `get_channel` | `get_channel` | Mocked channel response |
+| `list_messages` | `list_messages` | Mocked page, cursor and limit |
+| `get_guild` | `get_guild` | Mocked server and count flag |
+| `list_guild_channels` | `list_guild_channels` | Mocked empty channel list |
+
 ## Release review
 
 - Reconcile every inventory row against the Discord endpoint documentation. Record authorization, required permissions, request shape, success statuses and whether the operation can change Discord state.

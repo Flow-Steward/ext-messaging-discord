@@ -1,6 +1,6 @@
 # Discord for Flow Steward
 
-Send a text message to a Discord channel from a workflow. The extension also provides a read-only **Test connection** operation that returns the bot ID.
+Send a text message to a Discord channel from a workflow. The extension also provides a read-only **Test connection** operation that returns the bot ID. Workflows can also read a channel, list a page of channel messages, read a server and list its channels.
 
 ## Connect a bot
 

@@ -11,9 +11,11 @@ from urllib.error import URLError
 
 from flowsteward_extension_sdk import runtime_context_from_payload
 
+from runtime.reads import READ_OPERATIONS, execute_read, read_arguments
 from runtime.routes import RequestTarget, request_target
 from runtime.transport import DiscordHTTPError, request_json
 
+USER_AGENT = "DiscordBot (https://github.com/Flow-Steward, 0.1.0)"
 MAX_INPUT = 32_768
 SNOWFLAKE = re.compile(r"[0-9]{1,20}")
 TOKEN = re.compile(r"[A-Za-z0-9._-]{1,512}")
@@ -42,7 +44,7 @@ def _request(target: RequestTarget, token: str, body: dict | None = None) -> dic
         method=target.method,
         path=target.path,
         token=token,
-        user_agent="DiscordBot (https://github.com/Flow-Steward, 0.1.0)",
+        user_agent=USER_AGENT,
         success_statuses=target.success_statuses,
         body=body,
     )
@@ -61,22 +63,30 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
         return _failure("invalid_payload")
     operation = action.get("action_id") or action.get("operation_id")
     inputs = action.get("input", {})
-    if operation not in ("test_connection", "send_message") or not isinstance(inputs, dict):
+    if not isinstance(operation, str) or not isinstance(inputs, dict):
         return _failure("invalid_payload")
-
     write = operation == "send_message"
-    allowed = {"connection_ref", "channel_id", "content"} if write else {"connection_ref"}
-    if inputs.keys() - allowed:
+    read = operation in READ_OPERATIONS
+    if not (write or read or operation == "test_connection"):
         return _failure("invalid_payload")
     channel_id, content = inputs.get("channel_id"), inputs.get("content")
-    if write and not (
-        isinstance(channel_id, str)
-        and SNOWFLAKE.fullmatch(channel_id)
-        and isinstance(content, str)
-        and content.strip()
-        and len(content.encode("utf-16-le", errors="surrogatepass")) <= 4000
-    ):
-        return _failure("invalid_payload")
+    if read:
+        try:
+            path_parameters, query = read_arguments(operation, inputs)
+        except ValueError:
+            return _failure("invalid_payload")
+    else:
+        allowed = {"connection_ref", "channel_id", "content"} if write else {"connection_ref"}
+        if inputs.keys() - allowed:
+            return _failure("invalid_payload")
+        if write and not (
+            isinstance(channel_id, str)
+            and SNOWFLAKE.fullmatch(channel_id)
+            and isinstance(content, str)
+            and content.strip()
+            and len(content.encode("utf-16-le", errors="surrogatepass")) <= 4000
+        ):
+            return _failure("invalid_payload")
     test_mode = context.raw.get("test_mode", False)
     if not isinstance(test_mode, bool):
         return _failure("invalid_payload")
@@ -117,6 +127,17 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
             "enforce_nonce": True,
         }
     try:
+        if read:
+            return {
+                "ok": True,
+                "result": execute_read(
+                    operation,
+                    token=token,
+                    user_agent=USER_AGENT,
+                    path_parameters=path_parameters,
+                    query=query,
+                ),
+            }
         response = _request(request, token, body)
         provider_id = response.get("id")
         if not isinstance(provider_id, str) or not SNOWFLAKE.fullmatch(provider_id):

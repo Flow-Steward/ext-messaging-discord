@@ -36,3 +36,173 @@ operations:
       - {name: suppressed, value_type: boolean, schema: {type: boolean}}
     result_fields: [result.message_id, result.channel_id, result.suppressed]
     error_codes: [invalid_payload, upstream_validation_failed, invalid_connection, authentication_failed, access_denied, not_found, rate_limited, provider_unavailable, timeout_unknown]
+  - operation_id: get_channel
+    display_name: Get channel
+    description: Get channel using the selected Discord bot connection.
+    operation_kind: source
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: channel_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        pattern: ^[0-9]{1,20}$
+    outputs:
+    - name: item
+      value_type: object
+      schema:
+        type: object
+    result_fields:
+    - result.item
+    error_codes:
+    - invalid_payload
+    - upstream_validation_failed
+    - invalid_connection
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+  - operation_id: list_messages
+    display_name: List channel messages
+    description: List channel messages using the selected Discord bot connection.
+    operation_kind: source
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: channel_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        pattern: ^[0-9]{1,20}$
+    - name: limit
+      value_type: integer
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+    - name: before
+      value_type: text
+      required: false
+      schema:
+        type: string
+        pattern: ^[0-9]{1,20}$
+    - name: after
+      value_type: text
+      required: false
+      schema:
+        type: string
+        pattern: ^[0-9]{1,20}$
+    - name: around
+      value_type: text
+      required: false
+      schema:
+        type: string
+        pattern: ^[0-9]{1,20}$
+    outputs:
+    - name: items
+      value_type: array
+      schema:
+        type: array
+        items:
+          type: object
+    result_fields:
+    - result.items
+    error_codes:
+    - invalid_payload
+    - upstream_validation_failed
+    - invalid_connection
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+  - operation_id: get_guild
+    display_name: Get server
+    description: Get server using the selected Discord bot connection.
+    operation_kind: source
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: guild_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        pattern: ^[0-9]{1,20}$
+    - name: with_counts
+      value_type: boolean
+      required: false
+      schema:
+        type: boolean
+    outputs:
+    - name: item
+      value_type: object
+      schema:
+        type: object
+    result_fields:
+    - result.item
+    error_codes:
+    - invalid_payload
+    - upstream_validation_failed
+    - invalid_connection
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+  - operation_id: list_guild_channels
+    display_name: List server channels
+    description: List server channels using the selected Discord bot connection.
+    operation_kind: source
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: guild_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        pattern: ^[0-9]{1,20}$
+    outputs:
+    - name: items
+      value_type: array
+      schema:
+        type: array
+        items:
+          type: object
+    result_fields:
+    - result.items
+    error_codes:
+    - invalid_payload
+    - upstream_validation_failed
+    - invalid_connection
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
