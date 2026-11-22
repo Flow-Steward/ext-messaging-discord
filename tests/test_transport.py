@@ -100,3 +100,29 @@ def test_rejects_mismatched_status_and_invalid_responses(monkeypatch, status, bo
             user_agent="DiscordBot Test",
             success_statuses=(200,),
         )
+
+
+def test_raw_transport_encodes_query_and_audit_reason(monkeypatch):
+    from email.message import Message
+
+    response = Response(201, b'{"id":"123"}')
+    response.headers = Message()
+    response.headers["Content-Type"] = "application/json; charset=utf-8"
+    opener = Opener(response)
+    monkeypatch.setattr(transport, "build_opener", lambda handler: opener)
+    assert transport.request_raw(
+        method="POST",
+        path="/channels/123/invites",
+        authorization="Bearer example.token",
+        user_agent="Test",
+        success_statuses=(201,),
+        data=b"name=example",
+        content_type="application/x-www-form-urlencoded",
+        query=[("limit", "10")],
+        audit_reason="Test / change",
+    ) == (201, "application/json", b'{"id":"123"}')
+    [(request, _)] = opener.requests
+    assert request.full_url.endswith("/channels/123/invites?limit=10")
+    assert request.get_header("Authorization") == "Bearer example.token"
+    assert request.get_header("Content-type") == "application/x-www-form-urlencoded"
+    assert request.get_header("X-audit-log-reason") == "Test%20%2F%20change"

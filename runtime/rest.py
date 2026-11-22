@@ -11,7 +11,7 @@ from typing import Any
 from urllib.parse import urlencode
 
 from runtime.routes import RequestTarget, request_target, route_for
-from runtime.transport import request_raw
+from runtime.transport import DiscordResponseError, request_raw
 
 MAX_UPLOAD = 2_000_000
 SAFE_NAME = re.compile(r"[A-Za-z0-9_.\[\]-]{1,160}")
@@ -227,25 +227,41 @@ def _redact(value: Any, credentials: tuple[str, ...]) -> Any:
 
 def execute(prepared: Prepared, *, user_agent: str) -> dict[str, Any]:
     target = prepared.target
-    status, media_type, raw = request_raw(
-        method=target.method,
-        path=target.path,
-        authorization=prepared.authorization,
-        user_agent=user_agent,
-        success_statuses=target.success_statuses,
-        data=prepared.body,
-        content_type=prepared.content_type,
-        query=prepared.query,
-        audit_reason=prepared.audit_reason,
-    )
+    try:
+        status, media_type, raw = request_raw(
+            method=target.method,
+            path=target.path,
+            authorization=prepared.authorization,
+            user_agent=user_agent,
+            success_statuses=target.success_statuses,
+            data=prepared.body,
+            content_type=prepared.content_type,
+            query=prepared.query,
+            audit_reason=prepared.audit_reason,
+        )
+    except DiscordResponseError as error:
+        return {"status": error.status, "data": None, "warning": error.reason}
     if not raw:
         data = None
     elif media_type == "application/json":
-        data = _redact(json.loads(raw), prepared.credentials)
+        try:
+            data = _redact(json.loads(raw), prepared.credentials)
+        except (ValueError, RecursionError):
+            return {
+                "status": status,
+                "media_type": media_type,
+                "data": None,
+                "warning": "invalid_json",
+            }
     elif media_type == "text/csv":
-        data = _redact(raw.decode(), prepared.credentials)
+        data = _redact(raw.decode(errors="replace"), prepared.credentials)
     elif media_type == "image/png":
         data = {"base64": base64.b64encode(raw).decode("ascii")}
     else:
-        raise ValueError("Unexpected response content type")
+        return {
+            "status": status,
+            "media_type": media_type,
+            "data": None,
+            "warning": "unexpected_content_type",
+        }
     return {"status": status, "media_type": media_type, "data": data}

@@ -79,6 +79,8 @@ def dispatch_rest(
             if error.retry_after is not None:
                 result["retry_after_seconds"] = error.retry_after
             return result
+        if 400 <= error.status < 500 and error.status != 408:
+            return failure("upstream_validation_failed")
         return failure("timeout_unknown" if write else "provider_unavailable", uncertain=write)
     except (OSError, HTTPException, ValueError, RecursionError):
         return failure("timeout_unknown" if write else "provider_unavailable", uncertain=write)

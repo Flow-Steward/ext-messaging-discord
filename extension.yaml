@@ -8,19 +8,19 @@ version: 0.1.0
 release_stage: active
 billing_mode: free
 display_name: Discord
-description: Send a message to a Discord channel from a Flow Steward workflow.
+description: Read or update Discord resources from a Flow Steward workflow using the Discord REST v10 catalog.
 vendor:
   name: Flow Steward
 listing:
   category: messaging
   tags: [discord, notifications, messaging]
-  summary: Send workflow messages to Discord channels using a bot connection.
+  summary: Run Discord REST v10 actions for channels, servers, messages and applications.
   setup_summary: Add a Discord bot to your server and store its token in a project connection.
 features: [tool, action]
 required_scopes: [extension:invoke]
 account_scope:
   scope_type: project
-  description: Each project connection selects one Discord bot.
+  description: Each project connection selects a Discord bot, scoped OAuth2 token, or webhook or interaction credential.
 egress:
   hosts: [discord.com]
 external_effects:

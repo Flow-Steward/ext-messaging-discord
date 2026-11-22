@@ -101,6 +101,15 @@ def request_json(
     return parsed
 
 
+class DiscordResponseError(Exception):
+    """Discord accepted the request, but its response data cannot be returned."""
+
+    def __init__(self, status: int, reason: str) -> None:
+        super().__init__(reason)
+        self.status = status
+        self.reason = reason
+
+
 def request_raw(
     *,
     method: str,
@@ -130,11 +139,11 @@ def request_raw(
     try:
         with build_opener(NoRedirect()).open(request, timeout=10) as response:
             if response.status not in success_statuses:
-                raise ValueError("Unexpected Discord response status")
+                raise DiscordResponseError(response.status, "unexpected_status")
             media_type = response.headers.get_content_type()
             raw = response.read(MAX_RESPONSE + 1) if response.status != 204 else b""
             if len(raw) > MAX_RESPONSE:
-                raise ValueError("Discord response exceeded its limit")
+                raise DiscordResponseError(response.status, "response_too_large")
             return response.status, media_type, raw
     except HTTPError as error:
         raise _http_error(error) from None

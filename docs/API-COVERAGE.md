@@ -17,8 +17,7 @@ The table lists the dedicated workflow actions that provide a narrower interface
 | Discord operation | Flow Steward operation | Evidence |
 | --- | --- | --- |
 | `get_my_user` | `test_connection` | Mocked bot identity response |
-| `create_message` | `send_message` | Mocked text send, suppressed test send and uncertain response. Multipart uploads remain pending. |
-
+| `create_message` | `send_message` | Mocked text send, suppressed test send and uncertain response. The dedicated step sends text. Use the REST write step for multipart. |
 | `get_channel` | `get_channel` | Mocked channel response |
 | `list_messages` | `list_messages` | Mocked page, cursor and limit |
 | `get_guild` | `get_guild` | Mocked server and count flag |
@@ -32,3 +31,7 @@ The table lists the dedicated workflow actions that provide a narrower interface
 - Track [OAuth2](https://docs.discord.com/developers/topics/oauth2), [Gateway](https://docs.discord.com/developers/events/gateway), [Interactions](https://docs.discord.com/developers/interactions/receiving-and-responding) and [Voice](https://docs.discord.com/developers/topics/voice-connections) alongside REST. Gateway and Voice need a persistent service with its own lifecycle. Inbound Interactions need Ed25519 signature verification and a public callback.
 - Run offline checks for all operation contracts. Run live integration checks in a dedicated test guild and Discord application, with fixtures for permissions and scoped authorization.
 - Review runtime and release artifacts, build and verify the bundle, push the source, then record review and release evidence.
+
+## Mutation replay
+
+Flow Steward claims mutating steps in its external-effect ledger before invoking the subprocess. The extension makes one upstream attempt. A lost response leaves the effect unresolved. Discord message creation also carries a deterministic nonce for the provider’s short deduplication window. Discord does not expose a general idempotency key for all mutations.
