@@ -10,10 +10,23 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = ROOT / "tests/reference/discord-openapi.json"
+DOCS = ROOT / "tests/reference/discord-docs-routes.json"
 REGISTRY = ROOT / "runtime/rest_routes.json"
 METHODS = frozenset({"get", "post", "put", "patch", "delete", "head", "options", "trace"})
 PATH_PARAMETER = re.compile(r"\{([a-zA-Z0-9_]+)\}")
 SECRET_PATH_PARAMETERS = frozenset({"interaction_token", "webhook_token"})
+
+
+def load_spec() -> dict[str, Any]:
+    spec = json.loads(SPEC.read_text())
+    facts = json.loads(DOCS.read_text())
+    for page in facts["pages"].values():
+        for path, methods in page.items():
+            target = spec["paths"].setdefault(path, {})
+            if target.keys() & methods.keys():
+                raise ValueError(f"Documentation route duplicates an OpenAPI operation: {path}")
+            target.update(methods)
+    return spec
 
 
 def build_routes(spec: dict[str, Any]) -> dict[str, Any]:
@@ -54,6 +67,8 @@ def build_routes(spec: dict[str, Any]) -> dict[str, Any]:
                     int(code) for code in operation["responses"] if code.startswith("2")
                 ),
             }
+            if operation.get("x-provider-disabled"):
+                routes[operation_id]["provider_disabled"] = True
     return routes
 
 
@@ -61,9 +76,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    expected = (
-        json.dumps(build_routes(json.loads(SPEC.read_text())), indent=2, sort_keys=True) + "\n"
-    )
+    expected = json.dumps(build_routes(load_spec()), indent=2, sort_keys=True) + "\n"
     if args.check:
         if REGISTRY.read_text() != expected:
             raise SystemExit("runtime/rest_routes.json is out of date")

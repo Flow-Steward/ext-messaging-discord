@@ -223,6 +223,28 @@
       204
     ]
   },
+  "batch_edit_application_command_permissions": {
+    "method": "PUT",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/permissions",
+    "path_parameters": [
+      "application_id",
+      "guild_id"
+    ],
+    "provider_disabled": true,
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "OAuth2": [
+          "applications.commands.permissions.update"
+        ]
+      }
+    ],
+    "success_statuses": []
+  },
   "bot_partner_sdk_token": {
     "method": "POST",
     "path": "/partner-sdk/token/bot",
@@ -1256,6 +1278,31 @@
       204
     ]
   },
+  "delete_application_identity": {
+    "method": "POST",
+    "path": "/users/{user_id}/application-identities/{application_id}/{provider_type}/{provider_issued_user_id}/delete",
+    "path_parameters": [
+      "user_id",
+      "application_id",
+      "provider_type",
+      "provider_issued_user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      204
+    ]
+  },
   "delete_application_user_role_connection": {
     "method": "DELETE",
     "path": "/users/@me/applications/{application_id}/role-connection",
@@ -2213,6 +2260,28 @@
     "path_parameters": [
       "application_id",
       "emoji_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "get_application_identity_profile": {
+    "method": "GET",
+    "path": "/applications/{application_id}/users/{user_id}/identities/{provider_issued_user_id}/profile",
+    "path_parameters": [
+      "application_id",
+      "user_id",
+      "provider_issued_user_id"
     ],
     "query_parameters": [],
     "request_body_required": false,
@@ -3924,6 +3993,71 @@
       200
     ]
   },
+  "list_application_identities_by_external_id": {
+    "method": "GET",
+    "path": "/applications/{application_id}/application-identities/{provider_type}/{provider_issued_user_id}",
+    "path_parameters": [
+      "application_id",
+      "provider_type",
+      "provider_issued_user_id"
+    ],
+    "query_parameters": [
+      "provider_id"
+    ],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_application_identities_by_user_id": {
+    "method": "GET",
+    "path": "/users/{user_id}/application-identities/{application_id}",
+    "path_parameters": [
+      "user_id",
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
+  "list_application_skus": {
+    "method": "GET",
+    "path": "/applications/{application_id}/skus",
+    "path_parameters": [
+      "application_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": false,
+    "request_media_types": [],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
   "list_auto_moderation_rules": {
     "method": "GET",
     "path": "/guilds/{guild_id}/auto-moderation/rules",
@@ -4629,6 +4763,28 @@
       200
     ]
   },
+  "modify_current_user_nick": {
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/members/@me/nick",
+    "path_parameters": [
+      "guild_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      200
+    ]
+  },
   "partner_sdk_token": {
     "method": "POST",
     "path": "/partner-sdk/token",
@@ -5048,6 +5204,31 @@
     ],
     "success_statuses": [
       200
+    ]
+  },
+  "update_application_identity_profile": {
+    "method": "PATCH",
+    "path": "/applications/{application_id}/users/{user_id}/identities/{provider_issued_user_id}/profile",
+    "path_parameters": [
+      "application_id",
+      "user_id",
+      "provider_issued_user_id"
+    ],
+    "query_parameters": [],
+    "request_body_required": true,
+    "request_media_types": [
+      "application/json"
+    ],
+    "required_query_parameters": [],
+    "secret_path_parameters": [],
+    "security": [
+      {
+        "BotToken": []
+      }
+    ],
+    "success_statuses": [
+      201,
+      204
     ]
   },
   "update_application_role_connections_metadata": {

@@ -985,6 +985,65 @@ operations:
     - provider_unavailable
     - timeout_unknown
     effect_kind: discord_ban_user_from_guild
+  - operation_id: rest_batch_edit_application_command_permissions
+    display_name: Batch edit application command permissions
+    description: Discord REST v10 PUT /applications/{application_id}/guilds/{guild_id}/commands/permissions.
+      Disabled by Discord under Permissions v2. Edit each command separately using an
+      authorized OAuth2 bearer token and respect rate limits. The batch operation cannot
+      be executed.
+    operation_kind: action
+    category: messaging
+    connection_type_ids:
+    - discord_oauth_token
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: application_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    - name: guild_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    - name: audit_reason
+      value_type: text
+      required: false
+      schema:
+        type: string
+        maxLength: 512
+    outputs:
+    - name: response
+      value_type: object
+      schema:
+        type: object
+    - name: suppressed
+      value_type: boolean
+      schema:
+        type: boolean
+    result_fields:
+    - result.response
+    - result.suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+    - timeout_unknown
+    - operation_disabled
+    effect_kind: discord_batch_edit_application_command_permissions
   - operation_id: rest_bot_partner_sdk_token
     display_name: Bot partner sdk token
     description: Discord REST v10 POST /partner-sdk/token/bot
@@ -5750,6 +5809,91 @@ operations:
     - provider_unavailable
     - timeout_unknown
     effect_kind: discord_delete_application_emoji
+  - operation_id: rest_delete_application_identity
+    display_name: Delete application identity
+    description: Discord REST v10 POST /users/{user_id}/application-identities/{application_id}/{provider_type}/{provider_issued_user_id}/delete.
+      Delete an identity and its profile data. Discord protects the user's last account-linking
+      identity. The application bot must authenticate and the target user must grant
+      application_identities.write.
+    operation_kind: action
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: user_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    - name: application_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    - name: provider_type
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    - name: provider_issued_user_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    - name: body
+      value_type: object
+      required: false
+      schema:
+        type: object
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              provider_id:
+                type: string
+        required:
+        - data
+        additionalProperties: false
+    - name: audit_reason
+      value_type: text
+      required: false
+      schema:
+        type: string
+        maxLength: 512
+    outputs:
+    - name: response
+      value_type: object
+      schema:
+        type: object
+    - name: suppressed
+      value_type: boolean
+      schema:
+        type: boolean
+    result_fields:
+    - result.response
+    - result.suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+    - timeout_unknown
+    effect_kind: discord_delete_application_identity
   - operation_id: rest_delete_application_user_role_connection
     display_name: Delete application user role connection
     description: Discord REST v10 DELETE /users/@me/applications/{application_id}/role-connection
@@ -8668,6 +8812,61 @@ operations:
       schema:
         type: string
         pattern: ^(0|[1-9][0-9]*)$
+    outputs:
+    - name: response
+      value_type: object
+      schema:
+        type: object
+    - name: suppressed
+      value_type: boolean
+      schema:
+        type: boolean
+    result_fields:
+    - result.response
+    - result.suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+  - operation_id: rest_get_application_identity_profile
+    display_name: Get application identity profile
+    description: Discord REST v10 GET /applications/{application_id}/users/{user_id}/identities/{provider_issued_user_id}/profile.
+      Read a user's game stats profile. The application bot must authenticate and the
+      target user must grant application_identities.write.
+    operation_kind: source
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: application_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    - name: user_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    - name: provider_issued_user_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
     outputs:
     - name: response
       value_type: object
@@ -11989,6 +12188,156 @@ operations:
     - not_found
     - rate_limited
     - provider_unavailable
+  - operation_id: rest_list_application_identities_by_external_id
+    display_name: List application identities by external id
+    description: Discord REST v10 GET /applications/{application_id}/application-identities/{provider_type}/{provider_issued_user_id}.
+      Look up identities by provider and external user ID. An unmatched key returns
+      an empty list. The application bot must authenticate and the target user must
+      grant application_identities.write.
+    operation_kind: source
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: application_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    - name: provider_type
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    - name: provider_issued_user_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    - name: provider_id
+      value_type: text
+      required: false
+      schema:
+        type: string
+    outputs:
+    - name: response
+      value_type: object
+      schema:
+        type: object
+    - name: suppressed
+      value_type: boolean
+      schema:
+        type: boolean
+    result_fields:
+    - result.response
+    - result.suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+  - operation_id: rest_list_application_identities_by_user_id
+    display_name: List application identities by user id
+    description: Discord REST v10 GET /users/{user_id}/application-identities/{application_id}.
+      List the user's identity keys without profile data. The application bot must authenticate
+      and the target user must grant application_identities.write.
+    operation_kind: source
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: user_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    - name: application_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    outputs:
+    - name: response
+      value_type: object
+      schema:
+        type: object
+    - name: suppressed
+      value_type: boolean
+      schema:
+        type: boolean
+    result_fields:
+    - result.response
+    - result.suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+  - operation_id: rest_list_application_skus
+    display_name: List application skus
+    description: Discord REST v10 GET /applications/{application_id}/skus. List all
+      SKUs for the application. Use type 5 for testing subscription entitlements.
+    operation_kind: source
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: application_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    outputs:
+    - name: response
+      value_type: object
+      schema:
+        type: object
+    - name: suppressed
+      value_type: boolean
+      schema:
+        type: boolean
+    result_fields:
+    - result.response
+    - result.suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
   - operation_id: rest_list_auto_moderation_rules
     display_name: List auto moderation rules
     description: Discord REST v10 GET /guilds/{guild_id}/auto-moderation/rules
@@ -13570,6 +13919,73 @@ operations:
     - not_found
     - rate_limited
     - provider_unavailable
+  - operation_id: rest_modify_current_user_nick
+    display_name: Modify current user nick
+    description: Discord REST v10 PATCH /guilds/{guild_id}/members/@me/nick. Deprecated.
+      Use Modify Current Member. Changing the nickname requires CHANGE_NICKNAME and
+      supports an audit log reason.
+    operation_kind: action
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: guild_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    - name: body
+      value_type: object
+      required: true
+      schema:
+        type: object
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              nick:
+                type:
+                - string
+                - 'null'
+        required:
+        - data
+        additionalProperties: false
+    - name: audit_reason
+      value_type: text
+      required: false
+      schema:
+        type: string
+        maxLength: 512
+    outputs:
+    - name: response
+      value_type: object
+      schema:
+        type: object
+    - name: suppressed
+      value_type: boolean
+      schema:
+        type: boolean
+    result_fields:
+    - result.response
+    - result.suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+    - timeout_unknown
+    effect_kind: discord_modify_current_user_nick
   - operation_id: rest_partner_sdk_token
     display_name: Partner sdk token
     description: Discord REST v10 POST /partner-sdk/token
@@ -15051,6 +15467,206 @@ operations:
     - provider_unavailable
     - timeout_unknown
     effect_kind: discord_update_application_emoji
+  - operation_id: rest_update_application_identity_profile
+    display_name: Update application identity profile
+    description: Discord REST v10 PATCH /applications/{application_id}/users/{user_id}/identities/{provider_issued_user_id}/profile.
+      Create or update a user's game stats profile. Supplying data replaces it entirely.
+      Serialized data must fit within 10 KB. The application bot must authenticate and
+      the target user must grant application_identities.write.
+    operation_kind: action
+    category: messaging
+    connection_type_ids:
+    - discord_bot
+    workflow_visible: true
+    inputs:
+    - name: connection_ref
+      value_type: connection_ref
+      required: true
+    - name: application_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    - name: user_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+        pattern: ^[0-9]+$
+    - name: provider_issued_user_id
+      value_type: text
+      required: true
+      schema:
+        type: string
+        minLength: 1
+    - name: body
+      value_type: object
+      required: true
+      schema:
+        type: object
+        properties:
+          data:
+            type: object
+            additionalProperties: false
+            properties:
+              username:
+                type: string
+                maxLength: 1024
+              data:
+                type: object
+                additionalProperties: false
+                properties:
+                  primary:
+                    type: object
+                    additionalProperties: false
+                    properties:
+                      season:
+                        type: string
+                        maxLength: 100
+                      rank_name:
+                        type: string
+                        maxLength: 100
+                      highest_rank:
+                        type: string
+                        maxLength: 100
+                      featured_played_character:
+                        type: string
+                        maxLength: 100
+                      rank_image:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          url:
+                            type: string
+                        required:
+                        - url
+                      highest_rank_image:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          url:
+                            type: string
+                        required:
+                        - url
+                      featured_played_character_image:
+                        type: object
+                        additionalProperties: false
+                        properties:
+                          url:
+                            type: string
+                        required:
+                        - url
+                      playtime_hours:
+                        type: number
+                      total_wins:
+                        type: integer
+                      total_games:
+                        type: integer
+                      total_kills:
+                        type: integer
+                      total_assists:
+                        type: integer
+                      total_deaths:
+                        type: integer
+                      current_period_wins:
+                        type: integer
+                      current_period_games:
+                        type: integer
+                      current_period_kills:
+                        type: integer
+                      current_period_assists:
+                        type: integer
+                      current_period_deaths:
+                        type: integer
+                  dynamic:
+                    type: array
+                    maxItems: 30
+                    items:
+                      oneOf:
+                      - type: object
+                        additionalProperties: false
+                        properties:
+                          type:
+                            const: 1
+                          name:
+                            type: string
+                            maxLength: 100
+                          value:
+                            type: string
+                            maxLength: 100
+                        required:
+                        - type
+                        - name
+                        - value
+                      - type: object
+                        additionalProperties: false
+                        properties:
+                          type:
+                            const: 2
+                          name:
+                            type: string
+                            maxLength: 100
+                          value:
+                            type: number
+                        required:
+                        - type
+                        - name
+                        - value
+                      - type: object
+                        additionalProperties: false
+                        properties:
+                          type:
+                            const: 3
+                          name:
+                            type: string
+                            maxLength: 100
+                          value:
+                            type: object
+                            additionalProperties: false
+                            properties:
+                              url:
+                                type: string
+                            required:
+                            - url
+                        required:
+                        - type
+                        - name
+                        - value
+        required:
+        - data
+        additionalProperties: false
+    - name: audit_reason
+      value_type: text
+      required: false
+      schema:
+        type: string
+        maxLength: 512
+    outputs:
+    - name: response
+      value_type: object
+      schema:
+        type: object
+    - name: suppressed
+      value_type: boolean
+      schema:
+        type: boolean
+    result_fields:
+    - result.response
+    - result.suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+    - timeout_unknown
+    effect_kind: discord_update_application_identity_profile
   - operation_id: rest_update_application_role_connections_metadata
     display_name: Update application role connections metadata
     description: Discord REST v10 PUT /applications/{application_id}/role-connections/metadata

@@ -12,7 +12,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def operation_choices() -> dict[str, list[dict[str, str]]]:
-    routes = json.loads((ROOT / "runtime/rest_routes.json").read_text())
+    # Preserve the picker for workflows authored against the original OpenAPI catalog.
+    if __package__:
+        from .build_rest_registry import SPEC, build_routes
+    else:
+        from build_rest_registry import SPEC, build_routes
+
+    routes = build_routes(json.loads(SPEC.read_text()))
     choices: dict[str, list[dict[str, str]]] = {
         "discord_rest_read": [],
         "discord_rest_write": [],

@@ -7,6 +7,7 @@ from http.client import HTTPException
 from typing import Any
 
 from runtime.rest import execute, prepare
+from runtime.routes import route_for
 from runtime.transport import DiscordHTTPError
 
 STATUS_ERRORS = {
@@ -69,6 +70,8 @@ def dispatch_rest(
         return failure("invalid_payload")
     if write and test_mode:
         return {"ok": True, "result": {"response": {}, "suppressed": True}}
+    if route_for(operation).get("provider_disabled"):
+        return failure("operation_disabled")
     try:
         response = execute(prepared, user_agent=user_agent)
     except DiscordHTTPError as error:
@@ -79,11 +82,11 @@ def dispatch_rest(
             if error.retry_after is not None:
                 result["retry_after_seconds"] = error.retry_after
             return result
-        if 400 <= error.status < 500 and error.status != 408:
-            return failure("upstream_validation_failed")
         return failure("timeout_unknown" if write else "provider_unavailable", uncertain=write)
     except (OSError, HTTPException, ValueError, RecursionError):
         return failure("timeout_unknown" if write else "provider_unavailable", uncertain=write)
+    if write and response["status"] not in prepared.target.success_statuses:
+        return failure("timeout_unknown", uncertain=True)
     result = {"ok": True, "result": {"response": response, "suppressed": False}}
     if write:
         result["external_effect_status"] = "succeeded"

@@ -589,6 +589,42 @@ actions:
     - provider_unavailable
     - timeout_unknown
     command_type: invoke_extension_action
+  - action_id: rest_batch_edit_application_command_permissions
+    title: Batch edit application command permissions
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: true
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: application_id
+      type: string
+      required: true
+    - name: guild_id
+      type: string
+      required: true
+    - name: audit_reason
+      type: string
+      required: false
+    result_fields:
+    - response
+    - suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+    - timeout_unknown
+    - operation_disabled
+    command_type: invoke_extension_action
   - action_id: rest_bot_partner_sdk_token
     title: Bot partner sdk token
     required_scopes:
@@ -2192,6 +2228,50 @@ actions:
     - provider_unavailable
     - timeout_unknown
     command_type: invoke_extension_action
+  - action_id: rest_delete_application_identity
+    title: Delete application identity
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: true
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: user_id
+      type: string
+      required: true
+    - name: application_id
+      type: string
+      required: true
+    - name: provider_type
+      type: string
+      required: true
+    - name: provider_issued_user_id
+      type: string
+      required: true
+    - name: body
+      type: object
+      required: false
+    - name: audit_reason
+      type: string
+      required: false
+    result_fields:
+    - response
+    - suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+    - timeout_unknown
+    command_type: invoke_extension_action
   - action_id: rest_delete_application_user_role_connection
     title: Delete application user role connection
     required_scopes:
@@ -3689,6 +3769,39 @@ actions:
       type: string
       required: true
     - name: emoji_id
+      type: string
+      required: true
+    result_fields:
+    - response
+    - suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+  - action_id: rest_get_application_identity_profile
+    title: Get application identity profile
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: false
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: application_id
+      type: string
+      required: true
+    - name: user_id
+      type: string
+      required: true
+    - name: provider_issued_user_id
       type: string
       required: true
     result_fields:
@@ -5831,6 +5944,99 @@ actions:
     - not_found
     - rate_limited
     - provider_unavailable
+  - action_id: rest_list_application_identities_by_external_id
+    title: List application identities by external id
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: false
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: application_id
+      type: string
+      required: true
+    - name: provider_type
+      type: string
+      required: true
+    - name: provider_issued_user_id
+      type: string
+      required: true
+    - name: provider_id
+      type: string
+      required: false
+    result_fields:
+    - response
+    - suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+  - action_id: rest_list_application_identities_by_user_id
+    title: List application identities by user id
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: false
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: user_id
+      type: string
+      required: true
+    - name: application_id
+      type: string
+      required: true
+    result_fields:
+    - response
+    - suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+  - action_id: rest_list_application_skus
+    title: List application skus
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: false
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: application_id
+      type: string
+      required: true
+    result_fields:
+    - response
+    - suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
   - action_id: rest_list_auto_moderation_rules
     title: List auto moderation rules
     required_scopes:
@@ -6809,6 +7015,41 @@ actions:
     - not_found
     - rate_limited
     - provider_unavailable
+  - action_id: rest_modify_current_user_nick
+    title: Modify current user nick
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: true
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: guild_id
+      type: string
+      required: true
+    - name: body
+      type: object
+      required: true
+    - name: audit_reason
+      type: string
+      required: false
+    result_fields:
+    - response
+    - suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+    - timeout_unknown
+    command_type: invoke_extension_action
   - action_id: rest_partner_sdk_token
     title: Partner sdk token
     required_scopes:
@@ -7447,6 +7688,47 @@ actions:
       type: string
       required: true
     - name: emoji_id
+      type: string
+      required: true
+    - name: body
+      type: object
+      required: true
+    - name: audit_reason
+      type: string
+      required: false
+    result_fields:
+    - response
+    - suppressed
+    error_codes:
+    - invalid_payload
+    - invalid_connection
+    - upstream_validation_failed
+    - authentication_failed
+    - access_denied
+    - not_found
+    - rate_limited
+    - provider_unavailable
+    - timeout_unknown
+    command_type: invoke_extension_action
+  - action_id: rest_update_application_identity_profile
+    title: Update application identity profile
+    required_scopes:
+    - extension:invoke
+    handler:
+      mode: extension
+    mutates_platform: true
+    workflow_visible: true
+    parameters:
+    - name: connection_ref
+      type: connection_ref
+      required: true
+    - name: application_id
+      type: string
+      required: true
+    - name: user_id
+      type: string
+      required: true
+    - name: provider_issued_user_id
       type: string
       required: true
     - name: body

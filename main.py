@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+from http.client import HTTPException
 import json
 import re
 import sys
@@ -152,7 +153,7 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
                 ),
             }
         response = _request(request, token, body)
-        provider_id = response.get("id")
+        provider_id = response.get("id") if isinstance(response, dict) else None
         if not isinstance(provider_id, str) or not SNOWFLAKE.fullmatch(provider_id):
             raise ValueError("Discord response did not contain an ID")
     except DiscordHTTPError as exc:
@@ -164,7 +165,7 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
                 failure["retry_after_seconds"] = exc.retry_after
             return failure
         return _failure("timeout_unknown" if write else "provider_unavailable", uncertain=write)
-    except (URLError, OSError, ValueError, RecursionError):
+    except (URLError, OSError, HTTPException, ValueError, RecursionError):
         return _failure("timeout_unknown" if write else "provider_unavailable", uncertain=write)
 
     if write:

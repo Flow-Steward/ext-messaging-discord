@@ -5,16 +5,15 @@ from pathlib import Path
 
 import pytest
 from runtime.routes import request_target
-from scripts.build_rest_registry import build_routes
+from scripts.build_rest_registry import build_routes, load_spec
 
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = json.loads((ROOT / "tests/reference/discord-openapi.json").read_text())
 REGISTRY = json.loads((ROOT / "runtime/rest_routes.json").read_text())
 
 
 def test_generated_registry_matches_pinned_spec():
-    assert REGISTRY == build_routes(SPEC)
-    assert len(REGISTRY) == 250
+    assert REGISTRY == build_routes(load_spec())
+    assert len(REGISTRY) == 258
 
 
 @pytest.mark.parametrize("operation_id", sorted(REGISTRY))

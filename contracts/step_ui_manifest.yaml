@@ -817,6 +817,23 @@ forms:
     label: Audit reason
     widget_type: text
     required: false
+- operation_id: rest_batch_edit_application_command_permissions
+  title: Batch edit application command permissions
+  fields:
+  - name: application_id
+    label: Application id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: guild_id
+    label: Guild id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: audit_reason
+    label: Audit reason
+    widget_type: text
+    required: false
 - operation_id: rest_bot_partner_sdk_token
   title: Bot partner sdk token
   fields:
@@ -1698,6 +1715,39 @@ forms:
     label: Audit reason
     widget_type: text
     required: false
+- operation_id: rest_delete_application_identity
+  title: Delete application identity
+  fields:
+  - name: user_id
+    label: User id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: application_id
+    label: Application id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: provider_type
+    label: Provider type
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: provider_issued_user_id
+    label: Provider issued user id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: body
+    label: Body
+    widget_type: json
+    required: false
+    help_text: Put the Discord request body in the data field. Supply credentials
+      through the connection.
+  - name: audit_reason
+    label: Audit reason
+    widget_type: text
+    required: false
 - operation_id: rest_delete_application_user_role_connection
   title: Delete application user role connection
   fields:
@@ -2480,6 +2530,24 @@ forms:
     help_text: Discord path parameter.
   - name: emoji_id
     label: Emoji id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+- operation_id: rest_get_application_identity_profile
+  title: Get application identity profile
+  fields:
+  - name: application_id
+    label: Application id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: user_id
+    label: User id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: provider_issued_user_id
+    label: Provider issued user id
     widget_type: text
     required: true
     help_text: Discord path parameter.
@@ -3418,6 +3486,50 @@ forms:
     widget_type: text
     required: true
     help_text: Discord path parameter.
+- operation_id: rest_list_application_identities_by_external_id
+  title: List application identities by external id
+  fields:
+  - name: application_id
+    label: Application id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: provider_type
+    label: Provider type
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: provider_issued_user_id
+    label: Provider issued user id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: provider_id
+    label: Provider id
+    widget_type: text
+    required: false
+    help_text: Discord query parameter.
+- operation_id: rest_list_application_identities_by_user_id
+  title: List application identities by user id
+  fields:
+  - name: user_id
+    label: User id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: application_id
+    label: Application id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+- operation_id: rest_list_application_skus
+  title: List application skus
+  fields:
+  - name: application_id
+    label: Application id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
 - operation_id: rest_list_auto_moderation_rules
   title: List auto moderation rules
   fields:
@@ -3901,6 +4013,24 @@ forms:
 - operation_id: rest_list_voice_regions
   title: List voice regions
   fields: []
+- operation_id: rest_modify_current_user_nick
+  title: Modify current user nick
+  fields:
+  - name: guild_id
+    label: Guild id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: body
+    label: Body
+    widget_type: json
+    required: true
+    help_text: Put the Discord request body in the data field. Supply credentials
+      through the connection.
+  - name: audit_reason
+    label: Audit reason
+    widget_type: text
+    required: false
 - operation_id: rest_partner_sdk_token
   title: Partner sdk token
   fields:
@@ -4268,6 +4398,34 @@ forms:
     help_text: Discord path parameter.
   - name: emoji_id
     label: Emoji id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: body
+    label: Body
+    widget_type: json
+    required: true
+    help_text: Put the Discord request body in the data field. Supply credentials
+      through the connection.
+  - name: audit_reason
+    label: Audit reason
+    widget_type: text
+    required: false
+- operation_id: rest_update_application_identity_profile
+  title: Update application identity profile
+  fields:
+  - name: application_id
+    label: Application id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: user_id
+    label: User id
+    widget_type: text
+    required: true
+    help_text: Discord path parameter.
+  - name: provider_issued_user_id
+    label: Provider issued user id
     widget_type: text
     required: true
     help_text: Discord path parameter.

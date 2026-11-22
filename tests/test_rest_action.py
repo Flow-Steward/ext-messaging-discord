@@ -39,7 +39,9 @@ def sample_invocation(operation_id, route):
     return request, write
 
 
-@pytest.mark.parametrize("operation_id", sorted(ROUTES))
+@pytest.mark.parametrize(
+    "operation_id", sorted(key for key, row in ROUTES.items() if not row.get("provider_disabled"))
+)
 def test_each_operation_reaches_its_registered_transport(monkeypatch, operation_id):
     route = ROUTES[operation_id]
     request, write = sample_invocation(operation_id, route)

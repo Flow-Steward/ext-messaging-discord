@@ -8,7 +8,7 @@ import re
 import uuid
 from dataclasses import dataclass, field
 from typing import Any
-from urllib.parse import urlencode
+from urllib.parse import quote, unquote, urlencode
 
 from runtime.routes import RequestTarget, request_target, route_for
 from runtime.transport import DiscordResponseError, request_raw
@@ -41,11 +41,22 @@ BODY_CREDENTIALS = {
     "partner_sdk_unmerge_provisional_account": {"client_secret", "external_auth_token"},
 }
 SECRET_SUFFIXES = ("_token", "_secret", "_password", "_api_key", "_private_key")
-TOKENIZED_PATH = re.compile(r"(/(?:webhooks|interactions)/[0-9]+/)[A-Za-z0-9._~-]+")
+TOKENIZED_PATH = re.compile(
+    r"(/(?:webhooks|interactions)/[0-9]+/)((?:[A-Za-z0-9._~-]|%[0-9A-Fa-f]{2})+)",
+    re.IGNORECASE,
+)
+AUTH_TOKEN = re.compile(r"(?<![A-Za-z0-9._~-])(?:Bot|Bearer)\s+([A-Za-z0-9._~-]+)", re.IGNORECASE)
+TOKEN_QUERY = re.compile(
+    r"([?&](?:access_token|refresh_token|bot_token|webhook_token|interaction_token|token)=)"
+    r"([^&#\s]+)",
+    re.IGNORECASE,
+)
+SAFE_MEDIA_TYPES = {"application/json", "text/csv", "image/png"}
+SAFE_WARNINGS = {"unexpected_status", "incomplete_response", "response_too_large"}
 
 
 def _credential_field(key: str) -> bool:
-    normalized = key.casefold().replace("-", "_")
+    normalized = re.sub(r"([a-z])([A-Z])", r"\1_\2", key).casefold().replace("-", "_")
     return normalized in SECRET_FIELDS or normalized.endswith(SECRET_SUFFIXES)
 
 
@@ -189,6 +200,14 @@ def prepare(
     if body_input is not None and (not isinstance(body_input, dict) or set(body_input) != {"data"}):
         raise ValueError("The body must be wrapped in a data field")
     body = body_input["data"] if body_input is not None else None
+    if operation_id == "update_application_identity_profile" and isinstance(body, dict):
+        profile = body.get("data")
+        if (
+            profile is not None
+            and len(json.dumps(profile, ensure_ascii=False, separators=(",", ":")).encode())
+            > 10_000
+        ):
+            raise ValueError("Profile data exceeds Discord's limit")
     credential_names = BODY_CREDENTIALS.get(operation_id, set())
     if credential_names:
         if not isinstance(body, dict) or credential_names.intersection(body):
@@ -230,7 +249,9 @@ def prepare(
         elif files:
             raise ValueError("Files require multipart/form-data")
         elif media_type == "application/json":
-            encoded = json.dumps(body, allow_nan=False).encode()
+            encoded = json.dumps(
+                body, allow_nan=False, ensure_ascii=False, separators=(",", ":")
+            ).encode()
         elif media_type == "application/x-www-form-urlencoded" and isinstance(body, dict):
             encoded = urlencode(_pairs(body)).encode()
         else:
@@ -244,20 +265,46 @@ def prepare(
     return Prepared(target, authorization, credentials, media_type, encoded, _pairs(query), reason)
 
 
-def _redact(value: Any, credentials: tuple[str, ...]) -> Any:
-    if isinstance(value, dict):
-        return {
-            key: _redact(item, credentials)
-            for key, item in value.items()
-            if not _credential_field(key) and all(token not in key for token in credentials)
-        }
-    if isinstance(value, list):
-        return [_redact(item, credentials) for item in value]
-    if isinstance(value, str):
-        value = TOKENIZED_PATH.sub(r"\1[redacted]", value)
-        for token in credentials:
-            value = value.replace(token, "[redacted]")
-    return value
+def redact_response(value: Any, credentials: tuple[str, ...]) -> Any:
+    tokens = set(credentials)
+
+    def collect(node: Any) -> None:
+        if isinstance(node, dict):
+            for key, item in node.items():
+                if _credential_field(key) and isinstance(item, str) and item:
+                    tokens.add(item)
+                collect(item)
+        elif isinstance(node, list):
+            for item in node:
+                collect(item)
+        elif isinstance(node, str):
+            tokens.update(unquote(match[2]) for match in TOKENIZED_PATH.finditer(node))
+            tokens.update(unquote(match[2]) for match in TOKEN_QUERY.finditer(node))
+            tokens.update(match[1] for match in AUTH_TOKEN.finditer(node))
+
+    collect(value)
+    variants = sorted(
+        tokens | {quote(token, safe="") for token in tokens}, key=lambda token: (-len(token), token)
+    )
+
+    def scrub(node: Any) -> Any:
+        if isinstance(node, dict):
+            return {
+                key: scrub(item)
+                for key, item in node.items()
+                if not _credential_field(key) and scrub(key) == key
+            }
+        if isinstance(node, list):
+            return [scrub(item) for item in node]
+        if isinstance(node, str):
+            node = TOKENIZED_PATH.sub(r"\1[redacted]", node)
+            node = TOKEN_QUERY.sub(r"\1[redacted]", node)
+            for token in variants:
+                node = node.replace(token, "[redacted]")
+            node = AUTH_TOKEN.sub("[redacted]", node)
+        return node
+
+    return scrub(value)
 
 
 def execute(prepared: Prepared, *, user_agent: str) -> dict[str, Any]:
@@ -275,12 +322,18 @@ def execute(prepared: Prepared, *, user_agent: str) -> dict[str, Any]:
             audit_reason=prepared.audit_reason,
         )
     except DiscordResponseError as error:
-        return {"status": error.status, "data": None, "warning": error.reason}
+        return {
+            "status": error.status,
+            "data": None,
+            "warning": error.reason if error.reason in SAFE_WARNINGS else "unexpected_response",
+        }
+    if media_type not in SAFE_MEDIA_TYPES:
+        media_type = ""
     if not raw:
         data = None
     elif media_type == "application/json":
         try:
-            data = _redact(json.loads(raw), prepared.credentials)
+            data = redact_response(json.loads(raw), prepared.credentials)
         except (ValueError, RecursionError):
             return {
                 "status": status,
@@ -289,7 +342,7 @@ def execute(prepared: Prepared, *, user_agent: str) -> dict[str, Any]:
                 "warning": "invalid_json",
             }
     elif media_type == "text/csv":
-        data = _redact(raw.decode(errors="replace"), prepared.credentials)
+        data = redact_response(raw.decode(errors="replace"), prepared.credentials)
     elif media_type == "image/png":
         data = {"base64": base64.b64encode(raw).decode("ascii")}
     else:

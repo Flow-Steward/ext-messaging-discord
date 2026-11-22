@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from build_rest_registry import ROOT, SPEC, build_routes
+from build_rest_registry import DOCS, ROOT, build_routes, load_spec
 
 PREFIX = "rest_"
 MARKER = "# Generated Discord REST actions. Run scripts/build_actions.py."
@@ -137,6 +137,12 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
     }
     runtime: dict[str, dict] = {}
     definitions = spec["components"]["schemas"]
+    documented_operations = {
+        operation["operationId"]
+        for page in json.loads(DOCS.read_text())["pages"].values()
+        for methods in page.values()
+        for operation in methods.values()
+    }
     for operation_id, route in sorted(build_routes(spec).items()):
         action_id = PREFIX + operation_id
         method, path = route["method"], route["path"]
@@ -179,7 +185,11 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
         media = route["request_media_types"]
         if media:
             body_schemas = {
-                kind: project(content["schema"], definitions, 2)
+                kind: project(
+                    content["schema"],
+                    definitions,
+                    8 if operation_id == "update_application_identity_profile" else 2,
+                )
                 for kind, content in operation["requestBody"]["content"].items()
             }
             candidates = []
@@ -234,10 +244,15 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
         if not types:
             raise ValueError(f"No usable connection type for {operation_id}")
         errors = ERRORS + (["timeout_unknown"] if write else [])
+        if route.get("provider_disabled"):
+            errors = [*errors, "operation_disabled"]
+        description = f"Discord REST v10 {method} {path}"
+        if operation_id in documented_operations:
+            description += ". " + operation["description"]
         contract = {
             "operation_id": action_id,
             "display_name": title,
-            "description": f"Discord REST v10 {method} {path}",
+            "description": description,
             "operation_kind": "action" if write else "source",
             "category": "messaging",
             "connection_type_ids": types,
@@ -320,7 +335,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
-    manifests, runtime = generated(json.loads(SPEC.read_text()))
+    manifests, runtime = generated(load_spec())
     files = {ROOT / name: render(ROOT / name, rows) for name, rows in manifests.items()}
     files[ROOT / "runtime/rest_actions.json"] = (
         json.dumps(runtime, sort_keys=True, separators=(",", ":")) + "\n"

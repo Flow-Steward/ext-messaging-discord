@@ -30,3 +30,28 @@ def test_inventory_records_every_pinned_operation_and_its_contract():
                 code for code in operation["responses"] if code.startswith("2")
             )
     assert not registered
+
+
+def test_documentation_and_spec_routes_are_accounted_for():
+    from runtime.routes import _ROUTE_DATA
+    from scripts.build_rest_registry import DOCS, SPEC, build_routes, load_spec
+
+    facts = json.loads(DOCS.read_text())
+    expected = facts.pop("sha256")
+    assert (
+        hashlib.sha256(
+            json.dumps(facts, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+        ).hexdigest()
+        == expected
+    )
+    assert len(facts["commit"]) == 40
+    assert all(page.startswith("developers/") and page.endswith(".mdx") for page in facts["pages"])
+    routes = build_routes(load_spec())
+    assert len(routes) - len(build_routes(json.loads(SPEC.read_text()))) == 8
+    assert routes == _ROUTE_DATA
+    actions = json.loads((ROOT / "runtime/rest_actions.json").read_text())
+    assert {value["operation_id"] for value in actions.values()} == set(routes)
+    assert {
+        f"{row['method']} {row['path']}" for row in routes.values() if row.get("provider_disabled")
+    } == set(facts["excluded_from_execution"])
+    assert all(reason.strip() for reason in facts["excluded_from_execution"].values())

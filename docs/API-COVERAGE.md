@@ -4,11 +4,20 @@ The upstream [Discord REST v10 inventory](https://github.com/discord/discord-api
 
 The [REST inventory](discord-rest-inventory.json) enumerates 250 operations across 157 paths. For each operation it records its method, path template, declared authorization alternatives, request media types and success statuses.
 
-The runtime route registry is generated with `python scripts/build_rest_registry.py`. The route tests verify method, path binding and statuses for all 250 entries and verify the generated data against the pinned specification. These checks cover route construction. The action coverage table tracks what Flow Steward users can invoke.
+The dedicated action registry combines the 250 pinned OpenAPI operations with eight entries from the [Discord API documentation snapshot](https://github.com/discord/discord-api-docs/tree/9b737ec51ee8d5076af0565d209a9adf8f590a27). The [documentation fixture](../tests/reference/discord-docs-routes.json) records each source page, extracted request and authorization facts, and a SHA-256 digest of the canonical JSON facts. The test suite reconciles both inputs against the route, contract, action and form registries.
 
 ## Execution coverage
 
-Each pinned route has an independent `rest_<operation_id>` action, a typed operation contract and a workflow form. The generated contract binds that action to one endpoint, lists compatible connection types, and exposes its named path and query parameters and supported body inputs. Request schemas use the bounded subset Flow Steward can execute. Discord performs final validation of the complete provider payload and permissions. Archived generic read and write actions retain their original IDs for existing workflows.
+Each of the 258 entries has a separate `rest_<operation_id>` action, typed contract and workflow form. Discord accepts requests on 257 of those routes. The batch permissions route has an action that reports `operation_disabled` without sending a request because Discord disabled the endpoint in Permissions v2. Archived generic read and write pickers retain their original options for existing workflows.
+
+| Documentation page | Additional dedicated actions |
+| --- | --- |
+| [SKUs](https://github.com/discord/discord-api-docs/blob/9b737ec51ee8d5076af0565d209a9adf8f590a27/developers/resources/sku.mdx) | `rest_list_application_skus` |
+| [Application Identity Profiles](https://github.com/discord/discord-api-docs/blob/9b737ec51ee8d5076af0565d209a9adf8f590a27/developers/resources/application-identity-profile.mdx) | `rest_get_application_identity_profile`, `rest_update_application_identity_profile`, `rest_list_application_identities_by_external_id`, `rest_list_application_identities_by_user_id`, `rest_delete_application_identity` |
+| [Guilds](https://github.com/discord/discord-api-docs/blob/9b737ec51ee8d5076af0565d209a9adf8f590a27/developers/resources/guild.mdx) | `rest_modify_current_user_nick` (deprecated by Discord) |
+| [Application Commands](https://github.com/discord/discord-api-docs/blob/9b737ec51ee8d5076af0565d209a9adf8f590a27/developers/interactions/application-commands.mdx) | `rest_batch_edit_application_command_permissions` (disabled by Discord) |
+
+The generated contracts expose named path and query fields and use the bounded JSON Schema subset that Flow Steward can execute. Discord performs final payload and permission validation.
 
 The table lists the dedicated workflow actions that provide a narrower interface to frequently used endpoints.
 
@@ -23,14 +32,9 @@ The table lists the dedicated workflow actions that provide a narrower interface
 | `get_guild` | `get_guild` | Mocked server and count flag |
 | `list_guild_channels` | `list_guild_channels` | Mocked empty channel list |
 
-## Remaining release verification
+## Verification scope
 
-- Reconcile every inventory row against the Discord endpoint documentation. Record authorization, required permissions, request shape, success statuses and whether the operation can change Discord state.
-- Add a closed operation contract and tests for each supported row. Keep bot tokens, OAuth2 tokens and webhook or interaction tokens in the corresponding connection or ephemeral execution scope. Discord returns secrets on some routes. Review those responses before exposing outputs to workflows.
-- Cover JSON, form encoding, multipart attachments and no-content responses. Prove that dry runs suppress mutations and that timeouts do not blindly retry writes.
-- Track [OAuth2](https://docs.discord.com/developers/topics/oauth2), [Gateway](https://docs.discord.com/developers/events/gateway), [Interactions](https://docs.discord.com/developers/interactions/receiving-and-responding) and [Voice](https://docs.discord.com/developers/topics/voice-connections) alongside REST. Gateway and Voice need a persistent service with its own lifecycle. Inbound Interactions need Ed25519 signature verification and a public callback.
-- Run offline checks for all operation contracts. Run live integration checks in a dedicated test guild and Discord application, with fixtures for permissions and scoped authorization.
-- Review runtime and release artifacts, build and verify the bundle, push the source, then record review and release evidence.
+Offline tests cover the fixed route for each executable action, all multipart routes, response credential redaction, and write suppression and ambiguous outcomes. Live permission and payload verification requires a dedicated test guild, Discord application and scoped authorization. Gateway, Voice, and inbound interaction delivery have their own non-REST transports.
 
 ## Mutation replay
 

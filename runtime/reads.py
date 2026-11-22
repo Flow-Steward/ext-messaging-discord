@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from runtime.rest import redact_response
 from runtime.routes import request_target
 from runtime.transport import request_json
 
@@ -71,6 +72,7 @@ def execute_read(
         success_statuses=target.success_statuses,
         query=query,
     )
+    data = redact_response(data, (token,))
     if operation in LIST_OPERATIONS:
         if not isinstance(data, list) or any(not isinstance(item, dict) for item in data):
             raise ValueError("Unexpected Discord list response")

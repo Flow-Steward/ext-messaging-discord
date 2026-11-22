@@ -18,6 +18,9 @@ listing:
   setup_summary: Add a Discord bot to your server and store its token in a project connection.
 features: [tool, action]
 required_scopes: [extension:invoke]
+machine_auth:
+  service_account_key: svc_ext_discord
+  required_scopes: [extension:invoke]
 account_scope:
   scope_type: project
   description: Each project connection selects a Discord bot, scoped OAuth2 token, or webhook or interaction credential.
@@ -77,6 +80,11 @@ external_effects:
     test_mode_behavior: suppress
   - operation_id: rest_ban_user_from_guild
     effect_kind: discord_ban_user_from_guild
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_batch_edit_application_command_permissions
+    effect_kind: discord_batch_edit_application_command_permissions
     channel: discord_rest_api
     idempotency: required
     test_mode_behavior: suppress
@@ -300,6 +308,11 @@ external_effects:
     channel: discord_rest_api
     idempotency: required
     test_mode_behavior: suppress
+  - operation_id: rest_delete_application_identity
+    effect_kind: discord_delete_application_identity
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
   - operation_id: rest_delete_application_user_role_connection
     effect_kind: discord_delete_application_user_role_connection
     channel: discord_rest_api
@@ -510,6 +523,11 @@ external_effects:
     channel: discord_rest_api
     idempotency: required
     test_mode_behavior: suppress
+  - operation_id: rest_modify_current_user_nick
+    effect_kind: discord_modify_current_user_nick
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
   - operation_id: rest_partner_sdk_token
     effect_kind: discord_partner_sdk_token
     channel: discord_rest_api
@@ -582,6 +600,11 @@ external_effects:
     test_mode_behavior: suppress
   - operation_id: rest_update_application_emoji
     effect_kind: discord_update_application_emoji
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_application_identity_profile
+    effect_kind: discord_update_application_identity_profile
     channel: discord_rest_api
     idempotency: required
     test_mode_behavior: suppress

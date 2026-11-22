@@ -1,0 +1,572 @@
+{
+  "repository": "https://github.com/discord/discord-api-docs",
+  "commit": "9b737ec51ee8d5076af0565d209a9adf8f590a27",
+  "pages": {
+    "developers/resources/sku.mdx": {
+      "/applications/{application_id}/skus": {
+        "get": {
+          "operationId": "list_application_skus",
+          "description": "List all SKUs for the application. Use type 5 for testing subscription entitlements.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "application_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            }
+          ],
+          "security": [
+            {
+              "BotToken": []
+            }
+          ],
+          "responses": {
+            "200": {}
+          }
+        }
+      }
+    },
+    "developers/resources/application-identity-profile.mdx": {
+      "/applications/{application_id}/users/{user_id}/identities/{provider_issued_user_id}/profile": {
+        "get": {
+          "operationId": "get_application_identity_profile",
+          "description": "Read a user's game stats profile. The application bot must authenticate and the target user must grant application_identities.write.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "application_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            },
+            {
+              "in": "path",
+              "name": "user_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            },
+            {
+              "in": "path",
+              "name": "provider_issued_user_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          ],
+          "security": [
+            {
+              "BotToken": []
+            }
+          ],
+          "responses": {
+            "200": {}
+          }
+        },
+        "patch": {
+          "operationId": "update_application_identity_profile",
+          "description": "Create or update a user's game stats profile. Supplying data replaces it entirely. Serialized data must fit within 10 KB. The application bot must authenticate and the target user must grant application_identities.write.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "application_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            },
+            {
+              "in": "path",
+              "name": "user_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            },
+            {
+              "in": "path",
+              "name": "provider_issued_user_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          ],
+          "security": [
+            {
+              "BotToken": []
+            }
+          ],
+          "responses": {
+            "201": {},
+            "204": {}
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string",
+                      "maxLength": 1024
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "primary": {
+                          "type": "object",
+                          "properties": {
+                            "season": {
+                              "type": "string",
+                              "maxLength": 100
+                            },
+                            "rank_name": {
+                              "type": "string",
+                              "maxLength": 100
+                            },
+                            "highest_rank": {
+                              "type": "string",
+                              "maxLength": 100
+                            },
+                            "featured_played_character": {
+                              "type": "string",
+                              "maxLength": 100
+                            },
+                            "rank_image": {
+                              "type": "object",
+                              "properties": {
+                                "url": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "url"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "highest_rank_image": {
+                              "type": "object",
+                              "properties": {
+                                "url": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "url"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "featured_played_character_image": {
+                              "type": "object",
+                              "properties": {
+                                "url": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "url"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "playtime_hours": {
+                              "type": "number"
+                            },
+                            "total_wins": {
+                              "type": "integer"
+                            },
+                            "total_games": {
+                              "type": "integer"
+                            },
+                            "total_kills": {
+                              "type": "integer"
+                            },
+                            "total_assists": {
+                              "type": "integer"
+                            },
+                            "total_deaths": {
+                              "type": "integer"
+                            },
+                            "current_period_wins": {
+                              "type": "integer"
+                            },
+                            "current_period_games": {
+                              "type": "integer"
+                            },
+                            "current_period_kills": {
+                              "type": "integer"
+                            },
+                            "current_period_assists": {
+                              "type": "integer"
+                            },
+                            "current_period_deaths": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [],
+                          "additionalProperties": false
+                        },
+                        "dynamic": {
+                          "type": "array",
+                          "maxItems": 30,
+                          "items": {
+                            "oneOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": 1
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "maxLength": 100
+                                  },
+                                  "value": {
+                                    "type": "string",
+                                    "maxLength": 100
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "name",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": 2
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "maxLength": 100
+                                  },
+                                  "value": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "name",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "const": 3
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "maxLength": 100
+                                  },
+                                  "value": {
+                                    "type": "object",
+                                    "properties": {
+                                      "url": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "url"
+                                    ],
+                                    "additionalProperties": false
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "name",
+                                  "value"
+                                ],
+                                "additionalProperties": false
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "required": [],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "/applications/{application_id}/application-identities/{provider_type}/{provider_issued_user_id}": {
+        "get": {
+          "operationId": "list_application_identities_by_external_id",
+          "description": "Look up identities by provider and external user ID. An unmatched key returns an empty list. The application bot must authenticate and the target user must grant application_identities.write.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "application_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            },
+            {
+              "in": "path",
+              "name": "provider_type",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            {
+              "in": "path",
+              "name": "provider_issued_user_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            {
+              "in": "query",
+              "name": "provider_id",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "security": [
+            {
+              "BotToken": []
+            }
+          ],
+          "responses": {
+            "200": {}
+          }
+        }
+      },
+      "/users/{user_id}/application-identities/{application_id}": {
+        "get": {
+          "operationId": "list_application_identities_by_user_id",
+          "description": "List the user's identity keys without profile data. The application bot must authenticate and the target user must grant application_identities.write.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "user_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            },
+            {
+              "in": "path",
+              "name": "application_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            }
+          ],
+          "security": [
+            {
+              "BotToken": []
+            }
+          ],
+          "responses": {
+            "200": {}
+          }
+        }
+      },
+      "/users/{user_id}/application-identities/{application_id}/{provider_type}/{provider_issued_user_id}/delete": {
+        "post": {
+          "operationId": "delete_application_identity",
+          "description": "Delete an identity and its profile data. Discord protects the user's last account-linking identity. The application bot must authenticate and the target user must grant application_identities.write.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "user_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            },
+            {
+              "in": "path",
+              "name": "application_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            },
+            {
+              "in": "path",
+              "name": "provider_type",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            {
+              "in": "path",
+              "name": "provider_issued_user_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          ],
+          "security": [
+            {
+              "BotToken": []
+            }
+          ],
+          "responses": {
+            "204": {}
+          },
+          "requestBody": {
+            "required": false,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "provider_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "developers/resources/guild.mdx": {
+      "/guilds/{guild_id}/members/@me/nick": {
+        "patch": {
+          "operationId": "modify_current_user_nick",
+          "description": "Deprecated. Use Modify Current Member. Changing the nickname requires CHANGE_NICKNAME and supports an audit log reason.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "guild_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            }
+          ],
+          "security": [
+            {
+              "BotToken": []
+            }
+          ],
+          "responses": {
+            "200": {}
+          },
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nick": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "developers/interactions/application-commands.mdx": {
+      "/applications/{application_id}/guilds/{guild_id}/commands/permissions": {
+        "put": {
+          "operationId": "batch_edit_application_command_permissions",
+          "description": "Disabled by Discord under Permissions v2. Edit each command separately using an authorized OAuth2 bearer token and respect rate limits. The batch operation cannot be executed.",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "application_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            },
+            {
+              "in": "path",
+              "name": "guild_id",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[0-9]+$"
+              }
+            }
+          ],
+          "security": [
+            {
+              "OAuth2": [
+                "applications.commands.permissions.update"
+              ]
+            }
+          ],
+          "responses": {},
+          "x-provider-disabled": true
+        }
+      }
+    }
+  },
+  "excluded_from_execution": {
+    "PUT /applications/{application_id}/guilds/{guild_id}/commands/permissions": "Discord disabled the batch route in Command Permissions v2. The action reports the restriction without sending a request."
+  },
+  "sha256": "985b8449c1c3704e76871bd7075a8adb2503db4f6c63c00178ec7d17c08a8af4"
+}
