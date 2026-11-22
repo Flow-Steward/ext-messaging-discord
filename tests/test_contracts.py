@@ -1,0 +1,54 @@
+"""Keep workflow actions, forms and effect declarations aligned."""
+
+from pathlib import Path
+
+import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def load(path):
+    return yaml.safe_load((ROOT / path).read_text())
+
+
+def test_workflow_forms_and_effects_match_declared_actions():
+    manifest = load("extension.yaml")
+    refs = manifest["runtime"]["extension_contract_v2"]
+    operations = load(refs["operation_manifest"])["operations"]
+    actions = load(manifest["action_manifest"])["actions"]
+    forms = load(refs["step_ui_manifest"])["forms"]
+    effects = manifest["external_effects"]
+    actions_by_id = {action["action_id"]: action for action in actions}
+    forms_by_id = {form["operation_id"]: form for form in forms}
+    effects_by_id = {effect["operation_id"]: effect for effect in effects}
+    operation_ids = {operation["operation_id"] for operation in operations}
+    assert operation_ids == actions_by_id.keys() == forms_by_id.keys()
+    assert effects_by_id.keys() == {
+        operation["operation_id"]
+        for operation in operations
+        if operation["operation_kind"] == "action"
+    }
+
+    for operation in operations:
+        operation_id = operation["operation_id"]
+        action = actions_by_id[operation_id]
+        form = forms_by_id[operation_id]
+        assert operation["workflow_visible"] is action["workflow_visible"] is True
+        assert [field["name"] for field in operation["inputs"]] == [
+            field["name"] for field in action["parameters"]
+        ]
+        assert {field["name"] for field in form["fields"]} == {
+            field["name"]
+            for field in operation["inputs"]
+            if field["value_type"] != "connection_ref"
+        }
+        assert operation["error_codes"] == action["error_codes"]
+        assert operation["result_fields"] == [
+            f"result.{field}" for field in action["result_fields"]
+        ]
+        if operation_id in effects_by_id:
+            effect = effects_by_id[operation_id]
+            assert action["mutates_platform"] is True
+            assert effect["effect_kind"] == operation["effect_kind"]
+            assert effect["idempotency"] == "required"
+            assert effect["test_mode_behavior"] == "suppress"
