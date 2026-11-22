@@ -15,7 +15,7 @@ Messages are limited to 2,000 UTF-16 code units. Mention notifications are suppr
 
 ## Discord REST v10 catalog
 
-Use **Run Discord REST read** for a GET operation or **Run Discord REST write** for a mutation. Select an operation in the picker and use named path and query parameter objects. The runtime chooses the method, URI template and allowed success statuses from the pinned catalog.
+Each of the 250 pinned Discord REST v10 operations has a separate Flow Steward action and form. Search for the Discord operation by name, select a compatible connection, and fill in its named path and query fields. The [API inventory](docs/discord-rest-inventory.json) maps each upstream operation ID to its method and route. Dedicated action IDs prepend `rest_` to that ID. Existing workflows can continue using the REST read and write pickers.
 
 - Select the **Discord bot**, **Discord OAuth2 token**, or **Discord webhook or interaction token** connection required by the endpoint. Choose the correct OAuth2 scopes in Discord. The OAuth2 token connection takes a manually issued bearer token and requires replacement on expiry. Interaction tokens are short-lived and scoped to an individual interaction. Store tokens in the project's secret fields. Body credentials for guild membership, group DMs, lobby joins and Partner SDK operations are injected from the Discord bot connection. Leave those fields out of the workflow body.
 - For JSON or form bodies, put the provider body in a `data` field, for example `{"data":{"content":"Hello"}}`. The wrapper also supports array bodies. Choose another request media type when the endpoint requires it.

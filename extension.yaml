@@ -34,6 +34,722 @@ external_effects:
     channel: discord_rest_api
     idempotency: required
     test_mode_behavior: suppress
+# Generated Discord REST actions. Run scripts/build_actions.py.
+  - operation_id: rest_action_guild_join_request
+    effect_kind: discord_action_guild_join_request
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_add_group_dm_user
+    effect_kind: discord_add_group_dm_user
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_add_guild_member
+    effect_kind: discord_add_guild_member
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_add_guild_member_role
+    effect_kind: discord_add_guild_member_role
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_add_invite_target_user
+    effect_kind: discord_add_invite_target_user
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_add_lobby_member
+    effect_kind: discord_add_lobby_member
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_add_my_message_reaction
+    effect_kind: discord_add_my_message_reaction
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_add_thread_member
+    effect_kind: discord_add_thread_member
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_ban_user_from_guild
+    effect_kind: discord_ban_user_from_guild
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_bot_partner_sdk_token
+    effect_kind: discord_bot_partner_sdk_token
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_bot_partner_sdk_unmerge_provisional_account
+    effect_kind: discord_bot_partner_sdk_unmerge_provisional_account
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_bulk_add_invite_target_users
+    effect_kind: discord_bulk_add_invite_target_users
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_bulk_ban_users_from_guild
+    effect_kind: discord_bulk_ban_users_from_guild
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_bulk_delete_messages
+    effect_kind: discord_bulk_delete_messages
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_bulk_remove_invite_target_users
+    effect_kind: discord_bulk_remove_invite_target_users
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_bulk_set_application_commands
+    effect_kind: discord_bulk_set_application_commands
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_bulk_set_guild_application_commands
+    effect_kind: discord_bulk_set_guild_application_commands
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_bulk_update_guild_channels
+    effect_kind: discord_bulk_update_guild_channels
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_bulk_update_guild_roles
+    effect_kind: discord_bulk_update_guild_roles
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_bulk_update_lobby_members
+    effect_kind: discord_bulk_update_lobby_members
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_consume_entitlement
+    effect_kind: discord_consume_entitlement
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_application_command
+    effect_kind: discord_create_application_command
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_application_emoji
+    effect_kind: discord_create_application_emoji
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_auto_moderation_rule
+    effect_kind: discord_create_auto_moderation_rule
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_channel_invite
+    effect_kind: discord_create_channel_invite
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_dm
+    effect_kind: discord_create_dm
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_entitlement
+    effect_kind: discord_create_entitlement
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_guild_application_command
+    effect_kind: discord_create_guild_application_command
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_guild_channel
+    effect_kind: discord_create_guild_channel
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_guild_emoji
+    effect_kind: discord_create_guild_emoji
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_guild_role
+    effect_kind: discord_create_guild_role
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_guild_scheduled_event
+    effect_kind: discord_create_guild_scheduled_event
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_guild_scheduled_event_exception
+    effect_kind: discord_create_guild_scheduled_event_exception
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_guild_soundboard_sound
+    effect_kind: discord_create_guild_soundboard_sound
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_guild_sticker
+    effect_kind: discord_create_guild_sticker
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_guild_template
+    effect_kind: discord_create_guild_template
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_interaction_response
+    effect_kind: discord_create_interaction_response
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_linked_lobby_guild_invite_for_self
+    effect_kind: discord_create_linked_lobby_guild_invite_for_self
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_linked_lobby_guild_invite_for_user
+    effect_kind: discord_create_linked_lobby_guild_invite_for_user
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_lobby
+    effect_kind: discord_create_lobby
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_lobby_message
+    effect_kind: discord_create_lobby_message
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_message
+    effect_kind: discord_create_message
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_or_join_lobby
+    effect_kind: discord_create_or_join_lobby
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_pin
+    effect_kind: discord_create_pin
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_stage_instance
+    effect_kind: discord_create_stage_instance
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_thread
+    effect_kind: discord_create_thread
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_thread_from_message
+    effect_kind: discord_create_thread_from_message
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_create_webhook
+    effect_kind: discord_create_webhook
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_crosspost_message
+    effect_kind: discord_crosspost_message
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_all_message_reactions
+    effect_kind: discord_delete_all_message_reactions
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_all_message_reactions_by_emoji
+    effect_kind: discord_delete_all_message_reactions_by_emoji
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_application_command
+    effect_kind: discord_delete_application_command
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_application_emoji
+    effect_kind: discord_delete_application_emoji
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_application_user_role_connection
+    effect_kind: discord_delete_application_user_role_connection
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_auto_moderation_rule
+    effect_kind: discord_delete_auto_moderation_rule
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_channel
+    effect_kind: discord_delete_channel
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_channel_permission_overwrite
+    effect_kind: discord_delete_channel_permission_overwrite
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_entitlement
+    effect_kind: discord_delete_entitlement
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_group_dm_user
+    effect_kind: discord_delete_group_dm_user
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_guild_application_command
+    effect_kind: discord_delete_guild_application_command
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_guild_emoji
+    effect_kind: discord_delete_guild_emoji
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_guild_integration
+    effect_kind: discord_delete_guild_integration
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_guild_member
+    effect_kind: discord_delete_guild_member
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_guild_member_role
+    effect_kind: discord_delete_guild_member_role
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_guild_role
+    effect_kind: discord_delete_guild_role
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_guild_scheduled_event
+    effect_kind: discord_delete_guild_scheduled_event
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_guild_scheduled_event_exception
+    effect_kind: discord_delete_guild_scheduled_event_exception
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_guild_soundboard_sound
+    effect_kind: discord_delete_guild_soundboard_sound
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_guild_sticker
+    effect_kind: discord_delete_guild_sticker
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_guild_template
+    effect_kind: discord_delete_guild_template
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_lobby
+    effect_kind: discord_delete_lobby
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_lobby_member
+    effect_kind: discord_delete_lobby_member
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_message
+    effect_kind: discord_delete_message
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_my_message_reaction
+    effect_kind: discord_delete_my_message_reaction
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_original_webhook_message
+    effect_kind: discord_delete_original_webhook_message
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_pin
+    effect_kind: discord_delete_pin
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_stage_instance
+    effect_kind: discord_delete_stage_instance
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_thread_member
+    effect_kind: discord_delete_thread_member
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_user_message_reaction
+    effect_kind: discord_delete_user_message_reaction
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_webhook
+    effect_kind: discord_delete_webhook
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_webhook_by_token
+    effect_kind: discord_delete_webhook_by_token
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_delete_webhook_message
+    effect_kind: discord_delete_webhook_message
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_deprecated_create_pin
+    effect_kind: discord_deprecated_create_pin
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_deprecated_delete_pin
+    effect_kind: discord_deprecated_delete_pin
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_edit_lobby
+    effect_kind: discord_edit_lobby
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_edit_lobby_channel_link
+    effect_kind: discord_edit_lobby_channel_link
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_execute_github_compatible_webhook
+    effect_kind: discord_execute_github_compatible_webhook
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_execute_slack_compatible_webhook
+    effect_kind: discord_execute_slack_compatible_webhook
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_execute_webhook
+    effect_kind: discord_execute_webhook
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_follow_channel
+    effect_kind: discord_follow_channel
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_invite_revoke
+    effect_kind: discord_invite_revoke
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_join_thread
+    effect_kind: discord_join_thread
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_leave_guild
+    effect_kind: discord_leave_guild
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_leave_lobby
+    effect_kind: discord_leave_lobby
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_leave_thread
+    effect_kind: discord_leave_thread
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_partner_sdk_token
+    effect_kind: discord_partner_sdk_token
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_partner_sdk_unmerge_provisional_account
+    effect_kind: discord_partner_sdk_unmerge_provisional_account
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_poll_expire
+    effect_kind: discord_poll_expire
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_prune_guild
+    effect_kind: discord_prune_guild
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_put_guilds_onboarding
+    effect_kind: discord_put_guilds_onboarding
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_remove_invite_target_user
+    effect_kind: discord_remove_invite_target_user
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_send_soundboard_sound
+    effect_kind: discord_send_soundboard_sound
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_set_channel_permission_overwrite
+    effect_kind: discord_set_channel_permission_overwrite
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_set_guild_application_command_permissions
+    effect_kind: discord_set_guild_application_command_permissions
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_sync_guild_template
+    effect_kind: discord_sync_guild_template
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_trigger_typing_indicator
+    effect_kind: discord_trigger_typing_indicator
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_unban_user_from_guild
+    effect_kind: discord_unban_user_from_guild
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_application
+    effect_kind: discord_update_application
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_application_command
+    effect_kind: discord_update_application_command
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_application_emoji
+    effect_kind: discord_update_application_emoji
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_application_role_connections_metadata
+    effect_kind: discord_update_application_role_connections_metadata
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_application_user_role_connection
+    effect_kind: discord_update_application_user_role_connection
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_auto_moderation_rule
+    effect_kind: discord_update_auto_moderation_rule
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_channel
+    effect_kind: discord_update_channel
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild
+    effect_kind: discord_update_guild
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild_application_command
+    effect_kind: discord_update_guild_application_command
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild_emoji
+    effect_kind: discord_update_guild_emoji
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild_incident_actions
+    effect_kind: discord_update_guild_incident_actions
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild_member
+    effect_kind: discord_update_guild_member
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild_role
+    effect_kind: discord_update_guild_role
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild_scheduled_event
+    effect_kind: discord_update_guild_scheduled_event
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild_scheduled_event_exception
+    effect_kind: discord_update_guild_scheduled_event_exception
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild_soundboard_sound
+    effect_kind: discord_update_guild_soundboard_sound
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild_sticker
+    effect_kind: discord_update_guild_sticker
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild_template
+    effect_kind: discord_update_guild_template
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild_welcome_screen
+    effect_kind: discord_update_guild_welcome_screen
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_guild_widget_settings
+    effect_kind: discord_update_guild_widget_settings
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_invite_target_users
+    effect_kind: discord_update_invite_target_users
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_lobby_message_external_moderation_metadata
+    effect_kind: discord_update_lobby_message_external_moderation_metadata
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_message
+    effect_kind: discord_update_message
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_my_application
+    effect_kind: discord_update_my_application
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_my_guild_member
+    effect_kind: discord_update_my_guild_member
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_my_user
+    effect_kind: discord_update_my_user
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_original_webhook_message
+    effect_kind: discord_update_original_webhook_message
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_self_voice_state
+    effect_kind: discord_update_self_voice_state
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_stage_instance
+    effect_kind: discord_update_stage_instance
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_user_message_external_moderation_metadata
+    effect_kind: discord_update_user_message_external_moderation_metadata
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_voice_channel_status
+    effect_kind: discord_update_voice_channel_status
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_voice_state
+    effect_kind: discord_update_voice_state
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_webhook
+    effect_kind: discord_update_webhook
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_webhook_by_token
+    effect_kind: discord_update_webhook_by_token
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_update_webhook_message
+    effect_kind: discord_update_webhook_message
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
+  - operation_id: rest_upload_application_attachment
+    effect_kind: discord_upload_application_attachment
+    channel: discord_rest_api
+    idempotency: required
+    test_mode_behavior: suppress
 runtime:
   contract_version: extension_host_v2
   extension_contract_v2:

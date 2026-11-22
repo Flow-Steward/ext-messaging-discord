@@ -8,7 +8,7 @@ The runtime route registry is generated with `python scripts/build_rest_registry
 
 ## Execution coverage
 
-Every operation in the pinned registry can be selected by ID through the REST read or write workflow action. The dispatcher tests exercise all 250 registered routes with mocked transport, including connection selection, fixed path binding and response statuses. Separate tests exercise write suppression. The spec is the route contract. Discord validates provider-specific body fields and permissions.
+Each pinned route has an independent `rest_<operation_id>` action, a typed operation contract and a workflow form. The generated contract binds that action to one endpoint, lists compatible connection types, and exposes its named path and query parameters and supported body inputs. Request schemas use the bounded subset Flow Steward can execute. Discord performs final validation of the complete provider payload and permissions. Archived generic read and write actions retain their original IDs for existing workflows.
 
 The table lists the dedicated workflow actions that provide a narrower interface to frequently used endpoints.
 

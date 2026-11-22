@@ -11,6 +11,7 @@ from urllib.error import URLError
 
 from flowsteward_extension_sdk import runtime_context_from_payload
 
+from runtime.individual_actions import dispatch_individual
 from runtime.reads import READ_OPERATIONS, execute_read, read_arguments
 from runtime.rest_action import dispatch_rest
 from runtime.routes import RequestTarget, request_target
@@ -66,6 +67,9 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
     inputs = action.get("input", {})
     if not isinstance(operation, str) or not isinstance(inputs, dict):
         return _failure("invalid_payload")
+    individual = dispatch_individual(operation, action, inputs, context, user_agent=USER_AGENT)
+    if individual is not None:
+        return individual
     if operation in {"discord_rest_read", "discord_rest_write"}:
         return dispatch_rest(
             action,

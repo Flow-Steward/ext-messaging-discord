@@ -8,3 +8,5 @@
 - Support scoped bot, OAuth2 bearer, webhook and interaction credentials.
 - Support JSON, URL-encoded and bounded multipart requests, with bounded JSON, CSV and PNG responses.
 - Suppress writes in test mode and add operation-by-operation offline routing tests.
+- Add 250 individually selectable Discord REST v10 actions with generated input contracts, forms and mutation effects.
+- Validate dedicated action inputs and test each action against its pinned method and path.
