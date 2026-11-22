@@ -126,3 +126,61 @@ def test_raw_transport_encodes_query_and_audit_reason(monkeypatch):
     assert request.get_header("Authorization") == "Bearer example.token"
     assert request.get_header("Content-type") == "application/x-www-form-urlencoded"
     assert request.get_header("X-audit-log-reason") == "Test%20%2F%20change"
+
+
+@pytest.mark.parametrize(
+    ("status", "body", "reason"),
+    [
+        (201, b"{}", "unexpected_status"),
+        (200, b"x" * (transport.MAX_RESPONSE + 1), "response_too_large"),
+    ],
+)
+def test_raw_transport_preserves_acknowledged_status(monkeypatch, status, body, reason):
+    from email.message import Message
+
+    response = Response(status, body)
+    response.headers = Message()
+    opener = Opener(response)
+    monkeypatch.setattr(transport, "build_opener", lambda handler: opener)
+    with pytest.raises(transport.DiscordResponseError) as error:
+        transport.request_raw(
+            method="POST",
+            path="/channels/123/messages",
+            authorization=None,
+            user_agent="Test",
+            success_statuses=(200,),
+            data=b"{}",
+            content_type="application/json",
+            query=[],
+            audit_reason="",
+        )
+    assert error.value.status == status
+    assert error.value.reason == reason
+    [(request, _)] = opener.requests
+    assert request.get_header("Authorization") is None
+
+
+def test_raw_transport_accepts_empty_success_and_disables_redirects(monkeypatch):
+    from email.message import Message
+
+    response = Response(204, b"")
+    response.headers = Message()
+    opener = Opener(response)
+
+    def open_without_redirect(handler):
+        assert isinstance(handler, transport.NoRedirect)
+        assert handler.redirect_request(None, None, 302, None, None, "https://example.test") is None
+        return opener
+
+    monkeypatch.setattr(transport, "build_opener", open_without_redirect)
+    assert transport.request_raw(
+        method="DELETE",
+        path="/channels/123/messages/456",
+        authorization="Bot example",
+        user_agent="Test",
+        success_statuses=(204,),
+        data=None,
+        content_type=None,
+        query=[],
+        audit_reason="",
+    ) == (204, "text/plain", b"")
