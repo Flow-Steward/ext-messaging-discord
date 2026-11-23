@@ -11,6 +11,8 @@ display_name: Discord
 description: Read or update Discord resources from a Flow Steward workflow using the Discord REST v10 catalog.
 vendor:
   name: Flow Steward
+  support_url: https://github.com/Flow-Steward/ext-messaging-discord/issues
+  website_url: https://github.com/Flow-Steward/ext-messaging-discord
 listing:
   category: messaging
   tags: [discord, notifications, messaging]

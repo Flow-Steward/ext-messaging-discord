@@ -1,26 +1,113 @@
-# Discord for Flow Steward
+# Discord integration for Flow Steward
 
-Send a text message to a Discord channel from a workflow. The extension also provides a read-only **Test connection** operation that returns the bot ID. Workflows can also read a channel, list a page of channel messages, read a server and list its channels.
+<img src="icon.png" width="96" alt="Discord integration for Flow Steward">
 
-## Connect a bot
+[![CI](https://img.shields.io/github/actions/workflow/status/Flow-Steward/ext-messaging-discord/ci.yml?branch=main&label=CI)](https://github.com/Flow-Steward/ext-messaging-discord/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/Flow-Steward/ext-messaging-discord?label=release)](https://github.com/Flow-Steward/ext-messaging-discord/releases/latest)
 
-1. Create an application with a bot in the [Discord Developer Portal](https://discord.com/developers/applications).
-2. Install the bot in your server with the `bot` scope. Grant **View Channel** and **Send Messages** in the destination channel. To send in a thread, grant **Send Messages in Threads** as well.
-3. In Flow Steward, create a **Discord bot** project connection and save its bot token in the **Bot token** secret field.
-4. In the workflow builder, add **Send message**, select the connection and enter the channel ID and message. Discord's Developer Mode lets you copy the channel ID.
+Automate Discord with Flow Steward workflows and AI agents: post messages and files to channels, read whole message histories and member lists, manage servers, roles, threads and webhooks — without writing code.
 
-Messages are limited to 2,000 UTF-16 code units. Mention notifications are suppressed, and Flow Steward test-mode runs skip posting. Real sends require a logical workflow step execution ID. Discord deduplicates its derived nonce only within a short window. A timeout during a real send leaves the result uncertain because Discord may already have accepted it.
+This Flow Steward extension is a Discord integration built on the Discord REST API v10. Every operation of the pinned Discord API description has its own workflow step, and a few everyday steps cover the common tasks.
 
-[Discord API reference](https://docs.discord.com/developers/reference) · [Create Message](https://docs.discord.com/developers/resources/message#create-message)
+## What is this
 
-## Discord REST v10 catalog
+Discord is a chat platform where communities and teams talk in servers, channels and threads. This extension is a connector: it adds Discord steps to the Flow Steward workflow editor and the same operations as tools for AI agents. A step acts as your Discord bot, as a scoped OAuth2 token or through a webhook. Read more about Flow Steward at <https://docs.flowsteward.org>.
 
-Each of the 250 pinned Discord REST v10 operations has a separate Flow Steward action and form. Search for the Discord operation by name, select a compatible connection, and fill in its named path and query fields. The [API inventory](docs/discord-rest-inventory.json) maps each upstream operation ID to its method and route. Dedicated action IDs prepend `rest_` to that ID. Existing workflows can continue using the REST read and write pickers.
+## What you can automate
 
-- Select the **Discord bot**, **Discord OAuth2 token**, or **Discord webhook or interaction token** connection required by the endpoint. Choose the correct OAuth2 scopes in Discord. The OAuth2 token connection takes a manually issued bearer token and requires replacement on expiry. Interaction tokens are short-lived and scoped to an individual interaction. Store tokens in the project's secret fields. Body credentials for guild membership, group DMs, lobby joins and Partner SDK operations are injected from the Discord bot connection. Leave those fields out of the workflow body.
-- For JSON or form bodies, put the provider body in a `data` field, for example `{"data":{"content":"Hello"}}`. The wrapper also supports array bodies. Choose another request media type when the endpoint requires it.
-- Multipart files are a list of objects with `field`, `filename` and `data_base64`. Results that contain newly created webhook tokens omit those tokens. Retrieve and store webhook credentials through Discord's administration UI. Keep each request within the 2 MB extension upload budget. Responses are bounded at 256 KB. Use Discord pagination for larger lists.
-- The reply exposes status, media type and response data. The runtime removes credential fields and reflected connection secrets from JSON output. PNG responses are base64-encoded.
-- Test runs suppress writes. A failed network exchange on a write can leave Discord's result unknown. The runtime sends each request only once and reports available numeric rate-limit information. If Discord acknowledges a request and its response is too large or incomplete, the step returns its HTTP status and a warning without the response data.
+- Post a message to a channel when something happens in another system: a new order, a failed job, a report that is ready.
+- Attach files from earlier workflow steps to a message: a chart, a CSV export, a PDF.
+- Read the whole history of a channel, every member of a server or every ban, page after page, and pass it to an AI agent or a spreadsheet.
+- Create and archive threads, pin messages, add reactions.
+- Manage roles, channels, invites, scheduled events, stickers and emojis of a server.
+- Read the audit log of a server for moderation reports.
+- Send messages through a channel webhook without a bot.
 
-Offline tests use mocked Discord responses. Live permissions, partner-only endpoints and provider-side payload validation require verification in an authorized Discord test environment. See [API coverage and review](docs/API-COVERAGE.md).
+## Why teams use it
+
+- **The whole REST API is covered.** 258 Discord steps: the 250 operations of the pinned Discord API description and eight more from Discord's API documentation, each with its own form, plus six everyday steps.
+- **Whole lists, not a first page.** List steps with Discord cursors read page after page when `all_pages` is on. A list that stops early because of the step's time or output size says so: `complete` is false and `next_cursor` tells where to continue.
+- **An answer that cannot be read is an error.** A read whose answer is cut off, too large or not the documented JSON fails with `invalid_response` or `response_too_large`; it never returns an empty result instead.
+- **A change is sent once.** Writes are never retried automatically. If Discord's answer is lost after a write was sent, the step reports that the outcome is unknown instead of guessing. Messages carry a nonce so Discord can recognise a repeated send.
+- **A test run changes nothing.** Every write is a declared external effect; a test run checks the inputs and sends nothing.
+- **Discord's rate limits are visible.** Every step returns `rate_limit` from Discord's headers (limit, remaining, reset_after, bucket, global); an HTTP 429 answer returns `retry_after_seconds` and whether the limit is global.
+- **Tokens stay secret.** Bot, OAuth2 and webhook tokens come only from the project connection, and tokens in Discord's answers are removed before a workflow sees them.
+
+## What's inside
+
+Everyday steps:
+
+- **Test connection** — reads the bot's identity.
+- **Send message** — posts a text message to a channel without notifying mentions.
+- **Get channel**, **Get server** — read one channel or server.
+- **List channel messages** — one page of messages, or all of them with `all_pages`.
+- **List server channels** — every channel of a server.
+
+Discord REST steps: one step for each of the 258 operations, named after the operation, for example **List guild members**, **Create message**, **Create guild role** or **Execute webhook**. Steps that send files take workflow files (`file_artifacts`) or small files as base64 (`files`); the part's Content-Type follows the file name's extension. The list of operations, with their methods and paths, is in [docs/API-COVERAGE.md](docs/API-COVERAGE.md).
+
+## Get started
+
+1. In Flow Steward, open **Extensions → Catalog**, find **Discord** and install it.
+2. Create an application with a bot in the [Discord Developer Portal](https://discord.com/developers/applications) and copy the bot token.
+3. Invite the bot to your server and give it the permissions your steps need, for example **View Channel** and **Send Messages** in the channel it posts to.
+4. In Flow Steward, create a **Discord bot** project connection, paste the token and press **Test connection**.
+5. Build your first workflow: for example, on a schedule → your report step → **Send message** with the channel ID (Discord's Developer Mode lets you copy it).
+
+## Requirements
+
+- A Discord application with a bot user, installed in the servers the workflows use, with the permissions of the steps you run.
+- Many operations need Discord permissions such as **Manage Messages**, **Manage Roles** or **View Audit Log**; Discord's documentation names them for each operation.
+- Steps that act for a Discord user need a **Discord OAuth2 token** connection with a token issued with the right scopes. Steps whose Discord path contains a webhook or interaction token take it from a **Discord webhook or interaction token** connection.
+- A multipart request, files included, is at most 2,000,000 bytes. A Discord answer is read up to 8 MiB, and a step's whole result stays within 3,500,000 bytes.
+- Discord limits request rates per route and globally; a step that is rate limited fails with `rate_limited` and says how long to wait.
+- A Flow Steward host with the extension host contract v2.
+
+## FAQ
+
+**How do I post a Discord message from a workflow?**
+Add **Send message**, choose the Discord bot connection, enter the channel ID and the text. For embeds, components or files, use **Create message**.
+
+**How do I send a file produced by another step?**
+In **Create message**, set the media type to `multipart/form-data`, put the message in `body` and add the file to `file_artifacts` with the field `files[0]` and a file name.
+
+**How do I read all members of a server?**
+Run **List guild members** with `all_pages` on. When `complete` is false, run it again with `after` set to `next_cursor`.
+
+**What happens if a send times out?**
+The step reports `timeout_unknown`: Discord may have posted the message. It is not sent again automatically; check the channel before running the step again.
+
+**Which Discord API operations are supported?**
+All 250 operations of the Discord API description the release is pinned to, eight operations documented only in Discord's API documentation, and the six everyday steps. Discord has disabled one of them (batch editing of command permissions); its step reports `operation_disabled` without calling Discord.
+
+## In your language
+
+Интеграция Discord с Flow Steward автоматизирует Discord без программирования: отправляет сообщения и файлы в каналы, читает всю историю канала и всех участников сервера постранично, управляет ролями, каналами, ветками и вебхуками. Каждая из 258 операций Discord REST API v10 доступна как отдельный шаг workflow. Для подключения нужен бот Discord и его токен.
+
+## Links
+
+- Flow Steward documentation: <https://docs.flowsteward.org>
+- Flow Steward extension catalog: <https://github.com/Flow-Steward/extensions>
+- Issues and support: <https://github.com/Flow-Steward/ext-messaging-discord/issues>
+- Discord API documentation: <https://discord.com/developers/docs/reference>
+- Changes: [CHANGELOG.md](CHANGELOG.md)
+
+## For developers
+
+The steps are generated from the pinned Discord OpenAPI description (`tests/reference/discord-openapi.json`, discord-api-spec `3a21a01`) and the documentation routes in `tests/reference/discord-docs-routes.json` (discord-api-docs `9b737ec`):
+
+```bash
+python3 scripts/build_rest_registry.py
+python3 scripts/build_actions.py
+```
+
+From a Flow Steward checkout (the checks run in the `fs-audit` container):
+
+```bash
+./core/entrypoints/cli/scripts/lint.sh --checks extension-static,extension-tests --extension-root "$PWD/workspace/extensions/flowsteward_discord"
+./flow-steward extensions validate flowsteward.discord --root workspace/extensions --health --marketplace
+./flow-steward extensions test flowsteward.discord --root workspace/extensions
+```
+
+`tests/test_live.py` reads real data from Discord (GET requests only) when `DISCORD_TOKEN_FILE` names a file with a bot token, and is skipped otherwise.
+
+Discord and its marks belong to Discord Inc.; see [BRANDING.md](BRANDING.md) for the icon's source.
