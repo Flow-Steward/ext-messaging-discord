@@ -1158,14 +1158,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -1356,14 +1357,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -1421,14 +1423,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -1505,14 +1508,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -1547,14 +1551,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -1632,14 +1637,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -2452,14 +2458,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -2509,14 +2516,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -5002,14 +5010,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -5049,14 +5058,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -5096,14 +5106,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -5192,14 +5203,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -5280,14 +5292,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -5414,14 +5427,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -5445,14 +5459,15 @@ forms:
     widget_type: json
     required: false
     help_text: 'Small files as base64: the multipart field, the file name and the
-      base64 contents.'
+      base64 contents. The whole step input is bounded, so send larger files (up to
+      20 MiB each) as workflow files in file_artifacts.'
   - name: file_artifacts
     label: File artifacts
     widget_type: json
     required: false
-    help_text: 'Workflow files to upload: the multipart field (for example files[0]
-      or file), the file name and the file from an earlier step. The part''s Content-Type
-      follows the file name''s extension.'
+    help_text: 'Workflow files to upload, up to 20 MiB each: the multipart field (for
+      example files[0] or file), the file name and the file from an earlier step.
+      The part''s Content-Type follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text

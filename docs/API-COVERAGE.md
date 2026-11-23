@@ -66,7 +66,7 @@ A write follows table T, the first rule that applies decides: an undocumented 2x
 
 ## Files
 
-Multipart steps take workflow files in `file_artifacts` (`field`, `filename`, `artifact_handle`; granted through `contracts/artifact_policies.yaml` and read with `read_artifact_bytes`) and small files as base64 in `files`. The Content-Type of a part follows the extension of the file name from the types in Discord's [reference](https://github.com/discord/discord-api-docs/blob/9b737ec51ee8d5076af0565d209a9adf8f590a27/developers/reference.mdx) (image formats and the image, video and audio file groups); other files are `application/octet-stream`. A sticker must be a PNG, APNG, GIF or Lottie JSON file of at most 512 KiB. The whole multipart body is at most 2,000,000 bytes.
+Multipart steps take workflow files in `file_artifacts` (`field`, `filename`, `artifact_handle`; granted through `contracts/artifact_policies.yaml` and read with `read_artifact_bytes`) and small files as base64 in `files`. The Content-Type of a part follows the extension of the file name from the types in Discord's [reference](https://github.com/discord/discord-api-docs/blob/9b737ec51ee8d5076af0565d209a9adf8f590a27/developers/reference.mdx) (image formats and the image, video and audio file groups); other files are `application/octet-stream`. A sticker must be a PNG, APNG, GIF or Lottie JSON file of at most 512 KiB. Each file is at most 20 MiB, Discord's default upload limit per file in the same reference; it names no limit per request, so a request carries at most ten files. Base64 files in `files` share the step input limit; larger files go in `file_artifacts`.
 
 ## Rate limits
 
@@ -76,7 +76,7 @@ Every step returns `rate_limit` (`limit`, `remaining`, `reset_after`, `bucket`, 
 
 Offline tests cover the fixed route for each executable action, all multipart routes, unreadable answers, table T, lists, files, response credential redaction, test runs and rate limit facts. `tests/test_live.py` reads the bot identity and its servers from the real API (GET only) when `DISCORD_TOKEN_FILE` is set. Live permission and payload verification of the other operations requires a dedicated test guild, Discord application and scoped authorization. Gateway, Voice and inbound interaction delivery have their own non-REST transports.
 
-Webhook and interaction tokens in a route are taken from the **Discord webhook or interaction token** connection.
+Webhook and interaction tokens in a route are taken from the **Discord webhook or interaction token** connection. Interaction responses go through such a connection holding the interaction token, which Discord keeps valid for 15 minutes.
 
 ## Mutation replay
 

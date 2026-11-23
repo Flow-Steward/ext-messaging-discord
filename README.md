@@ -57,8 +57,8 @@ Discord REST steps: one step for each of the 258 operations, named after the ope
 
 - A Discord application with a bot user, installed in the servers the workflows use, with the permissions of the steps you run.
 - Many operations need Discord permissions such as **Manage Messages**, **Manage Roles** or **View Audit Log**; Discord's documentation names them for each operation.
-- Steps that act for a Discord user need a **Discord OAuth2 token** connection with a token issued with the right scopes. Steps whose Discord path contains a webhook or interaction token take it from a **Discord webhook or interaction token** connection.
-- A multipart request, files included, is at most 2,000,000 bytes. A Discord answer is read up to 8 MiB, and a step's whole result stays within 3,500,000 bytes.
+- Steps that act for a Discord user need a **Discord OAuth2 token** connection with a token issued with the right scopes. Steps whose Discord path contains a webhook or interaction token take it from a **Discord webhook or interaction token** connection. Interaction responses go through such a connection holding the interaction token, which Discord keeps valid for 15 minutes.
+- Each uploaded file is at most 20 MiB, Discord's default upload limit per file, and a request carries at most ten files; base64 files in `files` share the step input limit, so larger files go in `file_artifacts` as workflow files. A Discord answer is read up to 8 MiB, and a step's whole result stays within 3,500,000 bytes.
 - Discord limits request rates per route and globally; a step that is rate limited fails with `rate_limited` and says how long to wait.
 - A Flow Steward host with the extension host contract v2.
 

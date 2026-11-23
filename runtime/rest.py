@@ -9,11 +9,13 @@ from dataclasses import dataclass, field
 from typing import Any
 from urllib.parse import quote, unquote, urlencode
 
-from runtime.files import ArtifactReader, Part, file_parts
+from runtime.files import MAX_FILE_BYTES, MAX_FILES, ArtifactReader, Part, file_parts
 from runtime.routes import RequestTarget, request_target, route_for
 from runtime.transport import DEFAULT_TIMEOUT_SECONDS, Reply, request_raw
 
 MAX_UPLOAD = 2_000_000
+#: A multipart body: up to ten files of up to 20 MiB each, plus payload_json and headers.
+MAX_MULTIPART = MAX_FILES * MAX_FILE_BYTES + 1024 * 1024
 SAFE_NAME = re.compile(r"[A-Za-z0-9_.\[\]-]{1,160}")
 CREDENTIAL = re.compile(r"[A-Za-z0-9._~-]{1,512}")
 SECRET_FIELDS = frozenset(
@@ -113,7 +115,7 @@ def _multipart(body: Any, parts: list[Part], *, raw_fields: bool = False) -> tup
         )
     chunks.append(f"--{boundary}--\r\n".encode())
     encoded = b"".join(chunks)
-    if len(encoded) > MAX_UPLOAD:
+    if len(encoded) > MAX_MULTIPART:
         raise ValueError("Multipart body exceeds the upload budget")
     return f"multipart/form-data; boundary={boundary}", encoded
 
@@ -251,7 +253,8 @@ def prepare(
             encoded = urlencode(_pairs(body)).encode()
         else:
             raise ValueError("Unsupported request body")
-        if len(encoded) > MAX_UPLOAD:
+        limit = MAX_MULTIPART if media_type.startswith("multipart/") else MAX_UPLOAD
+        if len(encoded) > limit:
             raise ValueError("Request body exceeds the upload budget")
     elif route["request_body_required"]:
         raise ValueError("Request body is required")

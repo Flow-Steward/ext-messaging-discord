@@ -48,6 +48,9 @@ STICKER_OPERATION = "create_guild_sticker"
 STICKER_EXTENSIONS = frozenset({".png", ".apng", ".gif", ".json"})
 MAX_STICKER_BYTES = 512 * 1024
 MAX_FILES = 10
+#: Discord's default upload limit, per file (discord-api-docs 9b737ec, developers/
+#: reference.mdx, "Uploading Files"); the documentation names no limit per request.
+MAX_FILE_BYTES = 20 * 1024 * 1024
 
 
 @dataclass(frozen=True)
@@ -133,4 +136,6 @@ def _part(
             raise ValueError("A sticker must be a PNG, APNG, GIF or Lottie JSON file")
         if len(content) > MAX_STICKER_BYTES:
             raise ValueError("A sticker file is larger than 512 KiB")
+    if len(content) > MAX_FILE_BYTES:
+        raise ValueError("A file is larger than 20 MiB, Discord's upload limit per file")
     return Part(name, filename, content_type_for(filename), content)

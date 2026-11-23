@@ -516,6 +516,61 @@ def test_a_workflow_file_is_sent_as_a_file_with_its_type(monkeypatch, tmp_path):
     assert part.get_payload(decode=True) == b"\x89PNG-bytes"
 
 
+TWENTY_MIB = 20 * 1024 * 1024
+
+
+def test_a_twenty_mib_workflow_file_is_sent_whole(monkeypatch, tmp_path):
+    calls = capture(monkeypatch)
+    content = b"\x89PNG" + b"0" * (TWENTY_MIB - 4)
+    request = action(
+        "rest_create_message",
+        media_type="multipart/form-data",
+        body={"data": {"content": "video"}},
+        file_artifacts=[{"field": "files[0]", "filename": "big.png", "artifact_handle": "art-20"}],
+    )
+    request["action"]["artifacts"] = artifact_grant(tmp_path, "art-20", content)
+    result = main.dispatch(request)
+    assert result["ok"] is True, result
+    [part] = parts(calls[0])
+    assert len(part.get_payload(decode=True)) == TWENTY_MIB
+
+
+def test_a_workflow_file_one_byte_over_twenty_mib_sends_nothing(monkeypatch, tmp_path):
+    calls = capture(monkeypatch)
+    request = action(
+        "rest_create_message",
+        media_type="multipart/form-data",
+        body={"data": {"content": "video"}},
+        file_artifacts=[{"field": "files[0]", "filename": "big.png", "artifact_handle": "art-21"}],
+    )
+    request["action"]["artifacts"] = artifact_grant(tmp_path, "art-21", b"0" * (TWENTY_MIB + 1))
+    result = main.dispatch(request)
+    assert result["ok"] is False and result["error_code"] == "invalid_payload", result
+    assert calls == []
+
+
+def test_the_twenty_mib_limit_is_checked_per_file():
+    from runtime import files
+
+    def read(_handle):
+        return b"0" * (TWENTY_MIB + 1)
+
+    with pytest.raises(ValueError, match="larger than 20 MiB"):
+        files.file_parts(
+            "rest_create_message",
+            [],
+            [{"field": "files[0]", "filename": "a.bin", "artifact_handle": "h"}],
+            read_artifact=read,
+            valid_name=lambda _name: True,
+        )
+
+
+def test_workflow_file_grants_follow_discords_twenty_mib_limit():
+    policies = yaml.safe_load((ROOT / "contracts/artifact_policies.yaml").read_text())["policies"]
+    sizes = {item["max_size_bytes"] for policy in policies for item in policy["inputs"]}
+    assert sizes == {TWENTY_MIB}
+
+
 def test_a_workflow_file_that_cannot_be_read_sends_nothing(monkeypatch):
     calls = capture(monkeypatch)
     request = action(

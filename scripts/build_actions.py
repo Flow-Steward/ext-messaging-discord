@@ -49,8 +49,9 @@ SCALAR_KEYS = {
 }
 BODY_CREDENTIALS = {"access_token", "secret", "client_secret", "external_auth_token"}
 READ_ERRORS = ["invalid_response", "response_too_large"]
-#: The per-file grant for a workflow file; the whole multipart body is bounded the same.
-MAX_FILE_BYTES = 2_000_000
+#: The per-file grant for a workflow file: Discord's default upload limit, 20 MiB per file
+#: (discord-api-docs 9b737ec, developers/reference.mdx, "Uploading Files").
+MAX_FILE_BYTES = 20 * 1024 * 1024
 FILE_BINDING = "discord_file"
 COMMON_OUTPUTS = [
     {"name": "response", "value_type": "object", "schema": {"type": "object"}},
@@ -258,9 +259,9 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
                     "file_artifacts",
                     copy.deepcopy(FILE_ARTIFACTS_SCHEMA),
                     False,
-                    "Workflow files to upload: the multipart field (for example files[0] or "
-                    "file), the file name and the file from an earlier step. The part's "
-                    "Content-Type follows the file name's extension.",
+                    "Workflow files to upload, up to 20 MiB each: the multipart field (for "
+                    "example files[0] or file), the file name and the file from an earlier "
+                    "step. The part's Content-Type follows the file name's extension.",
                 )
                 fields.append(
                     make_field(
@@ -280,7 +281,8 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
                         },
                         False,
                         "Small files as base64: the multipart field, the file name and the "
-                        "base64 contents.",
+                        "base64 contents. The whole step input is bounded, so send larger "
+                        "files (up to 20 MiB each) as workflow files in file_artifacts.",
                     )
                 )
                 fields.append(artifacts)

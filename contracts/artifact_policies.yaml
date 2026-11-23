@@ -1,5 +1,6 @@
 # Workflow files a step may upload to Discord (the file_artifacts input). Each grant
-# is read with read_artifact_bytes; the whole multipart body stays within 2,000,000 bytes.
+# is read with read_artifact_bytes; each file is at most 20 MiB, Discord's default upload
+# limit per file, and a request carries at most ten files.
 policies:
   - operation_id: discord_rest_write
     inputs:
@@ -8,7 +9,7 @@ policies:
         binding_key: discord_file
         field: file_artifacts
         required: false
-        max_size_bytes: 2000000
+        max_size_bytes: 20971520
 # Generated Discord REST actions. Run scripts/build_actions.py.
   - operation_id: rest_create_channel_invite
     inputs:
@@ -17,7 +18,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_create_guild_sticker
     inputs:
     - kind: artifact
@@ -25,7 +26,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_create_interaction_response
     inputs:
     - kind: artifact
@@ -33,7 +34,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_create_lobby_message
     inputs:
     - kind: artifact
@@ -41,7 +42,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_create_message
     inputs:
     - kind: artifact
@@ -49,7 +50,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_create_thread
     inputs:
     - kind: artifact
@@ -57,7 +58,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_execute_slack_compatible_webhook
     inputs:
     - kind: artifact
@@ -65,7 +66,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_execute_webhook
     inputs:
     - kind: artifact
@@ -73,7 +74,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_update_invite_target_users
     inputs:
     - kind: artifact
@@ -81,7 +82,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_update_lobby_message_external_moderation_metadata
     inputs:
     - kind: artifact
@@ -89,7 +90,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_update_message
     inputs:
     - kind: artifact
@@ -97,7 +98,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_update_original_webhook_message
     inputs:
     - kind: artifact
@@ -105,7 +106,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_update_user_message_external_moderation_metadata
     inputs:
     - kind: artifact
@@ -113,7 +114,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_update_webhook_message
     inputs:
     - kind: artifact
@@ -121,7 +122,7 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
   - operation_id: rest_upload_application_attachment
     inputs:
     - kind: artifact
@@ -129,4 +130,4 @@ policies:
       binding_key: discord_file
       field: file_artifacts
       required: false
-      max_size_bytes: 2000000
+      max_size_bytes: 20971520
