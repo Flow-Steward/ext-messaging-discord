@@ -7,6 +7,7 @@ from types import SimpleNamespace
 import pytest
 
 import main
+from discord_fakes import documented_reply, reply
 from runtime import rest
 from runtime import rest_action
 from test_flowsteward_discord import invocation
@@ -50,11 +51,7 @@ def test_each_operation_reaches_its_registered_transport(monkeypatch, operation_
     def send(**kwargs):
         calls.append(kwargs)
         status = kwargs["success_statuses"][0]
-        return (
-            status,
-            "application/json",
-            b'{"id":"123", "token":"sensitive"}' if status != 204 else b"",
-        )
+        return documented_reply(route, status, b'{"id":"123", "token":"sensitive"}')
 
     monkeypatch.setattr(rest, "request_raw", send)
     result = main.dispatch(request)
@@ -70,8 +67,27 @@ def test_each_operation_reaches_its_registered_transport(monkeypatch, operation_
     assert ("external_effect_status" in result) == write
 
 
+TEST_RUN = {
+    "ok": True,
+    "result": {
+        "response": None,
+        "suppressed": True,
+        "processing": None,
+        "rate_limit": None,
+        "warnings": ["Test run: the inputs were checked and nothing was sent to Discord"],
+    },
+    "external_effect_status": "failed",
+    "definitely_no_external_effect": True,
+}
+
+
 @pytest.mark.parametrize(
-    "operation_id", sorted(oid for oid, row in ROUTES.items() if row["method"] != "GET")
+    "operation_id",
+    sorted(
+        oid
+        for oid, row in ROUTES.items()
+        if row["method"] != "GET" and not row.get("provider_disabled")
+    ),
 )
 def test_every_write_is_suppressed_in_test_runs(monkeypatch, operation_id):
     def unexpected(**kwargs):
@@ -80,7 +96,7 @@ def test_every_write_is_suppressed_in_test_runs(monkeypatch, operation_id):
     monkeypatch.setattr(rest, "request_raw", unexpected)
     request, _ = sample_invocation(operation_id, ROUTES[operation_id])
     request["runtime_context"]["test_mode"] = True
-    assert main.dispatch(request) == {"ok": True, "result": {"response": {}, "suppressed": True}}
+    assert main.dispatch(request) == TEST_RUN
 
 
 def test_mismatched_connection_and_method_are_rejected():
@@ -124,37 +140,38 @@ def test_multipart_sticker_payload_and_form_fields_are_encoded():
 
 
 @pytest.mark.parametrize(
-    ("mime", "raw", "expected"),
+    ("operation", "mime", "raw", "expected"),
     [
-        ("text/csv", b"id\n123\n", "id\n123\n"),
-        ("image/png", b"\x89PNG", {"base64": "iVBORw=="}),
-        ("application/json", b'{"note":"sample.bot.credential"}', {"note": "[redacted]"}),
+        ("get_invite_target_users", "text/csv", b"id\n123\n", "id\n123\n"),
+        ("get_guild_widget_png", "image/png", b"\x89PNG", {"base64": "iVBORw=="}),
+        (
+            "get_channel",
+            "application/json",
+            b'{"note":"sample.bot.credential"}',
+            {"note": "[redacted]"},
+        ),
     ],
 )
-def test_raw_responses_are_decoded_without_reflecting_credentials(monkeypatch, mime, raw, expected):
-    request, _ = sample_invocation("get_channel", ROUTES["get_channel"])
-    action = request["action"]
-    prepared = rest.prepare(
-        "get_channel",
-        inputs=action["input"],
-        connection=action["target"]["connection"],
-        write=False,
+def test_raw_responses_are_decoded_without_reflecting_credentials(operation, mime, raw, expected):
+    from runtime.outcome import Unusable, read_data
+
+    assert read_data(reply(200, raw, mime), ROUTES[operation], ("sample.bot.credential",)) == (
+        expected
     )
-    monkeypatch.setattr(rest, "request_raw", lambda **kwargs: (200, mime, raw))
-    assert rest.execute(prepared, user_agent="Test")["data"] == expected
+    with pytest.raises(Unusable):
+        read_data(reply(200, raw, "text/html"), ROUTES[operation], ())
 
 
 def test_acknowledged_write_preserves_success_when_response_data_is_too_large(monkeypatch):
-    from runtime.transport import DiscordResponseError
-
     def send(**kwargs):
-        raise DiscordResponseError(200, "response_too_large")
+        return reply(200, b"", unread="response_too_large")
 
     monkeypatch.setattr(rest, "request_raw", send)
     request, _ = sample_invocation("create_message", ROUTES["create_message"])
     result = main.dispatch(request)
     assert result["external_effect_status"] == "succeeded"
-    assert result["result"]["response"]["warning"] == "response_too_large"
+    assert result["result"]["response"]["data"] is None
+    assert "not read" in result["result"]["warnings"][0]
 
 
 def test_partner_sdk_injects_body_credentials_and_removes_all_returned_tokens(monkeypatch):
@@ -170,13 +187,10 @@ def test_partner_sdk_injects_body_credentials_and_removes_all_returned_tokens(mo
         body = json.loads(kwargs["data"])
         assert body["client_secret"] == "example.client.secret"
         assert body["external_auth_token"] == "example.external.token"
-        return (
+        return reply(
             200,
-            "application/json",
-            (
-                b'{"id_token":"jwt", "access_token":"bearer", "refresh_token":"refresh",'
-                b' "note":"example.external.token"}'
-            ),
+            b'{"id_token":"jwt", "access_token":"bearer", "refresh_token":"refresh",'
+            b' "note":"example.external.token"}',
         )
 
     monkeypatch.setattr(rest, "request_raw", send)
@@ -190,9 +204,8 @@ def test_new_webhook_credentials_are_redacted_from_urls_and_fields(monkeypatch):
     monkeypatch.setattr(
         rest,
         "request_raw",
-        lambda **kwargs: (
+        lambda **kwargs: reply(
             200,
-            "application/json",
             b'{"id":"123","token":"new.webhook.token",'
             b'"url":"https://discord.com/api/v10/webhooks/123/new.webhook.token"}',
         ),

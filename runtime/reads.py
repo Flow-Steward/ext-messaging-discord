@@ -5,9 +5,6 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from runtime.rest import redact_response
-from runtime.routes import request_target
-from runtime.transport import request_json
 
 SNOWFLAKE = re.compile(r"[0-9]{1,20}")
 READ_OPERATIONS = {
@@ -37,7 +34,9 @@ def read_arguments(
                 raise ValueError("with_counts must be boolean")
             query["with_counts"] = "true" if counts else "false"
     if operation == "list_messages":
-        allowed.update(MESSAGE_CURSORS | {"limit"})
+        allowed.update(MESSAGE_CURSORS | {"limit", "all_pages"})
+        if "all_pages" in inputs and not isinstance(inputs["all_pages"], bool):
+            raise ValueError("all_pages must be boolean")
         cursors = MESSAGE_CURSORS.intersection(inputs)
         if len(cursors) > 1:
             raise ValueError("Only one message cursor is allowed")
@@ -46,7 +45,8 @@ def read_arguments(
             if not isinstance(value, str) or not SNOWFLAKE.fullmatch(value):
                 raise ValueError("Message cursor must be a Discord snowflake")
             query[cursor] = value
-        limit = inputs.get("limit", 25)
+        default = 100 if inputs.get("all_pages") is True else 25
+        limit = inputs.get("limit", default)
         if type(limit) is not int or not 1 <= limit <= 100:
             raise ValueError("Message limit must be between 1 and 100")
         query["limit"] = limit
@@ -55,28 +55,13 @@ def read_arguments(
     return {path_name: path_value}, query
 
 
-def execute_read(
-    operation: str,
-    *,
-    token: str,
-    user_agent: str,
-    path_parameters: dict[str, str],
-    query: dict[str, str | int],
-) -> dict[str, Any]:
-    target = request_target(operation, path_parameters=path_parameters)
-    data = request_json(
-        method=target.method,
-        path=target.path,
-        token=token,
-        user_agent=user_agent,
-        success_statuses=target.success_statuses,
-        query=query,
-    )
-    data = redact_response(data, (token,))
+def shaped(operation: str, data: Any) -> dict[str, Any]:
+    """The legacy outputs: ``items`` (a list of objects) or ``item`` (an object)."""
     if operation in LIST_OPERATIONS:
-        if not isinstance(data, list) or any(not isinstance(item, dict) for item in data):
+        items = [] if data is None else data
+        if not isinstance(items, list) or any(not isinstance(item, dict) for item in items):
             raise ValueError("Unexpected Discord list response")
-        return {"items": data}
+        return {"items": items}
     if not isinstance(data, dict):
         raise ValueError("Unexpected Discord object response")
     return {"item": data}

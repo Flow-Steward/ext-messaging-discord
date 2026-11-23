@@ -10,7 +10,7 @@ from runtime.input_schema import accepts
 from runtime.rest_action import dispatch_rest, failure
 
 _ACTIONS = json.loads(Path(__file__).with_name("rest_actions.json").read_text())
-ENVELOPE_FIELDS = frozenset({"body", "files", "media_type", "audit_reason"})
+ENVELOPE_FIELDS = frozenset({"body", "files", "file_artifacts", "media_type", "audit_reason"})
 
 
 def dispatch_individual(
@@ -36,4 +36,11 @@ def dispatch_individual(
         normalized[group] = {
             parameter: inputs[field] for field, parameter in bindings.items() if field in inputs
         }
-    return dispatch_rest(action, normalized, context, write=spec["write"], user_agent=user_agent)
+    return dispatch_rest(
+        action,
+        normalized,
+        context,
+        write=spec["write"],
+        user_agent=user_agent,
+        all_pages=inputs.get("all_pages") is True,
+    )

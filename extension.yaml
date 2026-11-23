@@ -779,6 +779,7 @@ runtime:
     connection_types: contracts/connection_types.yaml
     operation_manifest: contracts/operation_manifest.yaml
     step_ui_manifest: contracts/step_ui_manifest.yaml
+    artifact_policies: contracts/artifact_policies.yaml
 entrypoint:
   mode: subprocess
   command: [python3, main.py]

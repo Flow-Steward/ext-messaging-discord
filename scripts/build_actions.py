@@ -3,12 +3,17 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
+import sys
 from pathlib import Path
 from typing import Any
 
 import yaml
 from build_rest_registry import DOCS, ROOT, build_routes, load_spec
+
+sys.path.insert(0, str(ROOT))
+from runtime.paging import PAGING  # noqa: E402
 
 PREFIX = "rest_"
 MARKER = "# Generated Discord REST actions. Run scripts/build_actions.py."
@@ -43,6 +48,36 @@ SCALAR_KEYS = {
     "maxItems",
 }
 BODY_CREDENTIALS = {"access_token", "secret", "client_secret", "external_auth_token"}
+READ_ERRORS = ["invalid_response", "response_too_large"]
+#: The per-file grant for a workflow file; the whole multipart body is bounded the same.
+MAX_FILE_BYTES = 2_000_000
+FILE_BINDING = "discord_file"
+COMMON_OUTPUTS = [
+    {"name": "response", "value_type": "object", "schema": {"type": "object"}},
+    {"name": "suppressed", "value_type": "boolean", "schema": {"type": "boolean"}},
+    {"name": "rate_limit", "value_type": "object", "schema": {"type": "object"}},
+    {
+        "name": "warnings",
+        "value_type": "array",
+        "schema": {"type": "array", "items": {"type": "string"}},
+    },
+]
+WRITE_OUTPUTS = [{"name": "processing", "value_type": "text", "schema": {"type": "string"}}]
+PAGING_OUTPUTS = [
+    {"name": "next_cursor", "value_type": "text", "schema": {"type": "string"}},
+    {"name": "complete", "value_type": "boolean", "schema": {"type": "boolean"}},
+    {"name": "pages", "value_type": "integer", "schema": {"type": "integer"}},
+]
+FILE_ARTIFACTS_SCHEMA = {
+    "type": "array",
+    "maxItems": 10,
+    "items": {
+        "type": "object",
+        "required": ["field", "filename", "artifact_handle"],
+        "properties": {key: {"type": "string"} for key in ("field", "filename", "artifact_handle")},
+        "additionalProperties": False,
+    },
+}
 
 
 def project(schema: dict[str, Any], definitions: dict[str, Any], depth: int = 3) -> dict[str, Any]:
@@ -134,6 +169,7 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
         "ui/actions/actions.yaml": [],
         "contracts/step_ui_manifest.yaml": [],
         "extension.yaml": [],
+        "contracts/artifact_policies.yaml": [],
     }
     runtime: dict[str, dict] = {}
     definitions = spec["components"]["schemas"]
@@ -218,6 +254,14 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
                 )
                 fields.append(field)
             if "multipart/form-data" in media:
+                artifacts = make_field(
+                    "file_artifacts",
+                    copy.deepcopy(FILE_ARTIFACTS_SCHEMA),
+                    False,
+                    "Workflow files to upload: the multipart field (for example files[0] or "
+                    "file), the file name and the file from an earlier step. The part's "
+                    "Content-Type follows the file name's extension.",
+                )
                 fields.append(
                     make_field(
                         "files",
@@ -235,20 +279,47 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
                             },
                         },
                         False,
-                        "Multipart file fields, filenames and base64 contents.",
+                        "Small files as base64: the multipart field, the file name and the "
+                        "base64 contents.",
                     )
                 )
+                fields.append(artifacts)
+        paging = None if write else PAGING.get(operation_id)
+        if paging is not None:
+            fields.append(
+                make_field(
+                    "all_pages",
+                    {"type": "boolean"},
+                    False,
+                    "Read page after page until Discord's list ends or the step's time or "
+                    "output is used up; next_cursor and complete say where to continue.",
+                )
+            )
         if write:
             fields.append(make_field("audit_reason", {"type": "string", "maxLength": 512}, False))
         types = connection_types(route)
         if not types:
             raise ValueError(f"No usable connection type for {operation_id}")
-        errors = ERRORS + (["timeout_unknown"] if write else [])
+        errors = ERRORS + (["timeout_unknown"] if write else READ_ERRORS)
         if route.get("provider_disabled"):
             errors = [*errors, "operation_disabled"]
         description = f"Discord REST v10 {method} {path}"
         if operation_id in documented_operations:
             description += ". " + operation["description"]
+        if paging is not None:
+            first = paging.directions[0]
+            description += (
+                f". With all_pages it reads every page ({first} the step's cursor, or from "
+                f"the {'first' if first == 'after' else 'newest'} item without one) and "
+                f"returns next_cursor to pass as {first} when the list did not end"
+            )
+        outputs = copy.deepcopy(
+            [
+                *COMMON_OUTPUTS,
+                *(WRITE_OUTPUTS if write else []),
+                *(PAGING_OUTPUTS if paging is not None else []),
+            ]
+        )
         contract = {
             "operation_id": action_id,
             "display_name": title,
@@ -261,11 +332,8 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
                 {"name": "connection_ref", "value_type": "connection_ref", "required": True},
                 *[f["contract"] for f in fields],
             ],
-            "outputs": [
-                {"name": "response", "value_type": "object", "schema": {"type": "object"}},
-                {"name": "suppressed", "value_type": "boolean", "schema": {"type": "boolean"}},
-            ],
-            "result_fields": ["result.response", "result.suppressed"],
+            "outputs": outputs,
+            "result_fields": [f"result.{output['name']}" for output in outputs],
             "error_codes": errors,
         }
         action = {
@@ -279,7 +347,7 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
                 {"name": "connection_ref", "type": "connection_ref", "required": True},
                 *[f["parameter"] for f in fields],
             ],
-            "result_fields": ["response", "suppressed"],
+            "result_fields": [output["name"] for output in outputs],
             "error_codes": errors,
         }
         if write:
@@ -293,6 +361,22 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
                     "channel": "discord_rest_api",
                     "idempotency": "required",
                     "test_mode_behavior": "suppress",
+                }
+            )
+        if "multipart/form-data" in media:
+            manifests["contracts/artifact_policies.yaml"].append(
+                {
+                    "operation_id": action_id,
+                    "inputs": [
+                        {
+                            "kind": "artifact",
+                            "value_type": "artifact_handle",
+                            "binding_key": FILE_BINDING,
+                            "field": "file_artifacts",
+                            "required": False,
+                            "max_size_bytes": MAX_FILE_BYTES,
+                        }
+                    ],
                 }
             )
         manifests["contracts/operation_manifest.yaml"].append(contract)

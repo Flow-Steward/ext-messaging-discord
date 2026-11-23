@@ -2,58 +2,136 @@
 
 from __future__ import annotations
 
-import hashlib
-from http.client import HTTPException
 import json
 import re
 import sys
 from typing import Any
-from urllib.error import URLError
 
 from flowsteward_extension_sdk import runtime_context_from_payload
 
 from runtime.individual_actions import dispatch_individual
-from runtime.reads import READ_OPERATIONS, execute_read, read_arguments
-from runtime.rest_action import dispatch_rest
-from runtime.routes import RequestTarget, request_target
-from runtime.transport import DiscordHTTPError, request_json
+from runtime.reads import READ_OPERATIONS, read_arguments, shaped
+from runtime.rest_action import connection_of, dispatch_rest, failure, test_run
 
-USER_AGENT = "DiscordBot (https://github.com/Flow-Steward, 0.1.0)"
+USER_AGENT = "DiscordBot (https://github.com/Flow-Steward/ext-messaging-discord, 0.1.0)"
 MAX_INPUT = 2_700_000
 SNOWFLAKE = re.compile(r"[0-9]{1,20}")
 TOKEN = re.compile(r"[A-Za-z0-9._-]{1,512}")
-STATUS_ERRORS = {
-    400: "upstream_validation_failed",
-    401: "authentication_failed",
-    403: "access_denied",
-    404: "not_found",
-    429: "rate_limited",
-}
+_failure = failure
 
 
-def _failure(code: str, *, uncertain: bool = False) -> dict[str, Any]:
-    return {
-        "ok": False,
-        "result": {},
-        "error_code": code,
-        "error": code.replace("_", " "),
-        "definitely_no_external_effect": not uncertain,
-        "external_effect_status": "timeout_unknown" if uncertain else "failed",
-    }
-
-
-def _request(target: RequestTarget, token: str, body: dict | None = None) -> dict:
-    result = request_json(
-        method=target.method,
-        path=target.path,
-        token=token,
-        user_agent=USER_AGENT,
-        success_statuses=target.success_statuses,
-        body=body,
+def _bot_connection(action: dict[str, Any], inputs: dict[str, Any]) -> bool:
+    connection = connection_of(action, inputs)
+    if connection is None:
+        return False
+    connection_type = connection.get("connection_type_id") or connection.get("connection_type")
+    secrets = connection.get("secrets")
+    token = secrets.get("bot_token") if isinstance(secrets, dict) else None
+    return (
+        connection_type == "discord_bot" and isinstance(token, str) and bool(TOKEN.fullmatch(token))
     )
-    if not isinstance(result, dict):
-        raise ValueError("Discord response was not an object")
-    return result
+
+
+def _carry(response: dict[str, Any], result: dict[str, Any]) -> dict[str, Any]:
+    """The dedicated step's outputs on the outcome of the underlying REST call."""
+    outcome = {key: value for key, value in response.items() if key != "result"}
+    outcome["result"] = result
+    return outcome
+
+
+def _legacy(
+    operation: str, action: dict[str, Any], inputs: dict[str, Any], context: Any
+) -> dict[str, Any]:
+    write = operation == "send_message"
+    read = operation in READ_OPERATIONS
+    channel_id, content = inputs.get("channel_id"), inputs.get("content")
+    path_parameters: dict[str, str] = {}
+    query: dict[str, str | int] = {}
+    if read:
+        try:
+            path_parameters, query = read_arguments(operation, inputs)
+        except ValueError:
+            return _failure("invalid_payload")
+    else:
+        allowed = {"connection_ref", "channel_id", "content"} if write else {"connection_ref"}
+        if inputs.keys() - allowed:
+            return _failure("invalid_payload")
+        if write and not (
+            isinstance(channel_id, str)
+            and SNOWFLAKE.fullmatch(channel_id)
+            and isinstance(content, str)
+            and content.strip()
+            and len(content.encode("utf-16-le", errors="surrogatepass")) <= 4000
+        ):
+            return _failure("invalid_payload")
+    test_mode = context.raw.get("test_mode", False)
+    if not isinstance(test_mode, bool):
+        return _failure("invalid_payload")
+    if not _bot_connection(action, inputs):
+        return _failure("invalid_connection")
+    if write and test_mode:
+        return test_run({"message_id": None, "channel_id": channel_id})
+
+    rest_inputs: dict[str, Any] = {"connection_ref": inputs["connection_ref"]}
+    if write:
+        rest_inputs.update(
+            operation_id="create_message",
+            path_parameters={"channel_id": channel_id},
+            body={"data": {"content": content, "allowed_mentions": {"parse": []}}},
+        )
+    elif read:
+        rest_inputs.update(
+            operation_id=operation,
+            path_parameters=path_parameters,
+            query_parameters={
+                name: value for name, value in query.items() if not isinstance(value, bool)
+            },
+        )
+    else:
+        rest_inputs["operation_id"] = "get_my_user"
+    response = dispatch_rest(
+        action,
+        rest_inputs,
+        context,
+        write=write,
+        user_agent=USER_AGENT,
+        all_pages=read and inputs.get("all_pages") is True,
+    )
+    outcome = response.get("result") or {}
+    if not response["ok"]:
+        return response
+    data = (outcome.get("response") or {}).get("data")
+    common = {"rate_limit": outcome.get("rate_limit"), "warnings": outcome.get("warnings", [])}
+    if write:
+        provider_id = data.get("id") if isinstance(data, dict) else None
+        if not isinstance(provider_id, str) or not SNOWFLAKE.fullmatch(provider_id):
+            provider_id = None
+        return _carry(
+            response,
+            {
+                "message_id": provider_id,
+                "channel_id": channel_id,
+                "suppressed": False,
+                "processing": outcome.get("processing"),
+                **common,
+            },
+        )
+    if read:
+        try:
+            result = shaped(operation, data)
+        except ValueError:
+            return _failure("invalid_response", result={"rate_limit": outcome.get("rate_limit")})
+        if operation == "list_messages":
+            result.update(
+                next_cursor=outcome.get("next_cursor"),
+                complete=outcome.get("complete"),
+                pages=outcome.get("pages"),
+            )
+        return _carry(response, {**result, **common})
+    bot_id = data.get("id") if isinstance(data, dict) else None
+    if not isinstance(bot_id, str) or not SNOWFLAKE.fullmatch(bot_id):
+        return _failure("invalid_response", result={"rate_limit": outcome.get("rate_limit")})
+    return _carry(response, {"bot_id": bot_id, **common})
 
 
 def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
@@ -79,102 +157,13 @@ def dispatch(payload: dict[str, Any]) -> dict[str, Any]:
             write=operation == "discord_rest_write",
             user_agent=USER_AGENT,
         )
-    write = operation == "send_message"
-    read = operation in READ_OPERATIONS
-    if not (write or read or operation == "test_connection"):
-        return _failure("invalid_payload")
-    channel_id, content = inputs.get("channel_id"), inputs.get("content")
-    if read:
-        try:
-            path_parameters, query = read_arguments(operation, inputs)
-        except ValueError:
-            return _failure("invalid_payload")
-    else:
-        allowed = {"connection_ref", "channel_id", "content"} if write else {"connection_ref"}
-        if inputs.keys() - allowed:
-            return _failure("invalid_payload")
-        if write and not (
-            isinstance(channel_id, str)
-            and SNOWFLAKE.fullmatch(channel_id)
-            and isinstance(content, str)
-            and content.strip()
-            and len(content.encode("utf-16-le", errors="surrogatepass")) <= 4000
-        ):
-            return _failure("invalid_payload")
-    test_mode = context.raw.get("test_mode", False)
-    if not isinstance(test_mode, bool):
-        return _failure("invalid_payload")
-    target = action.get("target")
-    connection = target.get("connection") if isinstance(target, dict) else None
-    connection_ref = inputs.get("connection_ref")
-    if not isinstance(connection, dict) or not connection.get("connection_id"):
-        return _failure("invalid_connection")
-    if not isinstance(connection_ref, str) or not connection_ref:
-        return _failure("invalid_connection")
-    if connection["connection_id"] != connection_ref:
-        return _failure("invalid_connection")
-    connection_type = connection.get("connection_type_id") or connection.get("connection_type")
-    if connection_type != "discord_bot":
-        return _failure("invalid_connection")
-    secrets = connection.get("secrets")
-    token = secrets.get("bot_token") if isinstance(secrets, dict) else None
-    if not isinstance(token, str) or not TOKEN.fullmatch(token):
-        return _failure("invalid_connection")
-
-    if write and test_mode:
-        return {
-            "ok": True,
-            "result": {"message_id": "", "channel_id": channel_id, "suppressed": True},
-        }
-
-    body: dict[str, Any] | None = None
-    request = request_target("get_my_user")
-    if write:
-        execution_id = context.step_execution_id
-        if not execution_id:
-            return _failure("invalid_payload")
-        request = request_target("create_message", path_parameters={"channel_id": channel_id})
-        body = {
-            "content": content,
-            "allowed_mentions": {"parse": []},
-            "nonce": hashlib.sha256(execution_id.encode()).hexdigest()[:25],
-            "enforce_nonce": True,
-        }
-    try:
-        if read:
-            return {
-                "ok": True,
-                "result": execute_read(
-                    operation,
-                    token=token,
-                    user_agent=USER_AGENT,
-                    path_parameters=path_parameters,
-                    query=query,
-                ),
-            }
-        response = _request(request, token, body)
-        provider_id = response.get("id") if isinstance(response, dict) else None
-        if not isinstance(provider_id, str) or not SNOWFLAKE.fullmatch(provider_id):
-            raise ValueError("Discord response did not contain an ID")
-    except DiscordHTTPError as exc:
-        if exc.status in STATUS_ERRORS:
-            failure = _failure(STATUS_ERRORS[exc.status])
-            if exc.code is not None:
-                failure["provider_error_code"] = exc.code
-            if exc.retry_after is not None:
-                failure["retry_after_seconds"] = exc.retry_after
-            return failure
-        return _failure("timeout_unknown" if write else "provider_unavailable", uncertain=write)
-    except (URLError, OSError, HTTPException, ValueError, RecursionError):
-        return _failure("timeout_unknown" if write else "provider_unavailable", uncertain=write)
-
-    if write:
-        return {
-            "ok": True,
-            "result": {"message_id": provider_id, "channel_id": channel_id, "suppressed": False},
-            "external_effect_status": "succeeded",
-        }
-    return {"ok": True, "result": {"bot_id": provider_id}}
+    if (
+        operation == "send_message"
+        or operation in READ_OPERATIONS
+        or operation == "test_connection"
+    ):
+        return _legacy(operation, action, inputs, context)
+    return _failure("invalid_payload")
 
 
 def main() -> int:

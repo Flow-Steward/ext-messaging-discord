@@ -10,7 +10,8 @@ from pathlib import Path
 import pytest
 
 import main
-from runtime import rest, transport
+from discord_fakes import Response, documented_reply, pinned, reply
+from runtime import rest
 from runtime.input_schema import accepts
 from test_rest_action import ROUTES, sample_invocation
 
@@ -90,7 +91,7 @@ def test_action_executes_only_its_registered_route(monkeypatch, action_id):
     def send(**kwargs):
         calls.append(kwargs)
         status = kwargs["success_statuses"][0]
-        return status, "application/json", b"{}" if status != 204 else b""
+        return documented_reply(route, status)
 
     monkeypatch.setattr(rest, "request_raw", send)
     result = main.dispatch(request)
@@ -112,13 +113,18 @@ def test_action_executes_only_its_registered_route(monkeypatch, action_id):
     "action_id", sorted(key for key, value in ACTIONS.items() if value["write"])
 )
 def test_dedicated_write_actions_are_suppressed(monkeypatch, action_id):
+    from test_rest_action import TEST_RUN
+
     def unexpected(**kwargs):
         pytest.fail("Dry run called Discord")
 
     monkeypatch.setattr(rest, "request_raw", unexpected)
     request, _, _ = independent_invocation(action_id)
     request["runtime_context"]["test_mode"] = True
-    assert main.dispatch(request) == {"ok": True, "result": {"response": {}, "suppressed": True}}
+    if ROUTES[ACTIONS[action_id]["operation_id"]].get("provider_disabled"):
+        assert main.dispatch(request)["error_code"] == "operation_disabled"
+    else:
+        assert main.dispatch(request) == TEST_RUN
 
 
 def test_all_dedicated_actions_have_forms_and_contracts():
@@ -185,12 +191,13 @@ def test_multipart_upload_delivers_binary_file(monkeypatch, action_id):
         inputs["media_type"] = "multipart/form-data"
     if operation == "create_guild_sticker":
         inputs["body"] = {"data": {"name": "Fixture", "tags": "example"}}
-    inputs["files"] = [{"field": field, "filename": "fixture.bin", "data_base64": "AAEC/w=="}]
+    filename = "fixture.png" if operation == "create_guild_sticker" else "fixture.bin"
+    inputs["files"] = [{"field": field, "filename": filename, "data_base64": "AAEC/w=="}]
     calls = []
 
     def send(**kwargs):
         calls.append(kwargs)
-        return kwargs["success_statuses"][0], "application/json", b"{}"
+        return reply(kwargs["success_statuses"][0])
 
     monkeypatch.setattr(rest, "request_raw", send)
     assert main.dispatch(request)["ok"] is True
@@ -200,7 +207,10 @@ def test_multipart_upload_delivers_binary_file(monkeypatch, action_id):
     )
     [attachment] = [part for part in message.iter_parts() if part.get_filename()]
     assert attachment.get_param("name", header="content-disposition") == field
-    assert attachment.get_filename() == "fixture.bin"
+    assert attachment.get_filename() == filename
+    assert attachment.get_content_type() == (
+        "image/png" if operation == "create_guild_sticker" else "application/octet-stream"
+    )
     assert attachment.get_payload(decode=True) == b"\x00\x01\x02\xff"
     if operation == "create_guild_sticker":
         assert any(
@@ -236,18 +246,15 @@ def test_write_is_attempted_once_and_reports_uncertain_outcome(
         def __exit__(self, *exc):
             return False
 
-    class Opener:
-        def open(self, http_request, *, timeout):
-            calls.append(http_request)
-            if failure_mode == "timeout":
-                raise TimeoutError("provider diagnostic with a secret")
-            if failure_mode == "http_502":
-                raise HTTPError(
-                    http_request.full_url, 502, "provider diagnostic", {}, BytesIO(b"{}")
-                )
-            return UnexpectedResponse()
+    def open_pinned(http_request):
+        calls.append(http_request)
+        if failure_mode == "timeout":
+            raise TimeoutError("provider diagnostic with a secret")
+        if failure_mode == "http_502":
+            raise HTTPError(http_request.full_url, 502, "provider diagnostic", {}, BytesIO(b"{}"))
+        return UnexpectedResponse()
 
-    monkeypatch.setattr(transport, "build_opener", lambda *_: Opener())
+    pinned(monkeypatch, open_pinned)
     result = main.dispatch(request)
     assert len(calls) == 1
     assert result["error_code"] == "timeout_unknown"
@@ -273,8 +280,6 @@ def test_write_is_attempted_once_and_reports_uncertain_outcome(
 def test_provider_credentials_never_leave_dispatch(
     monkeypatch, caplog, capsys, operation, response_kind
 ):
-    from email.message import Message
-
     request, _, _ = independent_invocation(f"rest_{operation}")
     result_tokens = {
         "token": "new.fixture.webhook",
@@ -298,20 +303,14 @@ def test_provider_credentials_never_leave_dispatch(
         }
     ).encode()
 
-    class Response(BytesIO):
-        status = next(status for status in ROUTES[operation]["success_statuses"] if status != 204)
-        headers = Message()
-        headers["Content-Type"] = "application/json"
+    status = next(status for status in ROUTES[operation]["success_statuses"] if status != 204)
 
-    class Opener:
-        def open(self, http_request, *, timeout):
-            if response_kind == "error":
-                raise HTTPError(
-                    http_request.full_url, 400, str(result_tokens), {}, BytesIO(payload)
-                )
-            return Response(payload)
+    def open_pinned(http_request):
+        if response_kind == "error":
+            raise HTTPError(http_request.full_url, 400, str(result_tokens), {}, BytesIO(payload))
+        return Response(status, payload, {"Content-Type": "application/json"})
 
-    monkeypatch.setattr(transport, "build_opener", lambda *_: Opener())
+    pinned(monkeypatch, open_pinned)
     result = main.dispatch(request)
     captured = capsys.readouterr()
     output = repr(result) + captured.out + captured.err + caplog.text

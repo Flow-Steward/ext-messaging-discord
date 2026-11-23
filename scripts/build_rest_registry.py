@@ -66,6 +66,13 @@ def build_routes(spec: dict[str, Any]) -> dict[str, Any]:
                 "success_statuses": sorted(
                     int(code) for code in operation["responses"] if code.startswith("2")
                 ),
+                # The media types Discord documents for each success status; a status
+                # without any documents no body.
+                "response_media_types": {
+                    code: sorted(response.get("content", {}))
+                    for code, response in sorted(operation["responses"].items())
+                    if code.startswith("2")
+                },
             }
             if operation.get("x-provider-disabled"):
                 routes[operation_id]["provider_disabled"] = True

@@ -4,183 +4,159 @@ from io import BytesIO
 from urllib.error import HTTPError
 
 import pytest
+from discord_fakes import Response, pinned
 from runtime import transport
 
 
-class Response(BytesIO):
-    def __init__(self, status: int, body: bytes):
-        super().__init__(body)
-        self.status = status
+def send(**overrides):
+    arguments = {
+        "method": "POST",
+        "path": "/channels/123/messages",
+        "authorization": "Bot example.token",
+        "user_agent": "Test",
+        "success_statuses": (200,),
+        "data": b"{}",
+        "content_type": "application/json",
+        "query": [],
+        "audit_reason": "",
+    }
+    arguments.update(overrides)
+    return transport.request_raw(**arguments)
 
 
-class Opener:
-    def __init__(self, response):
-        self.response = response
-        self.requests = []
-
-    def open(self, request, *, timeout):
-        self.requests.append((request, timeout))
-        if isinstance(self.response, Exception):
-            raise self.response
-        return self.response
-
-
-@pytest.mark.parametrize(
-    ("status", "raw", "expected"),
-    [
-        (200, b'[{"id":"11"}]', [{"id": "11"}]),
-        (201, b'{"id":"11"}', {"id": "11"}),
-        (204, b"", None),
-    ],
-)
-def test_registered_statuses_and_response_shapes(monkeypatch, status, raw, expected):
-    opener = Opener(Response(status, raw))
-
-    def build_opener(handler):
-        assert isinstance(handler, transport.NoRedirect)
-        assert handler.redirect_request(None, None, 302, None, None, "https://example.test") is None
-        return opener
-
-    monkeypatch.setattr(transport, "build_opener", build_opener)
-    assert (
-        transport.request_json(
-            method="GET",
-            path="/channels/12/messages",
-            token="example.token",
-            user_agent="DiscordBot Test",
-            success_statuses=(status,),
-            query={"after": "11", "limit": 10},
-        )
-        == expected
-    )
-    [(request, timeout)] = opener.requests
-    assert request.full_url == "https://discord.com/api/v10/channels/12/messages?after=11&limit=10"
-    assert request.get_header("Authorization") == "Bot example.token"
-    assert timeout == 10
-
-
-def test_rate_limit_only_exposes_structured_facts(monkeypatch):
-    response = HTTPError(
-        "https://discord.com/api/v10/channels/12/messages",
-        429,
-        "private upstream detail",
-        None,
-        BytesIO(b'{"code": 20028, "retry_after": 2.5, "message": "private upstream detail"}'),
-    )
-    opener = Opener(response)
-    monkeypatch.setattr(transport, "build_opener", lambda _: opener)
-
-    with pytest.raises(transport.DiscordHTTPError) as result:
-        transport.request_json(
-            method="POST",
-            path="/channels/12/messages",
-            token="example.token",
-            user_agent="DiscordBot Test",
-            success_statuses=(200,),
-            body={"content": "message"},
-        )
-    assert result.value.status == 429
-    assert result.value.code == 20028
-    assert result.value.retry_after == 2.5
-    assert "private upstream detail" not in str(result.value)
-    assert len(opener.requests) == 1
-
-
-@pytest.mark.parametrize(
-    ("status", "body"),
-    [(201, b"{}"), (200, b"x" * (transport.MAX_RESPONSE + 1)), (200, b"123")],
-)
-def test_rejects_mismatched_status_and_invalid_responses(monkeypatch, status, body):
-    monkeypatch.setattr(transport, "build_opener", lambda _: Opener(Response(status, body)))
-    with pytest.raises(ValueError):
-        transport.request_json(
-            method="GET",
-            path="/users/@me",
-            token="example.token",
-            user_agent="DiscordBot Test",
-            success_statuses=(200,),
-        )
+def test_every_request_goes_through_the_sdk_pinned_opener(monkeypatch):
+    opener = pinned(monkeypatch, Response(200, b'{"id":"1"}', {"Content-Type": "application/json"}))
+    reply = send(timeout=7.5)
+    assert reply.status == 200 and reply.raw == b'{"id":"1"}'
+    [(request, timeout, purpose)] = opener.requests
+    assert request.full_url == "https://discord.com/api/v10/channels/123/messages"
+    assert timeout == 7.5
+    assert purpose == "Discord API"
 
 
 def test_raw_transport_encodes_query_and_audit_reason(monkeypatch):
-    from email.message import Message
-
-    response = Response(201, b'{"id":"123"}')
-    response.headers = Message()
-    response.headers["Content-Type"] = "application/json; charset=utf-8"
-    opener = Opener(response)
-    monkeypatch.setattr(transport, "build_opener", lambda handler: opener)
-    assert transport.request_raw(
-        method="POST",
+    opener = pinned(
+        monkeypatch,
+        Response(201, b'{"id":"123"}', {"Content-Type": "application/json; charset=utf-8"}),
+    )
+    reply = send(
         path="/channels/123/invites",
         authorization="Bearer example.token",
-        user_agent="Test",
         success_statuses=(201,),
         data=b"name=example",
         content_type="application/x-www-form-urlencoded",
         query=[("limit", "10")],
         audit_reason="Test / change",
-    ) == (201, "application/json", b'{"id":"123"}')
-    [(request, _)] = opener.requests
+    )
+    assert (reply.status, reply.media_type, reply.raw) == (201, "application/json", b'{"id":"123"}')
+    [(request, _, _)] = opener.requests
     assert request.full_url.endswith("/channels/123/invites?limit=10")
     assert request.get_header("Authorization") == "Bearer example.token"
     assert request.get_header("Content-type") == "application/x-www-form-urlencoded"
     assert request.get_header("X-audit-log-reason") == "Test%20%2F%20change"
 
 
-@pytest.mark.parametrize(
-    ("status", "body", "reason"),
-    [
-        (201, b"{}", "unexpected_status"),
-        (200, b"x" * (transport.MAX_RESPONSE + 1), "response_too_large"),
-    ],
-)
-def test_raw_transport_preserves_acknowledged_status(monkeypatch, status, body, reason):
-    from email.message import Message
-
-    response = Response(status, body)
-    response.headers = Message()
-    opener = Opener(response)
-    monkeypatch.setattr(transport, "build_opener", lambda handler: opener)
+def test_an_undocumented_success_status_is_reported_with_its_status(monkeypatch):
+    pinned(monkeypatch, Response(201, b"{}"))
     with pytest.raises(transport.DiscordResponseError) as error:
-        transport.request_raw(
-            method="POST",
-            path="/channels/123/messages",
-            authorization=None,
-            user_agent="Test",
-            success_statuses=(200,),
-            data=b"{}",
-            content_type="application/json",
-            query=[],
-            audit_reason="",
-        )
-    assert error.value.status == status
-    assert error.value.reason == reason
-    [(request, _)] = opener.requests
-    assert request.get_header("Authorization") is None
+        send(authorization=None)
+    assert (error.value.status, error.value.reason) == (201, "unexpected_status")
 
 
-def test_raw_transport_accepts_empty_success_and_disables_redirects(monkeypatch):
+def test_an_answer_up_to_8_mib_is_read_and_a_longer_one_is_not(monkeypatch):
+    assert transport.MAX_RESPONSE == 8 * 1024 * 1024
+    pinned(monkeypatch, Response(200, b"x" * transport.MAX_RESPONSE))
+    assert len(send().raw) == transport.MAX_RESPONSE
+    pinned(monkeypatch, Response(200, b"x" * (transport.MAX_RESPONSE + 1)))
+    reply = send()
+    assert (reply.raw, reply.unread) == (b"", "response_too_large")
+
+
+def test_an_answer_cut_off_by_the_connection_keeps_its_status(monkeypatch):
+    class Broken(Response):
+        def read(self, size=-1):
+            raise ConnectionResetError
+
+    pinned(monkeypatch, Broken(200, b"", {"Content-Type": "application/json"}))
+    reply = send()
+    assert (reply.status, reply.unread) == (200, "incomplete_response")
+
+
+def test_raw_transport_accepts_empty_success_without_content_type(monkeypatch):
+    pinned(monkeypatch, Response(204, b""))
+    reply = send(method="DELETE", data=None, content_type=None, success_statuses=(204,))
+    assert (reply.status, reply.media_type, reply.raw) == (204, "", b"")
+
+
+def test_rate_limit_headers_are_kept_and_nothing_else(monkeypatch):
+    pinned(
+        monkeypatch,
+        Response(
+            200,
+            b"{}",
+            {
+                "X-RateLimit-Limit": "5",
+                "X-RateLimit-Remaining": "4",
+                "X-RateLimit-Reset-After": "1.5",
+                "X-RateLimit-Bucket": "abcd1234",
+                "Set-Cookie": "private",
+            },
+        ),
+    )
+    reply = send()
+    assert set(reply.headers) == {
+        "X-RateLimit-Limit",
+        "X-RateLimit-Remaining",
+        "X-RateLimit-Reset-After",
+        "X-RateLimit-Bucket",
+    }
+    assert transport.rate_limit(reply.headers) == {
+        "limit": 5,
+        "remaining": 4,
+        "reset_after": 1.5,
+        "bucket": "abcd1234",
+        "global": False,
+    }
+
+
+def test_rate_limit_only_exposes_structured_facts(monkeypatch):
     from email.message import Message
 
-    response = Response(204, b"")
-    response.headers = Message()
-    opener = Opener(response)
+    headers = Message()
+    headers["X-RateLimit-Global"] = "true"
+    headers["Retry-After"] = "3"
+    response = HTTPError(
+        "https://discord.com/api/v10/channels/12/messages",
+        429,
+        "private upstream detail",
+        headers,
+        BytesIO(
+            b'{"code": 20028, "retry_after": 2.5, "global": true, '
+            b'"message": "private upstream detail"}'
+        ),
+    )
+    opener = pinned(monkeypatch, response)
+    with pytest.raises(transport.DiscordHTTPError) as result:
+        send()
+    assert result.value.status == 429
+    assert result.value.code == 20028
+    assert result.value.retry_after == 2.5
+    assert result.value.global_limit is True
+    assert "private upstream detail" not in str(result.value)
+    assert len(opener.requests) == 1
 
-    def open_without_redirect(handler):
-        assert isinstance(handler, transport.NoRedirect)
-        assert handler.redirect_request(None, None, 302, None, None, "https://example.test") is None
-        return opener
 
-    monkeypatch.setattr(transport, "build_opener", open_without_redirect)
-    assert transport.request_raw(
-        method="DELETE",
-        path="/channels/123/messages/456",
-        authorization="Bot example",
-        user_agent="Test",
-        success_statuses=(204,),
-        data=None,
-        content_type=None,
-        query=[],
-        audit_reason="",
-    ) == (204, "text/plain", b"")
+def test_a_redirect_is_not_followed(monkeypatch):
+    response = HTTPError("https://discord.com/api/v10/x", 302, "Found", None, BytesIO(b""))
+    pinned(monkeypatch, response)
+    with pytest.raises(transport.DiscordHTTPError) as result:
+        send()
+    assert result.value.status == 302
+
+
+def test_invalid_paths_never_leave_the_process(monkeypatch):
+    opener = pinned(monkeypatch, Response(200, b"{}"))
+    for path in ("relative", "//evil.example/x", "/a?b", "/a#b"):
+        with pytest.raises(ValueError):
+            send(path=path)
+    assert opener.requests == []

@@ -43,6 +43,12 @@ forms:
     label: Around
     widget_type: text
     required: false
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until the list ends or the step's time or output
+      is used up; next_cursor and complete say where to continue.
 - operation_id: get_guild
   title: Get server
   fields:
@@ -606,6 +612,12 @@ forms:
     label: Multipart files
     widget_type: json
     required: false
+  - name: file_artifacts
+    label: Workflow files
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]),
+      the file name and the file from an earlier step.'
   - name: audit_reason
     label: Audit log reason
     widget_type: text
@@ -1145,7 +1157,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -1335,7 +1355,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -1392,7 +1420,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -1468,7 +1504,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -1502,7 +1546,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -1579,7 +1631,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -2391,7 +2451,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -2440,7 +2508,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -2499,6 +2575,12 @@ forms:
     widget_type: number
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_get_application
   title: Get application
   fields:
@@ -2711,6 +2793,12 @@ forms:
     widget_type: text
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_get_gateway
   title: Get gateway
   fields: []
@@ -2817,6 +2905,12 @@ forms:
     widget_type: text
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_get_guild_member
   title: Get guild member
   fields:
@@ -3141,6 +3235,12 @@ forms:
     widget_type: text
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_get_soundboard_default_sounds
   title: Get soundboard default sounds
   fields: []
@@ -3623,6 +3723,12 @@ forms:
     widget_type: text
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_guild_bans
   title: List guild bans
   fields:
@@ -3646,6 +3752,12 @@ forms:
     widget_type: number
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_guild_channels
   title: List guild channels
   fields:
@@ -3696,6 +3808,12 @@ forms:
     widget_type: number
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_guild_roles
   title: List guild roles
   fields:
@@ -3742,6 +3860,12 @@ forms:
     widget_type: boolean
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_guild_scheduled_event_users
   title: List guild scheduled event users
   fields:
@@ -3775,6 +3899,12 @@ forms:
     widget_type: boolean
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_guild_scheduled_events
   title: List guild scheduled events
   fields:
@@ -3853,6 +3983,12 @@ forms:
     widget_type: number
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_messages
   title: List messages
   fields:
@@ -3881,6 +4017,12 @@ forms:
     widget_type: number
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_my_connections
   title: List my connections
   fields: []
@@ -3912,6 +4054,12 @@ forms:
     widget_type: boolean
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_my_private_archived_threads
   title: List my private archived threads
   fields:
@@ -3930,6 +4078,12 @@ forms:
     widget_type: number
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_pins
   title: List pins
   fields:
@@ -3948,6 +4102,12 @@ forms:
     widget_type: number
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_private_archived_threads
   title: List private archived threads
   fields:
@@ -3966,6 +4126,12 @@ forms:
     widget_type: number
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_public_archived_threads
   title: List public archived threads
   fields:
@@ -3984,6 +4150,12 @@ forms:
     widget_type: number
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_sticker_packs
   title: List sticker packs
   fields: []
@@ -4010,6 +4182,12 @@ forms:
     widget_type: boolean
     required: false
     help_text: Discord query parameter.
+  - name: all_pages
+    label: All pages
+    widget_type: boolean
+    required: false
+    help_text: Read page after page until Discord's list ends or the step's time or
+      output is used up; next_cursor and complete say where to continue.
 - operation_id: rest_list_voice_regions
   title: List voice regions
   fields: []
@@ -4823,7 +5001,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -4862,7 +5048,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -4901,7 +5095,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -4989,7 +5191,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -5069,7 +5279,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -5195,7 +5413,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text
@@ -5218,7 +5444,15 @@ forms:
     label: Files
     widget_type: json
     required: false
-    help_text: Multipart file fields, filenames and base64 contents.
+    help_text: 'Small files as base64: the multipart field, the file name and the
+      base64 contents.'
+  - name: file_artifacts
+    label: File artifacts
+    widget_type: json
+    required: false
+    help_text: 'Workflow files to upload: the multipart field (for example files[0]
+      or file), the file name and the file from an earlier step. The part''s Content-Type
+      follows the file name''s extension.'
   - name: audit_reason
     label: Audit reason
     widget_type: text

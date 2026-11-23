@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import base64
 import json
 import re
 import uuid
@@ -10,8 +9,9 @@ from dataclasses import dataclass, field
 from typing import Any
 from urllib.parse import quote, unquote, urlencode
 
+from runtime.files import ArtifactReader, Part, file_parts
 from runtime.routes import RequestTarget, request_target, route_for
-from runtime.transport import DiscordResponseError, request_raw
+from runtime.transport import DEFAULT_TIMEOUT_SECONDS, Reply, request_raw
 
 MAX_UPLOAD = 2_000_000
 SAFE_NAME = re.compile(r"[A-Za-z0-9_.\[\]-]{1,160}")
@@ -51,8 +51,6 @@ TOKEN_QUERY = re.compile(
     r"([^&#\s]+)",
     re.IGNORECASE,
 )
-SAFE_MEDIA_TYPES = {"application/json", "text/csv", "image/png"}
-SAFE_WARNINGS = {"unexpected_status", "incomplete_response", "response_too_large"}
 
 
 def _credential_field(key: str) -> bool:
@@ -85,9 +83,7 @@ def _pairs(values: dict[str, Any]) -> list[tuple[str, str]]:
     return pairs
 
 
-def _multipart(body: Any, files: Any, *, raw_fields: bool = False) -> tuple[str, bytes]:
-    if not isinstance(files, list) or len(files) > 10:
-        raise ValueError("Multipart files must be a list of at most ten entries")
+def _multipart(body: Any, parts: list[Part], *, raw_fields: bool = False) -> tuple[str, bytes]:
     boundary = uuid.uuid4().hex
     chunks: list[bytes] = []
     if raw_fields and body is not None:
@@ -108,27 +104,11 @@ def _multipart(body: Any, files: Any, *, raw_fields: bool = False) -> tuple[str,
             + json.dumps(body, allow_nan=False).encode()
             + b"\r\n"
         )
-    used: set[str] = set()
-    for entry in files:
-        if not isinstance(entry, dict):
-            raise ValueError("Invalid multipart file")
-        name = entry.get("field")
-        filename = entry.get("filename")
-        data = entry.get("data_base64")
-        if (
-            not isinstance(name, str)
-            or not SAFE_NAME.fullmatch(name)
-            or not isinstance(filename, str)
-            or not SAFE_NAME.fullmatch(filename)
-        ):
-            raise ValueError("Invalid multipart field or filename")
-        if name in used or not isinstance(data, str):
-            raise ValueError("Invalid or duplicate multipart file")
-        used.add(name)
+    for part in parts:
         chunks.append(
-            f'--{boundary}\r\nContent-Disposition: form-data; name="{name}"; filename="{filename}"\r\n'
-            "Content-Type: application/octet-stream\r\n\r\n".encode()
-            + base64.b64decode(data, validate=True)
+            f'--{boundary}\r\nContent-Disposition: form-data; name="{part.name}"; '
+            f'filename="{part.filename}"\r\nContent-Type: {part.content_type}\r\n\r\n'.encode()
+            + part.data
             + b"\r\n"
         )
     chunks.append(f"--{boundary}--\r\n".encode())
@@ -139,7 +119,12 @@ def _multipart(body: Any, files: Any, *, raw_fields: bool = False) -> tuple[str,
 
 
 def prepare(
-    operation_id: str, *, inputs: dict[str, Any], connection: dict[str, Any], write: bool
+    operation_id: str,
+    *,
+    inputs: dict[str, Any],
+    connection: dict[str, Any],
+    write: bool,
+    read_artifact: ArtifactReader | None = None,
 ) -> Prepared:
     route = route_for(operation_id)
     if (route["method"] not in {"GET", "HEAD", "OPTIONS"}) != write:
@@ -152,6 +137,7 @@ def prepare(
         "body",
         "media_type",
         "files",
+        "file_artifacts",
         "audit_reason",
     }:
         raise ValueError("Unsupported input field")
@@ -196,7 +182,9 @@ def prepare(
     reason = inputs.get("audit_reason", "")
     if not isinstance(reason, str) or len(reason) > 512:
         raise ValueError("Audit reason exceeds the limit")
-    body_input, files = inputs.get("body"), inputs.get("files", [])
+    body_input = inputs.get("body")
+    files = inputs.get("files", [])
+    artifacts = inputs.get("file_artifacts", [])
     if body_input is not None and (not isinstance(body_input, dict) or set(body_input) != {"data"}):
         raise ValueError("The body must be wrapped in a data field")
     body = body_input["data"] if body_input is not None else None
@@ -221,11 +209,11 @@ def prepare(
             },
         }
     media_type, encoded = None, None
-    if body is not None or files:
+    if body is not None or files or artifacts:
         supported = route["request_media_types"]
         default = (
             "multipart/form-data"
-            if files
+            if files or artifacts
             else "application/json"
             if "application/json" in supported
             else supported[0]
@@ -236,9 +224,16 @@ def prepare(
         if media_type not in supported:
             raise ValueError("Content type is not supported by this operation")
         if media_type == "multipart/form-data":
+            parts = file_parts(
+                operation_id,
+                files,
+                artifacts,
+                read_artifact=read_artifact,
+                valid_name=lambda name: SAFE_NAME.fullmatch(name) is not None,
+            )
             media_type, encoded = _multipart(
                 body,
-                files,
+                parts,
                 raw_fields=operation_id
                 in {
                     "create_guild_sticker",
@@ -246,7 +241,7 @@ def prepare(
                     "update_invite_target_users",
                 },
             )
-        elif files:
+        elif files or artifacts:
             raise ValueError("Files require multipart/form-data")
         elif media_type == "application/json":
             encoded = json.dumps(
@@ -265,13 +260,23 @@ def prepare(
     return Prepared(target, authorization, credentials, media_type, encoded, _pairs(query), reason)
 
 
+#: A value found in the response under a credential field name is removed from every
+#: other text only when it is at least this long; a short value ("1") would otherwise
+#: corrupt unrelated text ("room 101"). The connection's own secrets are always removed.
+MIN_COLLECTED_SECRET = 8
+
+
 def redact_response(value: Any, credentials: tuple[str, ...]) -> Any:
     tokens = set(credentials)
 
     def collect(node: Any) -> None:
         if isinstance(node, dict):
             for key, item in node.items():
-                if _credential_field(key) and isinstance(item, str) and item:
+                if (
+                    _credential_field(key)
+                    and isinstance(item, str)
+                    and len(item) >= MIN_COLLECTED_SECRET
+                ):
                     tokens.add(item)
                 collect(item)
         elif isinstance(node, list):
@@ -307,49 +312,20 @@ def redact_response(value: Any, credentials: tuple[str, ...]) -> Any:
     return scrub(value)
 
 
-def execute(prepared: Prepared, *, user_agent: str) -> dict[str, Any]:
+def execute(
+    prepared: Prepared, *, user_agent: str, timeout: float = DEFAULT_TIMEOUT_SECONDS
+) -> Reply:
+    """Send the prepared request once."""
     target = prepared.target
-    try:
-        status, media_type, raw = request_raw(
-            method=target.method,
-            path=target.path,
-            authorization=prepared.authorization,
-            user_agent=user_agent,
-            success_statuses=target.success_statuses,
-            data=prepared.body,
-            content_type=prepared.content_type,
-            query=prepared.query,
-            audit_reason=prepared.audit_reason,
-        )
-    except DiscordResponseError as error:
-        return {
-            "status": error.status,
-            "data": None,
-            "warning": error.reason if error.reason in SAFE_WARNINGS else "unexpected_response",
-        }
-    if media_type not in SAFE_MEDIA_TYPES:
-        media_type = ""
-    if not raw:
-        data = None
-    elif media_type == "application/json":
-        try:
-            data = redact_response(json.loads(raw), prepared.credentials)
-        except (ValueError, RecursionError):
-            return {
-                "status": status,
-                "media_type": media_type,
-                "data": None,
-                "warning": "invalid_json",
-            }
-    elif media_type == "text/csv":
-        data = redact_response(raw.decode(errors="replace"), prepared.credentials)
-    elif media_type == "image/png":
-        data = {"base64": base64.b64encode(raw).decode("ascii")}
-    else:
-        return {
-            "status": status,
-            "media_type": media_type,
-            "data": None,
-            "warning": "unexpected_content_type",
-        }
-    return {"status": status, "media_type": media_type, "data": data}
+    return request_raw(
+        method=target.method,
+        path=target.path,
+        authorization=prepared.authorization,
+        user_agent=user_agent,
+        success_statuses=target.success_statuses,
+        data=prepared.body,
+        content_type=prepared.content_type,
+        query=prepared.query,
+        audit_reason=prepared.audit_reason,
+        timeout=timeout,
+    )
