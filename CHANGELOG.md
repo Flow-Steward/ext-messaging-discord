@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4
+
+- The Discord API is one tab: every step by group in sections you open, one line per step with what it does.
+- A Discord answer such as "not found" or "missing access" is reported as an ordinary step error, so a few of them in a row no longer pause the extension.
+
 ## 0.1.3
 
 - The release archive passes the Flow Steward catalog check: the pinned Discord documentation stores parameter names as values, so no field reads as a credential.

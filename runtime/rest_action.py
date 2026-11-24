@@ -56,11 +56,16 @@ TEST_RUN_WARNING = "Test run: the inputs were checked and nothing was sent to Di
 def failure(
     code: str, *, uncertain: bool = False, result: dict[str, Any] | None = None
 ) -> dict[str, Any]:
+    message = code.replace("_", " ")
     return {
         "ok": False,
         "result": result or {},
         "error_code": code,
-        "error": code.replace("_", " "),
+        "error": message,
+        # The host's public error envelope: without this list it counts a domain error
+        # (not found, access denied, rate limited) as a crash and quarantines the extension.
+        "errors": [{"code": code, "message": message}],
+        "warnings": [],
         "definitely_no_external_effect": not uncertain,
         "external_effect_status": "timeout_unknown" if uncertain else "failed",
     }

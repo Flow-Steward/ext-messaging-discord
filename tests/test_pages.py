@@ -83,7 +83,8 @@ def test_the_pages_a_user_needs_are_there():
         "changelog",
         "support",
     } <= ids
-    assert {f"discord-api-{gid}" for gid, _, _ in step_docs.GROUPS} <= ids
+    # The steps are listed on one API page, not one tab per group.
+    assert not any(i.startswith("discord-api-") for i in ids)
 
 
 def test_every_connection_type_has_a_form_on_its_page():
@@ -99,14 +100,17 @@ def test_every_connection_type_has_a_form_on_its_page():
     assert forms == types
 
 
-def test_every_step_is_on_exactly_one_group_page_with_what_it_does():
+def test_every_step_is_listed_once_on_the_api_page_in_a_collapsible_group():
     manifest = load("contracts/operation_manifest.yaml")["operations"]
     generated = [op for op in manifest if op["operation_id"].startswith("rest_")]
     assert len(generated) == 258
+    components = load("ui/pages/discord-api.yaml")["components"]
+    groups = [c for c in components if c["component_id"].startswith("steps_")]
+    assert len(groups) == len(step_docs.GROUPS) + 1  # the groups and Everyday
+    assert all(c.get("collapsible") is True for c in groups)
     seen: dict[str, int] = defaultdict(int)
-    for gid, _, _ in step_docs.GROUPS:
-        body = load(f"ui/pages/discord-api-{gid}.yaml")["components"][0]["body"]
-        for oid in re.findall(r"Action id `([a-z0-9_]+)`", body):
+    for component in groups:
+        for oid in re.findall(r"\(`(rest_[a-z0-9_]+)`\)", component["body"]):
             seen[oid] += 1
     assert {op["operation_id"] for op in generated} == set(seen)
     assert set(seen.values()) == {1}

@@ -161,19 +161,6 @@ def _body_fields(op: dict[str, Any]) -> list[str]:
     return names
 
 
-def _entry(step: dict[str, Any]) -> str:
-    kind = "changes data in Discord" if step["write"] else "reads only"
-    links = ", ".join(CONNECTION_NAMES[c] for c in step["connections"])
-    lines = [f"### {step['title']}", "", step["description"].strip(), ""]
-    meta = f"Action id `{step['id']}` · {kind} · connection: {links}"
-    if step["disabled"]:
-        meta += " · disabled by Discord, the step answers operation_disabled"
-    lines += [meta, ""]
-    inputs = ", ".join(f"`{name}`" for name in step["inputs"]) or "none"
-    lines += [f"Inputs: {inputs}.", ""]
-    return "\n".join(lines)
-
-
 class _Dumper(yaml.SafeDumper):
     """Writes multi-line texts as literal blocks (``|``), as the hand-written pages do."""
 
@@ -198,8 +185,27 @@ def _page(page_id: str, title: str, description: str, components: list[dict]) ->
     )
 
 
-def _markdown(component_id: str, title: str, body: str) -> dict[str, Any]:
-    return {"component_id": component_id, "type": "markdown", "title": title, "body": body}
+def _markdown(
+    component_id: str, title: str, body: str, *, collapsible: bool = False
+) -> dict[str, Any]:
+    component: dict[str, Any] = {
+        "component_id": component_id,
+        "type": "markdown",
+        "title": title,
+        "body": body,
+    }
+    if collapsible:
+        # Rendered as a closed <details> section the user opens (extension-manifest-renderer).
+        component["collapsible"] = True
+    return component
+
+
+def _bullet(step: dict[str, Any]) -> str:
+    """One line per step: its name, what it does, and its action id."""
+    text = " ".join(step["description"].strip().split())
+    # The first sentence: what the step does. Permissions and details are on API coverage.
+    summary = text.split(". ", 1)[0].rstrip(".") + "."
+    return f"- **{step['title']}** — {summary} (`{step['id']}`)"
 
 
 def pages() -> dict[str, str]:
@@ -248,25 +254,30 @@ def pages() -> dict[str, str]:
     ]
     everyday = [s for s in every if s["id"] in EVERYDAY]
     everyday.sort(key=lambda s: EVERYDAY.index(s["id"]))
+    groups = [
+        _markdown(
+            f"steps_{gid}",
+            f"{title} ({len(by_group[gid])})",
+            line + "\n\n" + "\n".join(map(_bullet, by_group[gid])) + "\n",
+            collapsible=True,
+        )
+        for gid, title, line in GROUPS
+    ]
     out["ui/pages/discord-api.yaml"] = _page(
         "discord-api",
-        "Discord API",
-        "How the Discord steps work, and the everyday steps.",
+        "API",
+        "Every Discord step by group, with what it does.",
         [
             _markdown("api_overview", "How the steps work", "\n".join(overview) + "\n"),
-            _markdown("steps_everyday", "Everyday", "\n".join(_entry(s) for s in everyday)),
+            _markdown(
+                "steps_everyday",
+                f"Everyday ({len(everyday)})",
+                "\n".join(map(_bullet, everyday)) + "\n",
+                collapsible=True,
+            ),
+            *groups,
         ],
     )
-    for gid, title, line in GROUPS:
-        group = by_group[gid]
-        out[f"ui/pages/discord-api-{gid}.yaml"] = _page(
-            f"discord-api-{gid}",
-            f"Discord API: {title}",
-            f"The {len(group)} {title.lower()} steps.",
-            [
-                _markdown(f"steps_{gid}", title, line + "\n\n" + "\n".join(map(_entry, group))),
-            ],
-        )
     disabled = [s for s in generated if s["disabled"]]
     coverage = [
         f"The pinned Discord API description (discord-api-spec) lists "
