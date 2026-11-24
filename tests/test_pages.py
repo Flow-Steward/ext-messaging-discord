@@ -19,7 +19,7 @@ import step_docs  # noqa: E402
 
 #: SHA-256 of tests/reference/discord-endpoint-docs.json (extract_endpoint_docs.py run on
 #: discord-api-docs 9b737ec).
-ENDPOINT_DOCS_SHA256 = "0f8f0ec344fa6ca1634a0bd1a548f455262eaf6245d657542c236980acdd4020"
+ENDPOINT_DOCS_SHA256 = "7abf856433bc801514402ebe44a6fa26a85ee9d0b8c8c9b694870fecd50bf7e5"
 #: Inputs that must read the same in every step (with every path ID).
 SAME_EVERYWHERE = {
     "channel_id",

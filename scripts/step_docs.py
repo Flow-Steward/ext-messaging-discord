@@ -265,7 +265,9 @@ def field_doc(name: str, location: str, method: str, path: str) -> tuple[str, st
     if described and location == "path":
         return label_of(plain), described
     found = endpoint_docs().get(route_key(method, path)) or {}
-    table = (found.get("params") or {}).get("query", {})
+    table = {
+        row["name"]: row["description"] for row in (found.get("params") or {}).get("query", [])
+    }
     if location == "query" and plain in table and table[plain]:
         text = table[plain]
         if described and not text.lower().startswith("filter"):

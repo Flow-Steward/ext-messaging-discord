@@ -138,7 +138,12 @@ def extract(root: Path) -> dict:
                     "title": title,
                     "description": plain(" ".join(paragraph)),
                     "page": rel,
-                    "params": params,
+                    # Parameter names are values, not keys: a key such as access_token
+                    # holding text reads as a secret to the catalog's archive check.
+                    "params": {
+                        where: [{"name": name, "description": text} for name, text in rows.items()]
+                        for where, rows in params.items()
+                    },
                 }
                 # One route can be documented twice (an interaction followup is a webhook
                 # execution): the resource's own page wins.

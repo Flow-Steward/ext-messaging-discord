@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- The release archive passes the Flow Steward catalog check: the pinned Discord documentation stores parameter names as values, so no field reads as a credential.
+
 ## 0.1.2
 
 - Every step has Discord's own name and description from the Discord API documentation (pinned commit 9b737ec), and every input a label and help text; an input with the same name reads the same in every step.
