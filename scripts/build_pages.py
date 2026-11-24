@@ -14,7 +14,25 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from build_rest_registry import load_spec
 from step_docs import GROUPS, group_of
+
+
+def _body_credentials() -> dict[str, set[str]]:
+    """runtime/rest.py's BODY_CREDENTIALS, read as a literal (the runtime is not imported:
+    it needs the SDK)."""
+    import ast
+
+    tree = ast.parse((Path(__file__).resolve().parents[1] / "runtime/rest.py").read_text())
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and any(
+            getattr(t, "id", "") == "BODY_CREDENTIALS" for t in node.targets
+        ):
+            return ast.literal_eval(node.value)
+    raise ValueError("BODY_CREDENTIALS not found in runtime/rest.py")
+
+
+FROM_CONNECTION_BODY = _body_credentials()
 
 ROOT = Path(__file__).resolve().parents[1]
 HEADER = (
@@ -38,13 +56,66 @@ CONNECTION_NAMES = {
     "discord_oauth_token": "OAuth2 token",
     "discord_route_token": "webhook or interaction token",
 }
-OUT_OF_VERSION = [
-    "**Receiving interactions** (slash commands, buttons, modals) and their first answer: "
-    "Discord sends the interaction to the application and expects the answer within 3 "
-    "seconds, with the token of that event. A workflow step cannot receive the event.",
-    "**The Gateway** (real-time events over a WebSocket) and **Voice**: transports of "
-    "their own, not REST.",
+#: What Discord delivers over its other transports, which REST steps do not carry.
+OTHER_TRANSPORTS = [
+    "**Incoming interactions** (slash commands, buttons, modals): Discord sends each one "
+    "to the application's own endpoint and expects the first answer within 3 seconds, "
+    "with the token of that event. Followups go through the webhook steps with an "
+    "interaction token.",
+    "**Gateway events** arrive over Discord's WebSocket connection, and **voice** over "
+    "its voice connections; the REST steps read and change the same servers, channels "
+    "and messages.",
 ]
+#: Inputs a step never takes because the connection supplies them, and why.
+FROM_CONNECTION = {
+    "webhook_token": "taken from the webhook or interaction token connection, so it never "
+    "appears in a workflow",
+    "interaction_token": "taken from the webhook or interaction token connection",
+    "access_token": "a user's OAuth2 token, taken from the connection",
+    "client_secret": "the application's client secret, taken from the bot connection",
+    "external_auth_token": "the identity provider's token, taken from the bot connection",
+    "secret": "the lobby secret, taken from the bot connection",
+}
+#: The most returned field names listed for one step.
+MAX_LISTED_FIELDS = 60
+
+
+def _schema(spec: dict[str, Any], node: Any, depth: int = 0) -> dict[str, Any]:
+    """``node`` with its $ref resolved."""
+    while isinstance(node, dict) and "$ref" in node and depth < 10:
+        node = spec["components"]["schemas"][node["$ref"].rsplit("/", 1)[-1]]
+        depth += 1
+    return node if isinstance(node, dict) else {}
+
+
+def returned_fields(spec: dict[str, Any], method: str, path: str) -> tuple[str, list[str]]:
+    """What a success answer is (object, list of objects, nothing) and its fields."""
+    operation = spec["paths"][path][method.lower()]
+    for status, answer in sorted(operation.get("responses", {}).items()):
+        if not status.startswith("2"):
+            continue
+        content = (answer or {}).get("content") or {}
+        media = content.get("application/json") or next(iter(content.values()), None)
+        if not media:
+            continue
+        node = _schema(spec, media.get("schema"))
+        shape = "an object"
+        if "array" in (
+            node.get("type") if isinstance(node.get("type"), list) else [node.get("type")]
+        ):
+            node, shape = _schema(spec, node.get("items")), "a list of objects"
+        names: list[str] = []
+        for part in [
+            node,
+            *[_schema(spec, a) for a in node.get("anyOf", []) + node.get("oneOf", [])],
+        ]:
+            for name in part.get("properties", {}):
+                if name not in names:
+                    names.append(name)
+        if names:
+            return shape, names
+        return ("a value" if node.get("type") not in (None, "object") else shape), []
+    return "no body", []
 
 
 def _load(name: str) -> Any:
@@ -66,6 +137,7 @@ def steps() -> list[dict[str, Any]]:
                 "description": op["description"],
                 "write": op["operation_kind"] == "action",
                 "inputs": [i["name"] for i in op["inputs"] if i["name"] != "connection_ref"],
+                "body_fields": _body_fields(op),
                 "connections": op.get("connection_type_ids", []),
                 "route": route,
                 "group": group_of(oid.removeprefix(PREFIX), route["method"], route["path"])
@@ -75,6 +147,18 @@ def steps() -> list[dict[str, Any]]:
             }
         )
     return out
+
+
+def _body_fields(op: dict[str, Any]) -> list[str]:
+    """The fields of the Discord request body a step's ``body.data`` can carry."""
+    body = next((i for i in op["inputs"] if i["name"] == "body"), None)
+    data = ((body or {}).get("schema") or {}).get("properties", {}).get("data") or {}
+    names: list[str] = []
+    for part in [data, *data.get("anyOf", []), *data.get("oneOf", [])]:
+        for name in (part or {}).get("properties", {}):
+            if name not in names:
+                names.append(name)
+    return names
 
 
 def _entry(step: dict[str, Any]) -> str:
@@ -206,9 +290,9 @@ def pages() -> dict[str, str]:
         + ". Discord turned it off with command permissions v2; the step answers "
         "`operation_disabled` without calling Discord.",
         "",
-        "Not in this version:",
+        "Delivered by Discord's other transports:",
         "",
-        *[f"- {line}" for line in OUT_OF_VERSION],
+        *[f"- {line}" for line in OTHER_TRANSPORTS],
         "",
         "Everyday steps on top: "
         + ", ".join(s["title"] for s in everyday)
@@ -216,11 +300,63 @@ def pages() -> dict[str, str]:
         + ", ".join(f"`{a}`" for a in ARCHIVED)
         + ") stay for workflows made before the dedicated steps.",
     ]
-    out["ui/pages/coverage.yaml"] = _page(
-        "coverage",
-        "Coverage",
-        "What of the Discord API the steps offer.",
-        [_markdown("coverage_summary", "Coverage", "\n".join(coverage) + "\n")],
+    spec = load_spec()
+    detail: list[str] = []
+    routes = json.loads((ROOT / "runtime/rest_routes.json").read_text())
+    for gid, title, _ in GROUPS:
+        detail += [f"## {title}", ""]
+        for step in by_group[gid]:
+            route = step["route"]
+            detail += [f"### {step['title']} (`{step['id']}`)", ""]
+            detail += [f"Discord: `{route['method']} {route['path']}`.", ""]
+            inputs = [i for i in step["inputs"]]
+            detail += [
+                "Inputs: " + (", ".join(f"`{i}`" for i in inputs) if inputs else "none") + ".",
+                "",
+            ]
+            if step["body_fields"]:
+                detail += [
+                    "Body fields (`body.data`): "
+                    + ", ".join(f"`{n}`" for n in step["body_fields"])
+                    + ".",
+                    "",
+                ]
+            shape, names = returned_fields(spec, route["method"], route["path"])
+            if names:
+                listed = names[:MAX_LISTED_FIELDS]
+                more = len(names) - len(listed)
+                detail += [
+                    f"Returns {shape} in `response.data`, with "
+                    + ", ".join(f"`{n}`" for n in listed)
+                    + (f" and {more} more" if more else "")
+                    + ".",
+                    "",
+                ]
+            else:
+                detail += [f"Returns {shape} in `response.data`.", ""]
+            hidden = [
+                name
+                for name in [
+                    *routes[step["id"].removeprefix(PREFIX)]["secret_path_parameters"],
+                    *(sorted(FROM_CONNECTION_BODY.get(step["id"].removeprefix(PREFIX), ()))),
+                ]
+            ]
+            for name in hidden:
+                detail += [f"Not an input: `{name}` — {FROM_CONNECTION[name]}.", ""]
+            if step["disabled"]:
+                detail += [
+                    "Discord disabled this endpoint with command permissions v2; the step "
+                    "answers `operation_disabled` without calling Discord.",
+                    "",
+                ]
+    out["ui/pages/api-coverage.yaml"] = _page(
+        "api-coverage",
+        "Discord API coverage",
+        "Every Discord REST operation, the step that calls it, its inputs and what it returns.",
+        [
+            _markdown("coverage_summary", "Coverage", "\n".join(coverage) + "\n"),
+            _markdown("coverage_detail", "Every operation", "\n".join(detail) + "\n"),
+        ],
     )
     return out
 

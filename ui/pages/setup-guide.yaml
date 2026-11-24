@@ -1,43 +1,186 @@
 page_id: setup-guide
 title: Setup Guide
-description: Connect a Discord bot in a few minutes.
+description: Set up the Discord application once, then connect it to this project.
 components:
-  - component_id: setup_bot
+  - component_id: setup_operator
     type: markdown
-    title: Create the bot
+    title: For the person who sets up the Discord application
     body: |
-      1. Open the [Discord Developer Portal](https://discord.com/developers/applications) and press **New Application**.
-      2. Open **Bot**. Press **Reset Token**, copy the token and keep it safe: Discord shows it only once.
-      3. Under **Privileged Gateway Intents** turn on what your steps need:
-         - **Server Members Intent** — List guild members and the other member lists need it.
-         - **Message Content Intent** — without it Discord returns messages with empty content, embeds, attachments and components.
-      4. Save the changes.
+      This needs a Discord account that can create applications in the
+      [Discord Developer Portal](https://discord.com/developers/applications), and the
+      **Manage Server** permission in every server the bot joins. The people who later
+      build workflows do not need either.
+
+      Flow Steward calls Discord when a step runs; you do not host a bot process. The
+      application and its bot belong to you.
+
+      **Create the application**
+
+      1. Developer Portal → **Applications** → **New Application**. Give it the name your
+         members will see next to the bot's messages and accept Discord's terms.
+      2. **General Information** — add an icon and a description if you like. The
+         **Application ID** shown there is the `application_id` that the command,
+         emoji and entitlement steps take.
+
+      **Configure the bot**
+
+      1. Open **Bot**.
+      2. Press **Reset Token** and copy the token. Discord shows it once; if it is lost,
+         reset it again and update the connection in Flow Steward.
+      3. **Public Bot** — leave it unchecked if only you should add the bot to servers.
+         When it is unchecked, only the application's owner can add it.
+      4. **Privileged Gateway Intents** — turn on what your steps need:
+         - **Server Members Intent** — **List Guild Members**, **Search Guild Members**
+           and the other member lists need it.
+         - **Message Content Intent** — without it Discord returns messages with empty
+           `content`, `embeds`, `attachments` and `components`, and without `poll`.
+         - **Presence Intent** is not used by any step.
+
+         An app in 100 or more servers must be verified by Discord, and a verified app
+         must be approved for each privileged intent before it can use it.
+      5. **Save Changes**.
   - component_id: setup_invite
     type: markdown
-    title: Add the bot to your server
+    title: Add the bot to a server
     body: |
-      1. In the Developer Portal open **OAuth2 → URL Generator**.
-      2. Tick the scope **bot** (and **applications.commands** if you manage slash commands).
-      3. Tick the permissions your steps need, for example **View Channels**, **Send Messages**, **Read Message History**, **Attach Files**, **Manage Messages**, **Manage Roles** or **Manage Webhooks**.
-      4. Open the generated link, choose your server and authorize.
-      5. To give or take roles, drag the bot's role in **Server Settings → Roles** above the roles it manages: a bot can only grant, edit and sort roles below its own highest role, and kick, ban or rename only members whose highest role is below it.
+      1. Developer Portal → **OAuth2** → **URL Generator**.
+      2. Scopes: tick **bot**. Tick **applications.commands** as well if workflows will
+         manage slash commands.
+      3. Bot permissions: tick what your steps need (see **Which permissions to grant**
+         below). Discord adds them to the bot's own role in the server.
+      4. Copy the generated URL, open it, choose the server and press **Authorize**. You
+         need **Manage Server** in that server.
+      5. Repeat for every server the workflows use.
+
+      **Move the bot's role up.** In **Server Settings → Roles** drag the bot's role
+      above the roles it manages. Discord lets a bot grant, edit and sort only roles
+      below its own highest role, and kick, ban or rename only members whose highest
+      role is below it.
+
+      **Channel overrides.** A channel's own permission settings can take a permission
+      away from the bot's role. If a step is refused in one channel and works in
+      another, check that channel's **Permissions**.
+  - component_id: setup_permissions
+    type: markdown
+    title: Which permissions to grant
+    body: |
+      Grant what the steps you plan to run need, nothing more. Discord names the
+      permission each endpoint needs on the step's description.
+
+      - **Post and read messages** — View Channels, Send Messages, Read Message History;
+        Attach Files and Embed Links for files and embeds; Add Reactions; Send Messages
+        in Threads, Create Public Threads, Create Private Threads for threads.
+      - **Manage messages** — Manage Messages (delete others' messages, bulk delete),
+        Pin Messages where the server separates it.
+      - **Channels and invites** — Manage Channels, Create Instant Invite, Manage Threads.
+      - **Members and roles** — Manage Roles, Manage Nicknames, Kick Members, Moderate
+        Members (timeouts).
+      - **Moderation** — Ban Members, View Audit Log, Manage Server (auto moderation
+        rules, pruning, onboarding, widgets, templates).
+      - **Webhooks** — Manage Webhooks.
+      - **Emojis, stickers, sounds** — Create Expressions and Manage Expressions.
+      - **Scheduled events** — Create Events and Manage Events.
+
+      **Administrator** grants everything; it is simpler and riskier. Prefer the list.
   - component_id: setup_connect
     type: markdown
-    title: Connect it to Flow Steward
+    title: For the person who connects the bot
     body: |
-      1. On the **Connection** page paste the bot token into **Discord bot** and save it.
-      2. Press **Test connection**: it reads the bot's own user.
-      3. Add Discord steps to a workflow. Start with **Test connection**, **Get channel** or **List channel messages**, then add the steps that change data.
+      You need operator or admin access to the Flow Steward project and the bot token
+      from the person who set up the application.
+
+      1. Open this extension's **Connection** page in the project.
+      2. Under **Discord bot** enter a **Connection name** (for example the bot's name)
+         and paste the **Bot token**. Save.
+      3. Approve the use of the stored secret on the connection's card when Flow Steward
+         asks for it.
+      4. Press **Test connection**. It reads the bot's own user and shows its ID and
+         name: Discord accepted the token.
+      5. Add Discord steps to a workflow and choose this connection. Start with
+         **Test connection**, **Get channel** or **List channel messages**, then add the
+         steps that change data.
+
+      One connection per bot is enough for every server the bot is in. Use several
+      connections when different workflows should act as different bots.
   - component_id: setup_ids
     type: markdown
     title: Find IDs
     body: |
-      Steps take Discord IDs (numbers such as `1234567890123456789`) for servers, channels, users, roles and messages. In Discord open **User Settings → Advanced** and turn on **Developer Mode**; then right-click a server, channel, user, role or message and choose **Copy ID**.
-  - component_id: setup_other
-    type: markdown
-    title: Webhooks and OAuth2 tokens
-    body: |
-      - **A webhook** posts to one channel without a bot. Create it in **Channel settings → Integrations → Webhooks**, copy its URL and put the token part in a **Discord webhook or interaction token** connection (page **Webhook connection**).
-      - **An OAuth2 token** lets steps act for a person (their servers, connections, or adding them to a server). Get it through your own OAuth2 flow and put it in a **Discord OAuth2 token** connection (page **OAuth2 connection**).
+      Steps take Discord IDs — numbers such as `1234567890123456789` — for servers,
+      channels, users, roles and messages.
 
-      A test run of a workflow never sends changes.
+      1. In Discord open **User Settings → Advanced** and turn on **Developer Mode**.
+      2. Right-click a server, channel, user, role or message and choose **Copy ID**
+         (on a phone: long-press).
+
+      The **Application ID** is on **General Information** in the Developer Portal. A
+      webhook's ID is the number in its URL.
+  - component_id: setup_webhook
+    type: markdown
+    title: Post through a webhook
+    body: |
+      A webhook posts to one channel without a bot.
+
+      1. In Discord open **Channel settings → Integrations → Webhooks → New Webhook**.
+         This needs **Manage Webhooks** in that channel.
+      2. Give it a name and avatar, press **Copy Webhook URL**.
+      3. The URL ends with `/webhooks/<id>/<token>`. On the **Webhook connection** page
+         paste the token part, save, and approve the secret.
+      4. In **Execute Webhook** enter the number as `webhook_id` and choose this
+         connection.
+
+      Anyone with the token can post as the webhook. If it leaks, delete the webhook in
+      Discord and create a new one.
+  - component_id: setup_oauth
+    type: markdown
+    title: Act for a person (OAuth2 token)
+    body: |
+      Some steps act for a Discord user, not for the bot: the user's own servers and
+      connections (**Get Current User Guilds**, **Get Current User Connections**), the
+      user's role connection, adding a user to a server (**Add Guild Member**), and the
+      Social SDK steps.
+
+      1. In the Developer Portal open **OAuth2**, add the redirect URL of the service
+         that runs your OAuth2 flow, and note the **Client ID** and **Client Secret**.
+      2. Let the user authorize your application with the scopes the steps need, for
+         example `identify`, `guilds`, `connections`, `guilds.join` (add the user to a
+         server) or `guilds.members.read`.
+      3. Exchange the code for an access token as Discord's OAuth2 documentation
+         describes, and paste the **Access token** on the **OAuth2 connection** page.
+
+      Discord controls the token's scopes and expiry. When it expires, paste a new one.
+  - component_id: setup_test
+    type: markdown
+    title: What Test connection tells you
+    body: |
+      **Test connection** reads the bot's own user (`GET /users/@me`). When it passes,
+      Discord accepted the token and the bot exists. It does not show which servers the
+      bot is in or what it may do there: those depend on the server and the channel,
+      and each step finds out when it runs.
+  - component_id: setup_errors
+    type: markdown
+    title: If something fails
+    body: |
+      - **authentication_failed** (Discord code 40001, Unauthorized) — the token is
+        wrong, was reset, or belongs to another bot. Reset it in the Developer Portal
+        and save the new one in the connection.
+      - **access_denied** with Missing Access (50001) — the bot cannot see that server
+        or channel: it was not added to the server, or the channel hides itself from
+        the bot's role.
+      - **access_denied** with Missing Permissions (50013) — the bot's role lacks the
+        permission the step needs, or the target role or member is above the bot's
+        highest role.
+      - **not_found** with Unknown Channel (10003), Unknown Guild (10004), Unknown
+        Message (10008) or Unknown User (10013) — the ID is wrong, or the thing was
+        deleted, or the bot cannot see it.
+      - **upstream_validation_failed** with Invalid Form Body (50035) — Discord refused
+        a field of the body; the message names the field.
+      - **Member lists are empty or refused** — turn on **Server Members Intent**.
+      - **Messages come back with empty content** — turn on **Message Content
+        Intent**.
+      - **rate_limited** — Discord asks to wait; the step returns how long. Space out
+        the workflow or read fewer pages per run.
+      - **Maximum number of webhooks reached** (30007) — a channel holds at most 15
+        webhooks; delete one you no longer use.
+
+      A test run of a workflow never sends changes to Discord.

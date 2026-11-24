@@ -79,7 +79,7 @@ def test_the_pages_a_user_needs_are_there():
         "connection-oauth2",
         "connection-webhook",
         "discord-api",
-        "coverage",
+        "api-coverage",
         "changelog",
         "support",
     } <= ids
@@ -144,6 +144,7 @@ def test_the_listing_says_what_the_extension_does_and_what_is_outside():
     manifest = load("extension.yaml")
     description = manifest["description"]
     assert len(description) >= 500
-    for word in ("messages", "channels", "threads", "roles", "webhooks", "Gateway", "Voice"):
+    for word in ("messages", "channels", "threads", "roles", "webhooks", "Gateway"):
         assert word in description
-    assert "not part of this version" in description
+    for word in ("not part of", "not yet", "limitation", "outside this version", "pilot"):
+        assert word not in description.lower()

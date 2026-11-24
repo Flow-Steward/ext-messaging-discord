@@ -37,4 +37,4 @@ components:
 
       **Webhook token.** In Discord open **Channel settings → Integrations → Webhooks**, create a webhook and press **Copy Webhook URL**. The URL ends with `/webhooks/<id>/<token>`: the number goes into the step's `webhook_id`, the last part into this connection. Posting through a webhook needs no bot.
 
-      **Interaction token.** Discord gives one with every interaction your application receives; it stays valid for 15 minutes, and the first answer is due within 3 seconds. Receiving interactions is not part of this version, so this field only serves followups to an interaction your own service received.
+      **Interaction token.** Discord gives one with every interaction your application receives, at the application's own endpoint; the first answer is due within 3 seconds, and the token stays valid for 15 minutes. Save it here to send followups and edit the original response with the webhook steps.

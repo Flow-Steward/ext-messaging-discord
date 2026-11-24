@@ -17,6 +17,6 @@ pages:
   - ref: pages/discord-api-lobbies.yaml
   - ref: pages/discord-api-monetization.yaml
   - ref: pages/discord-api-users.yaml
-  - ref: pages/coverage.yaml
+  - ref: pages/api-coverage.yaml
   - ref: pages/changelog.yaml
   - ref: pages/support.yaml

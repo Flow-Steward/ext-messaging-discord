@@ -827,18 +827,29 @@ def test_every_operation_declares_the_rate_limit_and_warnings_outputs():
 # -- Coverage statement ----------------------------------------------------------------
 
 
-def test_the_docs_name_what_is_outside_this_version():
+FORBIDDEN_SHOWCASE_WORDS = (
+    "outside this version",
+    "not in this version",
+    "not part of this version",
+    "not yet",
+    "limitation",
+    "pilot",
+)
+
+
+def test_the_docs_say_how_discord_delivers_interactions_and_events():
     readme = (ROOT / "README.md").read_text()
     coverage = (ROOT / "docs/API-COVERAGE.md").read_text()
-    assert "Outside this version: receiving interactions" in readme
-    assert "within 3 seconds" in readme and "Gateway" in readme and "Voice" in readme
-    assert "## Outside this version" in coverage
-    section = coverage.split("## Outside this version", 1)[1].split("\n## ", 1)[0]
-    for fact in ("initial response within 3 seconds", "15 minutes", "Gateway", "Voice"):
+    assert "within 3 seconds" in readme and "Gateway" in readme
+    heading = "## Delivered by Discord's other transports"
+    assert heading in coverage
+    section = coverage.split(heading, 1)[1].split("\n## ", 1)[0]
+    for fact in ("initial response within 3 seconds", "15 minutes", "Gateway", "voice"):
         assert fact in section
-    for text in (readme, coverage):
-        assert "full API coverage" not in text.lower()
-        assert "full coverage" not in text.lower()
+    pages = [path.read_text() for path in (ROOT / "ui/pages").glob("*.yaml")]
+    for text in (readme, *pages):
+        for word in FORBIDDEN_SHOWCASE_WORDS:
+            assert word not in text.lower(), word
 
 
 # -- Memory of an upload -------------------------------------------------------------

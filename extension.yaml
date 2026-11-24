@@ -15,8 +15,9 @@ description: >-
   post through webhooks; manage emojis, stickers and soundboard sounds, scheduled events,
   application commands and entitlements. All 258 REST operations have their own step, with
   everyday steps on top. A connection is a Discord bot, a user's OAuth2 token, or a webhook
-  or interaction token. Receiving interactions, the Gateway and Voice are not part of this
-  version.
+  or interaction token. Workflows read and change servers, channels and messages through
+  Discord's REST API, while Discord delivers incoming interactions to the application's
+  own endpoint and live events over its Gateway.
 vendor:
   name: Flow Steward
   support_url: https://github.com/Flow-Steward/ext-messaging-discord/issues

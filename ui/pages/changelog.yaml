@@ -9,7 +9,8 @@ components:
     ## 0.1.2
 
     - Every step has Discord's own name and description, and every input a label and help text; the same input reads the same in every step.
-    - New pages: Setup Guide, a page for each connection type, the Discord API by group with every step, Coverage and this Changelog.
+    - New pages: a detailed Setup Guide, a page for each connection type with its form, the Discord API by group with every step, Discord API coverage with every operation's endpoint, inputs and returned fields, and this Changelog.
+    - Connection forms show the saved connection and its name.
 
     ## 0.1.1
 

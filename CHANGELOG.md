@@ -4,7 +4,8 @@
 
 - Every step has Discord's own name and description from the Discord API documentation (pinned commit 9b737ec), and every input a label and help text; an input with the same name reads the same in every step.
 - A full description of the extension in the catalog.
-- New pages: Setup Guide (bot, intents, invite link, IDs), a page for each connection type (bot, OAuth2 token, webhook or interaction token) with its form, the Discord API by group with every step, Coverage and Changelog.
+- New pages: a detailed Setup Guide (the application, the bot, intents, permissions, adding the bot to a server, IDs, webhooks, OAuth2 tokens, errors and their fixes), a page for each connection type with its form, the Discord API by group with every step, Discord API coverage (every operation with its endpoint, inputs, body fields and returned fields, generated from the pinned sources) and Changelog.
+- A detailed README with what you can automate, and connection forms that show the saved connection and its name.
 
 ## 0.1.1
 
