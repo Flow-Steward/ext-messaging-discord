@@ -1,6 +1,7 @@
 page_id: connection
 title: Connection
 description: Connect a Discord bot. Most steps act as the bot.
+project_scoped: true
 components:
   - component_id: discord_bot_connection
     type: connection_form
@@ -11,12 +12,19 @@ components:
       connection_type: discord_bot
       config_fields: []
       secret_fields: [bot_token]
+      required_secret_fields: [bot_token]
       test_action: test_connection
+    defaults:
+      display_name: Discord bot
     fields:
+      - path: display_name
+        label: Connection name
+        widget: text
       - path: bot_token
         widget: secret
         label: Bot token
         required: true
+        help: The token on the Bot page of your application in the Discord Developer Portal (Reset Token).
     ui_schema:
       actions:
         test_label: Test connection

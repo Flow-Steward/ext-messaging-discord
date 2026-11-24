@@ -1,6 +1,7 @@
 page_id: connection-webhook
 title: Webhook connection
 description: Post through a webhook, or answer an interaction, with its token.
+project_scoped: true
 components:
   - component_id: discord_route_connection
     type: connection_form
@@ -11,15 +12,23 @@ components:
       connection_type: discord_route_token
       config_fields: []
       secret_fields: [webhook_token, interaction_token]
+      required_secret_fields: [webhook_token]
+    defaults:
+      display_name: Discord webhook
     fields:
+      - path: display_name
+        label: Connection name
+        widget: text
       - path: webhook_token
         widget: secret
         label: Webhook token
-        required: false
+        required: true
+        help: The last part of the webhook's URL (/webhooks/<id>/<token>).
       - path: interaction_token
         widget: secret
         label: Interaction token
         required: false
+        help: Optional. The token Discord gives with an interaction; valid for 15 minutes.
   - component_id: discord_route_when
     type: markdown
     title: When you need it

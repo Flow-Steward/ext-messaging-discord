@@ -1,6 +1,7 @@
 page_id: connection-oauth2
 title: OAuth2 connection
 description: Act for a Discord user with an OAuth2 access token.
+project_scoped: true
 components:
   - component_id: discord_oauth_connection
     type: connection_form
@@ -11,11 +12,18 @@ components:
       connection_type: discord_oauth_token
       config_fields: []
       secret_fields: [access_token]
+      required_secret_fields: [access_token]
+    defaults:
+      display_name: Discord OAuth2 token
     fields:
+      - path: display_name
+        label: Connection name
+        widget: text
       - path: access_token
         widget: secret
         label: Access token
         required: true
+        help: A Discord user's OAuth2 access token, issued by your application's OAuth2 flow with the scopes your steps need.
   - component_id: discord_oauth_when
     type: markdown
     title: When you need it
