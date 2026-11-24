@@ -15,22 +15,26 @@ connection_types:
       properties:
         bot_token:
           type: string
-          minLength: 1
+          minLength: 8
           maxLength: 512
           title: Bot token
         access_token:
+          minLength: 8
           type: string
           title: Delegated user OAuth2 token
           maxLength: 10240
         client_secret:
+          minLength: 8
           type: string
           title: Application client secret
           maxLength: 1024
         external_auth_token:
+          minLength: 8
           type: string
           title: Partner external auth token
           maxLength: 10240
         secret:
+          minLength: 8
           type: string
           title: Lobby join secret
           maxLength: 10240
@@ -51,7 +55,7 @@ connection_types:
       properties:
         access_token:
           type: string
-          minLength: 1
+          minLength: 8
           maxLength: 512
           title: Access token
       required:
@@ -71,11 +75,11 @@ connection_types:
       properties:
         webhook_token:
           type: string
-          minLength: 1
+          minLength: 8
           maxLength: 512
           title: Webhook token
         interaction_token:
           type: string
-          minLength: 1
+          minLength: 8
           maxLength: 512
           title: Interaction token

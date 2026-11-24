@@ -147,6 +147,11 @@ def _read(response: Any) -> tuple[bytes, str | None]:
         while len(buffer) <= MAX_RESPONSE:
             chunk = response.read(min(CHUNK, MAX_RESPONSE + 1 - len(buffer)))
             if not chunk:
+                # http.client ends a read short of Content-Length without an error when
+                # the connection closes; the bytes still owed mean the answer was cut off.
+                owed = getattr(response, "length", None)
+                if isinstance(owed, int) and not isinstance(owed, bool) and owed > 0:
+                    return b"", "incomplete_response"
                 break
             buffer.extend(chunk)
     except (OSError, HTTPException):

@@ -25,7 +25,7 @@ Discord is a chat platform where communities and teams talk in servers, channels
 
 ## Why teams use it
 
-- **The whole REST API is covered.** 258 Discord steps: the 250 operations of the pinned Discord API description and eight more from Discord's API documentation, each with its own form, plus six everyday steps.
+- **The whole REST API is covered.** 258 Discord steps: the 250 operations of the pinned Discord API description and eight more from Discord's API documentation, each with its own form, plus six everyday steps. Outside this version: receiving interactions (commands, buttons) and answering them within 3 seconds with the event's token, the Gateway and Voice.
 - **Whole lists, not a first page.** List steps with Discord cursors read page after page when `all_pages` is on. A list that stops early because of the step's time or output size says so: `complete` is false and `next_cursor` tells where to continue.
 - **An answer that cannot be read is an error.** A read whose answer is cut off, too large or not the documented JSON fails with `invalid_response` or `response_too_large`; it never returns an empty result instead.
 - **A change is sent once.** Writes are never retried automatically. If Discord's answer is lost after a write was sent, the step reports that the outcome is unknown instead of guessing. Messages carry a nonce so Discord can recognise a repeated send.
@@ -77,11 +77,11 @@ Run **List guild members** with `all_pages` on. When `complete` is false, run it
 The step reports `timeout_unknown`: Discord may have posted the message. It is not sent again automatically; check the channel before running the step again.
 
 **Which Discord API operations are supported?**
-All 250 operations of the Discord API description the release is pinned to, eight operations documented only in Discord's API documentation, and the six everyday steps. Discord has disabled one of them (batch editing of command permissions); its step reports `operation_disabled` without calling Discord.
+All 250 operations of the Discord API description the release is pinned to, eight operations documented only in Discord's API documentation, and the six everyday steps. Not in this version: receiving interactions and their first answer, which Discord expects within 3 seconds with the token of the event ([Receiving and Responding](https://github.com/discord/discord-api-docs/blob/9b737ec51ee8d5076af0565d209a9adf8f590a27/developers/interactions/receiving-and-responding.mdx)), the Gateway (real-time events) and Voice. Discord has disabled one of them (batch editing of command permissions); its step reports `operation_disabled` without calling Discord.
 
 ## In your language
 
-Интеграция Discord с Flow Steward автоматизирует Discord без программирования: отправляет сообщения и файлы в каналы, читает всю историю канала и всех участников сервера постранично, управляет ролями, каналами, ветками и вебхуками. Каждая из 258 операций Discord REST API v10 доступна как отдельный шаг workflow. Для подключения нужен бот Discord и его токен.
+Интеграция Discord с Flow Steward автоматизирует Discord без программирования: отправляет сообщения и файлы в каналы, читает всю историю канала и всех участников сервера постранично, управляет ролями, каналами, ветками и вебхуками. Каждая из 258 операций Discord REST API v10 доступна как отдельный шаг workflow. Приём взаимодействий (команд и кнопок) с ответом в течение 3 секунд, Gateway и Voice в эту версию не входят. Для подключения нужен бот Discord и его токен.
 
 ## Links
 

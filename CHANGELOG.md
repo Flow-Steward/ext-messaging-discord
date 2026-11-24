@@ -18,6 +18,8 @@
 - Return `rate_limit` from Discord's headers on every step, and `retry_after_seconds` and `rate_limit_global` on HTTP 429.
 - Report test runs of writes as no effect, and report a disabled Discord operation before the test-run check.
 - Send every request through the SDK's pinned opener.
-- Remove a value found under a credential field name from other text only when it is at least eight characters long.
+- Require at least eight characters in every secret field of a connection, and remove a value from other text only when it is at least eight characters long, whether it comes from the connection or from the answer.
+- Treat an answer cut off before its end (fewer bytes than Content-Length, or a chunked answer that stops early) as not read: a read fails with `invalid_response`, a confirmed write succeeds without data and with a warning.
+- Name what is outside this version: receiving interactions and answering them within 3 seconds with the event's token, the Gateway and Voice.
 - Name the repository and issue tracker in the manifest; add CI, release, CodeQL and catalog checks.
 - Add a read-only live test that runs when `DISCORD_TOKEN_FILE` is set.

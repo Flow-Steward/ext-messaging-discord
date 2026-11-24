@@ -671,7 +671,47 @@ def test_a_long_value_under_a_credential_name_is_removed_everywhere():
 
 
 def test_the_connection_secret_is_always_removed():
-    assert rest.redact_response({"name": "x abc y"}, ("abc",)) == {"name": "x [redacted] y"}
+    secret = "abcdefgh"
+    assert rest.redact_response({"name": f"x {secret} y"}, (secret,)) == {"name": "x [redacted] y"}
+
+
+SECRET_FIELDS = {
+    "discord_bot": ["bot_token", "access_token", "client_secret", "external_auth_token", "secret"],
+    "discord_oauth_token": ["access_token"],
+    "discord_route_token": ["webhook_token", "interaction_token"],
+}
+
+
+def test_every_secret_field_of_a_connection_needs_eight_characters():
+    rows = yaml.safe_load((ROOT / "contracts/connection_types.yaml").read_text())
+    schemas = {row["connection_type_id"]: row["secret_schema"] for row in rows["connection_types"]}
+    for type_id, names in SECRET_FIELDS.items():
+        assert sorted(schemas[type_id]["properties"]) == sorted(names)
+        for name in names:
+            assert schemas[type_id]["properties"][name]["minLength"] == 8, (type_id, name)
+
+
+def test_a_connection_with_a_secret_of_one_character_is_refused(monkeypatch):
+    opener = http(monkeypatch, json_response(200, {"id": "123", "name": "room 101"}))
+    request = action("rest_get_channel")
+    request["action"]["target"]["connection"]["secrets"]["client_secret"] = "1"
+    result = main.dispatch(request)
+    assert result["ok"] is False
+    assert result["definitely_no_external_effect"] is True
+    assert opener.requests == []
+
+
+def test_a_secret_of_eight_characters_does_not_corrupt_the_answer(monkeypatch):
+    http(monkeypatch, json_response(200, {"id": "123", "name": "room 101"}))
+    request = action("rest_get_channel")
+    request["action"]["target"]["connection"]["secrets"]["client_secret"] = "12345678"
+    result = main.dispatch(request)
+    assert result["ok"] is True, result
+    assert result["result"]["response"]["data"]["name"] == "room 101"
+
+
+def test_a_short_connection_value_is_never_substituted():
+    assert rest.redact_response({"name": "room 101"}, ("1",)) == {"name": "room 101"}
 
 
 # -- 8. Test runs ----------------------------------------------------------------------
@@ -778,3 +818,20 @@ def test_every_operation_declares_the_rate_limit_and_warnings_outputs():
             assert "processing" in names
         else:
             assert {"invalid_response"} <= set(operation["error_codes"])
+
+
+# -- Coverage statement ----------------------------------------------------------------
+
+
+def test_the_docs_name_what_is_outside_this_version():
+    readme = (ROOT / "README.md").read_text()
+    coverage = (ROOT / "docs/API-COVERAGE.md").read_text()
+    assert "Outside this version: receiving interactions" in readme
+    assert "within 3 seconds" in readme and "Gateway" in readme and "Voice" in readme
+    assert "## Outside this version" in coverage
+    section = coverage.split("## Outside this version", 1)[1].split("\n## ", 1)[0]
+    for fact in ("initial response within 3 seconds", "15 minutes", "Gateway", "Voice"):
+        assert fact in section
+    for text in (readme, coverage):
+        assert "full API coverage" not in text.lower()
+        assert "full coverage" not in text.lower()

@@ -21,6 +21,13 @@ The generated contracts expose named path and query fields and use the bounded J
 
 The table lists the dedicated workflow actions that provide a narrower interface to frequently used endpoints.
 
+## Outside this version
+
+The whole Discord REST API v10 is covered. Not covered in this version:
+
+- **Receiving interactions and their first answer.** Discord sends an interaction (a slash command, a button, a modal) to the application and expects the initial response within 3 seconds, made with the token of that event; the token stays valid for 15 minutes ([Receiving and Responding](https://github.com/discord/discord-api-docs/blob/9b737ec51ee8d5076af0565d209a9adf8f590a27/developers/interactions/receiving-and-responding.mdx)). A workflow step cannot receive the event, and Flow Steward has no step input that keeps a token out of logs and results, so the per-event token is not taken as an input.
+- **The Gateway** (real-time events over a WebSocket) and **Voice**: transports of their own, not REST.
+
 ## Dedicated actions
 
 | Discord operation | Flow Steward operation | Evidence |

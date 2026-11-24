@@ -146,6 +146,8 @@ def prepare(
     secrets = connection.get("secrets")
     if not isinstance(secrets, dict):
         raise ValueError("Connection credentials are required")
+    if any(isinstance(value, str) and 0 < len(value) < MIN_SECRET for value in secrets.values()):
+        raise ValueError(f"Connection secrets must be at least {MIN_SECRET} characters long")
     connection_type = connection.get("connection_type_id") or connection.get("connection_type")
     path_names = route["secret_path_parameters"]
     authorization = None
@@ -263,14 +265,16 @@ def prepare(
     return Prepared(target, authorization, credentials, media_type, encoded, _pairs(query), reason)
 
 
-#: A value found in the response under a credential field name is removed from every
-#: other text only when it is at least this long; a short value ("1") would otherwise
-#: corrupt unrelated text ("room 101"). The connection's own secrets are always removed.
-MIN_COLLECTED_SECRET = 8
+#: A value is removed from other text only when it is at least this long, whether it
+#: comes from the connection or from the answer under a credential field name: a short
+#: value ("1") would otherwise corrupt unrelated text ("room 101"). The connection's
+#: secret fields require this length (contracts/connection_types.yaml, ``prepare``).
+MIN_SECRET = 8
+MIN_COLLECTED_SECRET = MIN_SECRET
 
 
 def redact_response(value: Any, credentials: tuple[str, ...]) -> Any:
-    tokens = set(credentials)
+    tokens = {token for token in credentials if len(token) >= MIN_SECRET}
 
     def collect(node: Any) -> None:
         if isinstance(node, dict):
