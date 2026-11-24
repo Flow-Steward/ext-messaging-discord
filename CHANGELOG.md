@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- Add the Support page (where to report a problem or ask a question), which the Flow Steward catalog requires; v0.1.0 was released without it and was not listed.
+
 ## 0.1.0
 
 - Connect a Discord bot to a Flow Steward project.

@@ -4,7 +4,7 @@ lifecycle:
   data_migrations: []
 extension_id: flowsteward.discord
 kind: tool_provider
-version: 0.1.0
+version: 0.1.1
 release_stage: active
 billing_mode: free
 display_name: Discord
@@ -15,6 +15,7 @@ vendor:
   website_url: https://github.com/Flow-Steward/ext-messaging-discord
 listing:
   category: messaging
+  categories: [messaging]
   tags: [discord, notifications, messaging]
   summary: Run Discord REST v10 actions for channels, servers, messages and applications.
   setup_summary: Add a Discord bot to your server and store its token in a project connection.

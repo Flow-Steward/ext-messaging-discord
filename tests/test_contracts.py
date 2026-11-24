@@ -67,3 +67,30 @@ def test_rest_operation_pickers_cover_the_entire_catalog():
     }
     assert actual == operation_choices()
     assert sum(len(options) for options in actual.values()) == 250
+
+
+def test_the_support_page_is_registered_as_the_catalog_requires():
+    """The catalog lists a Flow Steward extension only with exactly one global page
+    ``support`` titled Support, built of markdown components (build_index.py)."""
+    pages = yaml.safe_load((ROOT / "ui/ui_manifest.yaml").read_text())["pages"]
+    loaded = [yaml.safe_load((ROOT / "ui" / page["ref"]).read_text()) for page in pages]
+    support = [page for page in loaded if page.get("page_id") == "support"]
+    assert len(support) == 1
+    assert support[0]["title"] == "Support"
+    assert support[0]["project_scoped"] is False
+    assert support[0]["components"]
+    assert all(component["type"] == "markdown" for component in support[0]["components"])
+    assert "github.com/Flow-Steward/ext-messaging-discord/issues" in str(support[0])
+
+
+def test_the_user_agent_names_the_manifest_version():
+    import main
+
+    version = yaml.safe_load((ROOT / "extension.yaml").read_text())["version"]
+    assert main.USER_AGENT.endswith(f", {version})")
+
+
+def test_the_listing_names_its_catalog_categories():
+    listing = yaml.safe_load((ROOT / "extension.yaml").read_text())["listing"]
+    assert listing["category"] == "messaging"
+    assert listing["categories"] == ["messaging"]
