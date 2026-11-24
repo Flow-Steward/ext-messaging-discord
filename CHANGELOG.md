@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+- Every step has Discord's own name and description from the Discord API documentation (pinned commit 9b737ec), and every input a label and help text; an input with the same name reads the same in every step.
+- A full description of the extension in the catalog.
+- New pages: Setup Guide (bot, intents, invite link, IDs), a page for each connection type (bot, OAuth2 token, webhook or interaction token) with its form, the Discord API by group with every step, Coverage and Changelog.
+
 ## 0.1.1
 
 - Add the Support page (where to report a problem or ask a question), which the Flow Steward catalog requires; v0.1.0 was released without it and was not listed.

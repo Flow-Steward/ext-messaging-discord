@@ -1,11 +1,11 @@
 page_id: connection
 title: Connection
-description: Add and test a Discord bot connection.
+description: Connect a Discord bot. Most steps act as the bot.
 components:
   - component_id: discord_bot_connection
     type: connection_form
     title: Discord bot
-    description: Store the bot token and test the connection.
+    description: Paste the bot token and test the connection. Flow Steward stores it as a secret and never shows it again.
     data:
       connection_kind: extension
       connection_type: discord_bot
@@ -20,11 +20,18 @@ components:
     ui_schema:
       actions:
         test_label: Test connection
-  - component_id: discord_bot_setup
+  - component_id: discord_bot_when
     type: markdown
-    title: Set up the bot
+    title: When you need it
     body: |
-      1. Create an application with a bot in the [Discord Developer Portal](https://discord.com/developers/applications).
-      2. Install the bot in your server and grant it **View Channel** and **Send Messages** in the destination channel.
-      3. Save the bot token above and select **Test connection**.
-      4. Add **Discord → Send message** to a workflow and select this connection.
+      For almost every step: messages, channels and threads, servers and members, roles, moderation, webhooks, emojis and stickers, scheduled events and application commands. The bot acts in the servers it was added to, with the permissions of its role.
+
+      The token is on the **Bot** page of your application in the [Discord Developer Portal](https://discord.com/developers/applications) (**Reset Token**). See **Setup Guide** for intents, permissions and adding the bot to a server.
+  - component_id: discord_bot_help
+    type: markdown
+    title: If it fails
+    body: |
+      - **Test connection fails with authentication_failed** — the token is wrong or was reset. Reset it in the Developer Portal and paste the new one.
+      - **A step is refused with access_denied** — the bot lacks a permission in that server or channel, or the target role is above the bot's role.
+      - **Messages come back with empty content** — turn on **Message Content Intent** for the bot.
+      - **rate_limited** — Discord asks to wait; the step says how long.

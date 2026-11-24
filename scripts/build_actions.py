@@ -10,7 +10,8 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from build_rest_registry import DOCS, ROOT, build_routes, load_spec
+from build_rest_registry import ROOT, build_routes, load_spec
+from step_docs import describe, field_doc
 
 sys.path.insert(0, str(ROOT))
 from runtime.paging import PAGING  # noqa: E402
@@ -129,14 +130,21 @@ def public_body_schema(schema: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
-def make_field(name: str, schema: dict[str, Any], required: bool, help_text: str = "") -> dict:
+def make_field(
+    name: str,
+    schema: dict[str, Any],
+    required: bool,
+    help_text: str = "",
+    *,
+    label: str = "",
+) -> dict:
     kind = schema.get("type")
     value_type, parameter_type, widget = KINDS.get(
         kind if isinstance(kind, str) else "", KINDS["object"]
     )
     ui = {
         "name": name,
-        "label": name.replace("_", " ").capitalize(),
+        "label": label or name.replace("_", " ").capitalize(),
         "widget_type": widget,
         "required": required,
     }
@@ -174,19 +182,20 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
     }
     runtime: dict[str, dict] = {}
     definitions = spec["components"]["schemas"]
-    documented_operations = {
-        operation["operationId"]
-        for page in json.loads(DOCS.read_text())["pages"].values()
-        for methods in page.values()
-        for operation in methods.values()
-    }
     for operation_id, route in sorted(build_routes(spec).items()):
         action_id = PREFIX + operation_id
         method, path = route["method"], route["path"]
         item = spec["paths"][path]
         operation = item[method.lower()]
         write = method not in {"GET", "HEAD", "OPTIONS"}
-        title = operation_id.replace("_", " ").capitalize()
+        title, summary, _page = describe(operation_id, method, path)
+
+        def documented(
+            name: str, schema: dict[str, Any], required: bool, location: str = ""
+        ) -> dict:
+            label, text = field_doc(name, location, method, path)
+            return make_field(name, schema, required, text, label=label)
+
         fields = []
         bindings: dict[str, dict[str, str]] = {"path_parameters": {}, "query_parameters": {}}
         parameters = {
@@ -210,12 +219,7 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
                     else name
                 )
                 fields.append(
-                    make_field(
-                        field_name,
-                        schema,
-                        bool(parameter.get("required")),
-                        f"Discord {location} parameter.",
-                    )
+                    documented(field_name, schema, bool(parameter.get("required")), location)
                 )
                 bindings[f"{location}_parameters"][field_name] = name
 
@@ -236,7 +240,7 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
                     candidates.append(public)
             public_body = candidates[0] if len(candidates) == 1 else {"anyOf": candidates}
             fields.append(
-                make_field(
+                documented(
                     "body",
                     {
                         "type": "object",
@@ -245,26 +249,20 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
                         "additionalProperties": False,
                     },
                     route["request_body_required"] and "multipart/form-data" not in media,
-                    "Put the Discord request body in the data field. Supply credentials through the connection.",
                 )
             )
             if len(media) > 1:
-                field = make_field("media_type", {"type": "string", "enum": media}, False)
+                field = documented("media_type", {"type": "string", "enum": media}, False)
                 field["ui"].update(
                     widget_type="select", options=[{"value": m, "label": m} for m in media]
                 )
                 fields.append(field)
             if "multipart/form-data" in media:
-                artifacts = make_field(
-                    "file_artifacts",
-                    copy.deepcopy(FILE_ARTIFACTS_SCHEMA),
-                    False,
-                    "Workflow files to upload, up to 20 MiB each: the multipart field (for "
-                    "example files[0] or file), the file name and the file from an earlier "
-                    "step. The part's Content-Type follows the file name's extension.",
+                artifacts = documented(
+                    "file_artifacts", copy.deepcopy(FILE_ARTIFACTS_SCHEMA), False
                 )
                 fields.append(
-                    make_field(
+                    documented(
                         "files",
                         {
                             "type": "array",
@@ -280,40 +278,27 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
                             },
                         },
                         False,
-                        "Small files as base64: the multipart field, the file name and the "
-                        "base64 contents. The whole step input is bounded, so send larger "
-                        "files (up to 20 MiB each) as workflow files in file_artifacts.",
                     )
                 )
                 fields.append(artifacts)
         paging = None if write else PAGING.get(operation_id)
         if paging is not None:
-            fields.append(
-                make_field(
-                    "all_pages",
-                    {"type": "boolean"},
-                    False,
-                    "Read page after page until Discord's list ends or the step's time or "
-                    "output is used up; next_cursor and complete say where to continue.",
-                )
-            )
+            fields.append(documented("all_pages", {"type": "boolean"}, False))
         if write:
-            fields.append(make_field("audit_reason", {"type": "string", "maxLength": 512}, False))
+            fields.append(documented("audit_reason", {"type": "string", "maxLength": 512}, False))
         types = connection_types(route)
         if not types:
             raise ValueError(f"No usable connection type for {operation_id}")
         errors = ERRORS + (["timeout_unknown"] if write else READ_ERRORS)
         if route.get("provider_disabled"):
             errors = [*errors, "operation_disabled"]
-        description = f"Discord REST v10 {method} {path}"
-        if operation_id in documented_operations:
-            description += ". " + operation["description"]
+        description = f"{summary} Discord: {method} {path}."
         if paging is not None:
             first = paging.directions[0]
             description += (
-                f". With all_pages it reads every page ({first} the step's cursor, or from "
+                f" With all_pages it reads every page ({first} the step's cursor, or from "
                 f"the {'first' if first == 'after' else 'newest'} item without one) and "
-                f"returns next_cursor to pass as {first} when the list did not end"
+                f"returns next_cursor to pass as {first} when the list did not end."
             )
         outputs = copy.deepcopy(
             [
@@ -341,6 +326,7 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
         action = {
             "action_id": action_id,
             "title": title,
+            "description": description,
             "required_scopes": ["extension:invoke"],
             "handler": {"mode": "extension"},
             "mutates_platform": write,
@@ -399,9 +385,35 @@ def generated(spec: dict[str, Any]) -> tuple[dict[str, list[dict]], dict[str, di
     return manifests, runtime
 
 
+#: The hand-written steps and the Discord route whose documentation describes their inputs.
+HAND_STEP_ROUTES = {
+    "send_message": ("POST", "/channels/{channel_id}/messages"),
+    "get_channel": ("GET", "/channels/{channel_id}"),
+    "list_messages": ("GET", "/channels/{channel_id}/messages"),
+    "get_guild": ("GET", "/guilds/{guild_id}"),
+    "list_guild_channels": ("GET", "/guilds/{guild_id}/channels"),
+    "discord_rest_read": ("GET", "/"),
+    "discord_rest_write": ("POST", "/"),
+}
+
+
+def documented_head(head: str) -> str:
+    """The hand-written forms above the marker, each input labelled and described like
+    the same input of the generated steps."""
+    data = yaml.safe_load(head) or {}
+    for form in data.get("forms", []):
+        method, path = HAND_STEP_ROUTES.get(form["operation_id"], ("GET", "/"))
+        for field in form.get("fields", []):
+            location = "path" if field["name"].endswith("_id") else "query"
+            field["label"], field["help_text"] = field_doc(field["name"], location, method, path)
+    return yaml.safe_dump(data, sort_keys=False, allow_unicode=True, width=100)
+
+
 def render(path: Path, records: list[dict]) -> str:
     original = path.read_text()
     body = original.split(MARKER, 1)[0]
+    if path.name == "step_ui_manifest.yaml":
+        body = documented_head(body)
     indent = "" if path.name == "step_ui_manifest.yaml" else "  "
     block = (
         MARKER

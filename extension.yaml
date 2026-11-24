@@ -4,11 +4,19 @@ lifecycle:
   data_migrations: []
 extension_id: flowsteward.discord
 kind: tool_provider
-version: 0.1.1
+version: 0.1.2
 release_stage: active
 billing_mode: free
 display_name: Discord
-description: Read or update Discord resources from a Flow Steward workflow using the Discord REST v10 catalog.
+description: >-
+  Connect workflows to the Discord REST API v10. Post messages and files to channels and
+  read whole message histories; create and change channels and threads; manage servers,
+  members and roles; moderate with bans, pruning, auto moderation rules and the audit log;
+  post through webhooks; manage emojis, stickers and soundboard sounds, scheduled events,
+  application commands and entitlements. All 258 REST operations have their own step, with
+  everyday steps on top. A connection is a Discord bot, a user's OAuth2 token, or a webhook
+  or interaction token. Receiving interactions, the Gateway and Voice are not part of this
+  version.
 vendor:
   name: Flow Steward
   support_url: https://github.com/Flow-Steward/ext-messaging-discord/issues
@@ -17,8 +25,8 @@ listing:
   category: messaging
   categories: [messaging]
   tags: [discord, notifications, messaging]
-  summary: Run Discord REST v10 actions for channels, servers, messages and applications.
-  setup_summary: Add a Discord bot to your server and store its token in a project connection.
+  summary: Post messages and files, manage channels, threads, members, roles, moderation, webhooks and events in Discord.
+  setup_summary: Create a bot in the Discord Developer Portal, turn on the intents your steps need, add it to your server with the OAuth2 URL Generator, paste its token on the Connection page and test the connection.
 features: [tool, action]
 required_scopes: [extension:invoke]
 machine_auth:

@@ -1,6 +1,7 @@
 actions:
   - action_id: test_connection
     title: Test connection
+    description: 'Checks that Discord accepts the bot token by reading the bot''s own user, and returns its ID and name. Discord: GET /users/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -27,6 +28,7 @@ actions:
     - invalid_response
   - action_id: send_message
     title: Send message
+    description: 'Posts a text message to a channel as the bot. Mentions in the text do not notify anyone. Discord: POST /channels/{channel_id}/messages.'
     required_scopes:
     - extension:invoke
     handler:
@@ -63,6 +65,7 @@ actions:
     - timeout_unknown
   - action_id: get_channel
     title: Get channel
+    description: 'Reads a channel by its ID (name, type, topic, parent, permissions). Discord: GET /channels/{channel_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -93,6 +96,7 @@ actions:
     - response_too_large
   - action_id: list_messages
     title: List channel messages
+    description: 'Reads the messages of a channel, newest first; with all_pages the whole history, page after page. Discord: GET /channels/{channel_id}/messages.'
     required_scopes:
     - extension:invoke
     handler:
@@ -141,6 +145,7 @@ actions:
     - response_too_large
   - action_id: get_guild
     title: Get server
+    description: 'Reads a server by its ID, with approximate member counts when asked. Discord: GET /guilds/{guild_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -174,6 +179,7 @@ actions:
     - response_too_large
   - action_id: list_guild_channels
     title: List server channels
+    description: 'Reads every channel of a server (not threads). Discord: GET /guilds/{guild_id}/channels.'
     required_scopes:
     - extension:invoke
     handler:
@@ -204,6 +210,7 @@ actions:
     - response_too_large
   - action_id: discord_rest_read
     title: Run Discord REST read
+    description: 'Archived picker kept for workflows made before the dedicated steps; calls any Discord operation by its ID. New workflows use the dedicated step of the operation.'
     required_scopes:
     - extension:invoke
     handler:
@@ -245,6 +252,7 @@ actions:
     - response_too_large
   - action_id: discord_rest_write
     title: Run Discord REST write
+    description: 'Archived picker kept for workflows made before the dedicated steps; calls any Discord operation by its ID. New workflows use the dedicated step of the operation.'
     required_scopes:
     - extension:invoke
     handler:
@@ -298,7 +306,8 @@ actions:
     command_type: invoke_extension_action
 # Generated Discord REST actions. Run scripts/build_actions.py.
   - action_id: rest_action_guild_join_request
-    title: Action guild join request
+    title: Action Guild Join Request
+    description: 'Approve or reject guild join request. Discord: PATCH /guilds/{guild_id}/requests/{request_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -339,7 +348,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_add_group_dm_user
-    title: Add group dm user
+    title: Group DM Add Recipient
+    description: 'Adds a recipient to a Group DM using their access token. Discord:
+      PUT /channels/{channel_id}/recipients/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -380,7 +391,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_add_guild_member
-    title: Add guild member
+    title: Add Guild Member
+    description: 'Adds a user to the guild, provided you have a valid oauth2 access
+      token for the user with the guilds.join scope. Returns a 201 Created with the
+      guild member as the body, or 204 No Content if the user is already a member of
+      the guild. Fires a Guild Member Add Gateway event. Discord: PUT /guilds/{guild_id}/members/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -421,7 +436,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_add_guild_member_role
-    title: Add guild member role
+    title: Add Guild Member Role
+    description: 'Adds a role to a guild member. Requires the MANAGE_ROLES permission.
+      Returns a 204 empty response on success. Fires a Guild Member Update Gateway event.
+      Discord: PUT /guilds/{guild_id}/members/{user_id}/roles/{role_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -462,7 +480,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_add_invite_target_user
-    title: Add invite target user
+    title: Add Target User
+    description: 'Adds a target user to an existing invite. Requires the caller to be
+      the inviter or have the MANAGE_GUILD permission. Returns a 204 empty response
+      on success. Discord: PUT /invites/{code}/target-users/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -500,7 +521,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_add_lobby_member
-    title: Add lobby member
+    title: Add a Member to a Lobby
+    description: 'Adds the provided user to the specified lobby. If called when the
+      user is already a member of the lobby will update fields such as metadata on that
+      user instead. Discord: PUT /lobbies/{lobby_id}/members/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -541,7 +565,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_add_my_message_reaction
-    title: Add my message reaction
+    title: Create Reaction
+    description: 'Create a reaction for the message. This endpoint requires the READ_MESSAGE_HISTORY
+      permission to be present on the current user. Additionally, if nobody else has
+      reacted to the message using this emoji, this endpoint requires the ADD_REACTIONS
+      permission to be present on the current user. Returns a 204 empty response on
+      success. Fires a Message Reaction Add Gateway event. Discord: PUT /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -582,7 +611,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_add_thread_member
-    title: Add thread member
+    title: Add Thread Member
+    description: 'Adds another member to a thread. Requires the ability to send messages
+      in the thread. Also requires the thread is not archived. Returns a 204 empty response
+      if the member is successfully added or was already a member of the thread. Fires
+      a Thread Members Update Gateway event. Discord: PUT /channels/{channel_id}/thread-members/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -620,7 +653,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_applications_get_activity_instance
-    title: Applications get activity instance
+    title: Get Application Activity Instance
+    description: 'Returns a serialized activity instance, if it exists. Useful for preventing
+      unwanted activity sessions. Discord: GET /applications/{application_id}/activity-instances/{instance_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -654,7 +689,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_ban_user_from_guild
-    title: Ban user from guild
+    title: Create Guild Ban
+    description: 'Create a guild ban, and optionally delete previous messages sent by
+      the banned user. Requires the BAN_MEMBERS permission. Returns a 204 empty response
+      on success. Fires a Guild Ban Add Gateway event. Discord: PUT /guilds/{guild_id}/bans/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -695,7 +733,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_batch_edit_application_command_permissions
-    title: Batch edit application command permissions
+    title: Batch Edit Application Command Permissions
+    description: 'This endpoint has been disabled with updates to command permissions
+      (Permissions v2). Instead, you can edit each application command permissions (though
+      you should be careful to handle any potential rate limits). Discord: PUT /applications/{application_id}/guilds/{guild_id}/commands/permissions.'
     required_scopes:
     - extension:invoke
     handler:
@@ -734,7 +775,10 @@ actions:
     - operation_disabled
     command_type: invoke_extension_action
   - action_id: rest_bot_partner_sdk_token
-    title: Bot partner sdk token
+    title: Social SDK Token (Bot)
+    description: 'Exchanges an external account''s credentials for a Discord provisional
+      account token, authorized with the bot token (Discord Social SDK). Discord: POST
+      /partner-sdk/token/bot.'
     required_scopes:
     - extension:invoke
     handler:
@@ -769,7 +813,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_bot_partner_sdk_unmerge_provisional_account
-    title: Bot partner sdk unmerge provisional account
+    title: Unmerge Provisional Account (Bot)
+    description: 'Separates a provisional account from the Discord account it was merged
+      into, authorized with the bot token (Discord Social SDK). Discord: POST /partner-sdk/provisional-accounts/unmerge/bot.'
     required_scopes:
     - extension:invoke
     handler:
@@ -804,7 +850,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_bulk_add_invite_target_users
-    title: Bulk add invite target users
+    title: Bulk-Add Target Users
+    description: 'Adds multiple target users to an existing invite. Requires the caller
+      to be the inviter or have the MANAGE_GUILD permission. Returns a 204 empty response
+      on success. Discord: POST /invites/{code}/target-users/bulk-add.'
     required_scopes:
     - extension:invoke
     handler:
@@ -842,7 +891,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_bulk_ban_users_from_guild
-    title: Bulk ban users from guild
+    title: Bulk Guild Ban
+    description: 'Ban up to 200 users from a guild, and optionally delete previous messages
+      sent by the banned users. Requires both the BAN_MEMBERS and MANAGE_GUILD permissions.
+      Returns a 200 response on success, including the fields banned_users with the
+      IDs of the banned users and failed_users with IDs that could not be banned or
+      were already banned. Discord: POST /guilds/{guild_id}/bulk-ban.'
     required_scopes:
     - extension:invoke
     handler:
@@ -880,7 +934,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_bulk_delete_messages
-    title: Bulk delete messages
+    title: Bulk Delete Messages
+    description: 'Delete multiple messages in a single request. This endpoint can only
+      be used on guild channels and requires the MANAGE_MESSAGES permission. Returns
+      a 204 empty response on success. Fires a Message Delete Bulk Gateway event. Discord:
+      POST /channels/{channel_id}/messages/bulk-delete.'
     required_scopes:
     - extension:invoke
     handler:
@@ -918,7 +976,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_bulk_remove_invite_target_users
-    title: Bulk remove invite target users
+    title: Bulk-Delete Target Users
+    description: 'Removes multiple target users from an existing invite. Requires the
+      caller to be the inviter or have the MANAGE_GUILD permission. Returns a 204 empty
+      response on success. Discord: POST /invites/{code}/target-users/bulk-delete.'
     required_scopes:
     - extension:invoke
     handler:
@@ -956,7 +1017,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_bulk_set_application_commands
-    title: Bulk set application commands
+    title: Bulk Overwrite Global Application Commands
+    description: 'Takes a list of application commands, overwriting the existing global
+      command list for this application. Returns 200 and a list of application command
+      objects. Commands that do not already exist will count toward daily application
+      command create limits. Discord: PUT /applications/{application_id}/commands.'
     required_scopes:
     - extension:invoke
     handler:
@@ -994,7 +1059,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_bulk_set_guild_application_commands
-    title: Bulk set guild application commands
+    title: Bulk Overwrite Guild Application Commands
+    description: 'Takes a list of application commands, overwriting the existing command
+      list for this application for the targeted guild. Returns 200 and a list of application
+      command objects. Discord: PUT /applications/{application_id}/guilds/{guild_id}/commands.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1035,7 +1103,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_bulk_update_guild_channels
-    title: Bulk update guild channels
+    title: Modify Guild Channel Positions
+    description: 'Modify the positions of a set of channel objects for the guild. Requires
+      MANAGE_CHANNELS permission. Returns a 204 empty response on success. Fires multiple
+      Channel Update Gateway events. Discord: PATCH /guilds/{guild_id}/channels.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1073,7 +1144,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_bulk_update_guild_roles
-    title: Bulk update guild roles
+    title: Modify Guild Role Positions
+    description: 'Modify the positions of a set of role objects for the guild. Requires
+      the MANAGE_ROLES permission. Returns a list of all of the guild''s role objects
+      on success. Fires multiple Guild Role Update Gateway events. Discord: PATCH /guilds/{guild_id}/roles.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1111,7 +1185,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_bulk_update_lobby_members
-    title: Bulk update lobby members
+    title: Bulk Update Lobby Members
+    description: 'Adds, updates, or removes up to 25 members from the specified lobby
+      in a single request. Members with remove_member: false (the default) are upserted
+      — added if not present, or updated with the provided metadata and flags if already
+      a member. Members with remove_member: true are removed. Discord: POST /lobbies/{lobby_id}/members/bulk.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1149,7 +1227,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_consume_entitlement
-    title: Consume entitlement
+    title: Consume an Entitlement
+    description: 'For One-Time Purchase consumable SKUs, marks a given entitlement for
+      the user as consumed. The entitlement will have consumed: true when using List
+      Entitlements. Discord: POST /applications/{application_id}/entitlements/{entitlement_id}/consume.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1187,7 +1268,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_count_guild_scheduled_event_users
-    title: Count guild scheduled event users
+    title: Count Guild Scheduled Event Users
+    description: 'Get the count of users subscribed to a guild scheduled event. Discord:
+      GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users/counts.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1224,7 +1307,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_create_application_command
-    title: Create application command
+    title: Create Global Application Command
+    description: 'Create a new global command. Returns 201 if a command with the same
+      name does not already exist, or a 200 if it does (in which case the previous command
+      will be overwritten). Both responses include an application command object. Discord:
+      POST /applications/{application_id}/commands.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1262,7 +1349,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_application_emoji
-    title: Create application emoji
+    title: Create Application Emoji
+    description: 'Create a new emoji for the application. Returns the new emoji object
+      on success. Discord: POST /applications/{application_id}/emojis.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1300,7 +1389,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_auto_moderation_rule
-    title: Create auto moderation rule
+    title: Create Auto Moderation Rule
+    description: 'Create a new rule. Returns an auto moderation rule on success. Fires
+      an Auto Moderation Rule Create Gateway event. Discord: POST /guilds/{guild_id}/auto-moderation/rules.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1338,7 +1429,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_channel_invite
-    title: Create channel invite
+    title: Create Channel Invite
+    description: 'Create a new invite object for the channel. Only usable for guild
+      channels. Requires the CREATE_INSTANT_INVITE permission. All JSON parameters for
+      this route are optional, however the request body is not. If you are not sending
+      any fields, you still have to send an empty JSON object ({}). Returns an invite
+      object. Fires an Invite Create Gateway event. Discord: POST /channels/{channel_id}/invites.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1385,7 +1481,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_dm
-    title: Create dm
+    title: Create DM
+    description: 'Create a new DM channel with a user. Returns a DM channel object (if
+      one already exists, it will be returned instead). Discord: POST /users/@me/channels.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1420,7 +1518,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_entitlement
-    title: Create entitlement
+    title: Create Test Entitlement
+    description: 'Creates a test entitlement to a given SKU for a given guild or user.
+      Discord will act as though that user or guild has entitlement to your premium
+      offering. Discord: POST /applications/{application_id}/entitlements.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1458,7 +1559,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_guild_application_command
-    title: Create guild application command
+    title: Create Guild Application Command
+    description: 'Create a new guild command. New guild commands will be available in
+      the guild immediately. Returns 201 if a command with the same name does not already
+      exist, or a 200 if it does (in which case the previous command will be overwritten).
+      Both responses include an application command object. Discord: POST /applications/{application_id}/guilds/{guild_id}/commands.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1499,7 +1604,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_guild_channel
-    title: Create guild channel
+    title: Create Guild Channel
+    description: 'Create a new channel object for the guild. Requires the MANAGE_CHANNELS
+      permission. If setting permission overwrites, only permissions your bot has in
+      the guild can be allowed/denied. Setting MANAGE_ROLES permission in channels is
+      only possible for guild administrators. Returns the new channel object on success.
+      Fires a Channel Create Gateway event. Discord: POST /guilds/{guild_id}/channels.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1537,7 +1647,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_guild_emoji
-    title: Create guild emoji
+    title: Create Guild Emoji
+    description: 'Create a new emoji for the guild. Requires the CREATE_GUILD_EXPRESSIONS
+      permission. Returns the new emoji object on success. Fires a Guild Emojis Update
+      Gateway event. Discord: POST /guilds/{guild_id}/emojis.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1575,7 +1688,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_guild_role
-    title: Create guild role
+    title: Create Guild Role
+    description: 'Create a new role for the guild. Requires the MANAGE_ROLES permission.
+      Returns the new role object on success. Fires a Guild Role Create Gateway event.
+      All JSON params are optional. Discord: POST /guilds/{guild_id}/roles.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1613,7 +1729,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_guild_scheduled_event
-    title: Create guild scheduled event
+    title: Create Guild Scheduled Event
+    description: 'Create a guild scheduled event in the guild. Returns a guild scheduled
+      event object on success. Fires a Guild Scheduled Event Create Gateway event. Discord:
+      POST /guilds/{guild_id}/scheduled-events.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1651,7 +1770,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_guild_scheduled_event_exception
-    title: Create guild scheduled event exception
+    title: Create Guild Scheduled Event Exception
+    description: 'Create an exception to a recurring guild scheduled event. Discord:
+      POST /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1692,7 +1813,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_guild_soundboard_sound
-    title: Create guild soundboard sound
+    title: Create Guild Soundboard Sound
+    description: 'Create a new soundboard sound for the guild. Requires the CREATE_GUILD_EXPRESSIONS
+      permission. Returns the new soundboard sound object on success. Fires a Guild
+      Soundboard Sound Create Gateway event. Discord: POST /guilds/{guild_id}/soundboard-sounds.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1730,7 +1854,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_guild_sticker
-    title: Create guild sticker
+    title: Create Guild Sticker
+    description: 'Create a new sticker for the guild. Send a multipart/form-data body
+      as described in Uploading Files. Requires the CREATE_GUILD_EXPRESSIONS permission.
+      Returns the new sticker object on success. Fires a Guild Stickers Update Gateway
+      event. Discord: POST /guilds/{guild_id}/stickers.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1774,7 +1902,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_guild_template
-    title: Create guild template
+    title: Create Guild Template
+    description: 'Creates a template for the guild. Requires the MANAGE_GUILD permission.
+      Returns the created guild template object on success. Discord: POST /guilds/{guild_id}/templates.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1812,7 +1942,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_interaction_response
-    title: Create interaction response
+    title: Create Interaction Response
+    description: 'Create a response to an Interaction. Body is an interaction response.
+      Returns 204 unless with_response is set to true which returns 200 with the body
+      as interaction callback response. Discord: POST /interactions/{interaction_id}/{interaction_token}/callback.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1862,7 +1995,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_linked_lobby_guild_invite_for_self
-    title: Create linked lobby guild invite for self
+    title: Create Lobby Channel Invite for Self
+    description: 'Creates a single-use guild invite to the lobby''s linked channel,
+      targeted at the calling user. The lobby must have a linked channel and the caller
+      must be a member of the lobby. The invite expires after one hour. Discord: POST
+      /lobbies/{lobby_id}/members/@me/invites.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1897,7 +2034,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_linked_lobby_guild_invite_for_user
-    title: Create linked lobby guild invite for user
+    title: Create Lobby Channel Invite for User
+    description: 'Creates a single-use guild invite to the lobby''s linked channel on
+      behalf of an application, targeted at the specified user. The lobby must have
+      a linked channel. The invite expires after one hour. Discord: POST /lobbies/{lobby_id}/members/{user_id}/invites.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1935,7 +2075,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_lobby
-    title: Create lobby
+    title: Create Lobby
+    description: 'Creates a new lobby, adding any of the specified members to it, if
+      provided. Discord: POST /lobbies.'
     required_scopes:
     - extension:invoke
     handler:
@@ -1970,7 +2112,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_lobby_message
-    title: Create lobby message
+    title: Send Lobby Message
+    description: 'Sends a message to the specified lobby. The calling user must be a
+      member of the lobby. Discord: POST /lobbies/{lobby_id}/messages.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2017,7 +2161,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_message
-    title: Create message
+    title: Create Message
+    description: 'Post a message to a guild text or DM channel. Returns a message object.
+      Fires a Message Create Gateway event. See message formatting for more information
+      on how to properly format messages. Discord: POST /channels/{channel_id}/messages.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2064,7 +2211,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_or_join_lobby
-    title: Create or join lobby
+    title: Create or Join Lobby
+    description: 'Creates a new lobby for the application identified by a secret, or
+      joins the calling user to the existing lobby with that secret if one already exists.
+      Updates lobby metadata and the calling member''s metadata on join. Discord: PUT
+      /lobbies.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2099,7 +2250,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_pin
-    title: Create pin
+    title: Pin Message
+    description: 'Pin a message in a channel. Requires the PIN_MESSAGES permission.
+      Fires a Channel Pins Update Gateway event. Discord: PUT /channels/{channel_id}/messages/pins/{message_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2137,7 +2290,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_stage_instance
-    title: Create stage instance
+    title: Create Stage Instance
+    description: 'Creates a new Stage instance associated to a Stage channel. Returns
+      that Stage instance. Fires a Stage Instance Create Gateway event. Discord: POST
+      /stage-instances.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2172,7 +2328,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_thread
-    title: Create thread
+    title: Start Thread without Message
+    description: 'Creates a new thread that is not connected to an existing message.
+      Returns a channel on success, and a 400 BAD REQUEST on invalid parameters. Fires
+      a Thread Create Gateway event. Discord: POST /channels/{channel_id}/threads.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2219,7 +2378,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_thread_from_message
-    title: Create thread from message
+    title: Start Thread from Message
+    description: 'Creates a new thread from an existing message. Returns a channel on
+      success, and a 400 BAD REQUEST on invalid parameters. Fires a Thread Create and
+      a Message Update Gateway event. Discord: POST /channels/{channel_id}/messages/{message_id}/threads.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2260,7 +2422,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_create_webhook
-    title: Create webhook
+    title: Create Webhook
+    description: 'Creates a new webhook and returns a webhook object on success. Requires
+      the MANAGE_WEBHOOKS permission. Fires a Webhooks Update Gateway event. Discord:
+      POST /channels/{channel_id}/webhooks.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2298,7 +2463,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_crosspost_message
-    title: Crosspost message
+    title: Crosspost Message
+    description: 'Crosspost a message in an Announcement Channel to following channels.
+      This endpoint requires the SEND_MESSAGES permission, if the current user sent
+      the message, or additionally the MANAGE_MESSAGES permission, for all other messages,
+      to be present for the current user. Discord: POST /channels/{channel_id}/messages/{message_id}/crosspost.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2336,7 +2505,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_all_message_reactions
-    title: Delete all message reactions
+    title: Delete All Reactions
+    description: 'Deletes all reactions on a message. This endpoint requires the MANAGE_MESSAGES
+      permission to be present on the current user. Fires a Message Reaction Remove
+      All Gateway event. Discord: DELETE /channels/{channel_id}/messages/{message_id}/reactions.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2374,7 +2546,13 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_all_message_reactions_by_emoji
-    title: Delete all message reactions by emoji
+    title: Delete All Reactions for Emoji
+    description: 'Deletes all the reactions for a given emoji on a message. This endpoint
+      requires the MANAGE_MESSAGES permission to be present on the current user. Fires
+      a Message Reaction Remove Emoji Gateway event. The emoji must be URL Encoded or
+      the request will fail with 10014: Unknown Emoji. To use custom emoji, you must
+      encode it in the format name:id with the emoji name and emoji id. Discord: DELETE
+      /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2415,7 +2593,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_application_command
-    title: Delete application command
+    title: Delete Global Application Command
+    description: 'Deletes a global command. Returns 204 No Content on success. Discord:
+      DELETE /applications/{application_id}/commands/{command_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2453,7 +2633,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_application_emoji
-    title: Delete application emoji
+    title: Delete Application Emoji
+    description: 'Delete the given emoji. Returns 204 No Content on success. Discord:
+      DELETE /applications/{application_id}/emojis/{emoji_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2491,7 +2673,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_application_identity
-    title: Delete application identity
+    title: Delete Application Identity
+    description: 'Deletes one Application Identity and its associated profile data for
+      the specified user and application. Use this endpoint when a stale provider-issued
+      user ID prevents you from writing profile data for the user''s current identity.
+      Discord: POST /users/{user_id}/application-identities/{application_id}/{provider_type}/{provider_issued_user_id}/delete.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2538,7 +2724,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_application_user_role_connection
-    title: Delete application user role connection
+    title: Delete Current User Application Role Connection
+    description: 'Deletes the application role connection for the user. Requires an
+      OAuth2 access token with role_connections.write scope for the application specified
+      in the path. Discord: DELETE /users/@me/applications/{application_id}/role-connection.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2573,7 +2762,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_auto_moderation_rule
-    title: Delete auto moderation rule
+    title: Delete Auto Moderation Rule
+    description: 'Delete a rule. Returns a 204 on success. Fires an Auto Moderation
+      Rule Delete Gateway event. Discord: DELETE /guilds/{guild_id}/auto-moderation/rules/{rule_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2611,7 +2802,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_channel
-    title: Delete channel
+    title: Delete/Close Channel
+    description: 'Delete a channel, or close a private message. Requires the MANAGE_CHANNELS
+      permission for the guild, or MANAGE_THREADS if the channel is a thread. Deleting
+      a category does not delete its child channels; they will have their parent_id
+      removed and a Channel Update Gateway event will fire for each of them. Returns
+      a channel object on success. Discord: DELETE /channels/{channel_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2646,7 +2842,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_channel_permission_overwrite
-    title: Delete channel permission overwrite
+    title: Delete Channel Permission
+    description: 'Delete a channel permission overwrite for a user or role in a channel.
+      Only usable for guild channels. Requires the MANAGE_ROLES permission. Returns
+      a 204 empty response on success. Fires a Channel Update Gateway event. For more
+      information about permissions, see permissions Discord: DELETE /channels/{channel_id}/permissions/{overwrite_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2684,7 +2884,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_entitlement
-    title: Delete entitlement
+    title: Delete Test Entitlement
+    description: 'Deletes a currently-active test entitlement. Discord will act as though
+      that user or guild _no longer has_ entitlement to your premium offering. Discord:
+      DELETE /applications/{application_id}/entitlements/{entitlement_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2722,7 +2925,8 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_group_dm_user
-    title: Delete group dm user
+    title: Group DM Remove Recipient
+    description: 'Removes a recipient from a Group DM. Discord: DELETE /channels/{channel_id}/recipients/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2760,7 +2964,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_guild_application_command
-    title: Delete guild application command
+    title: Delete Guild Application Command
+    description: 'Delete a guild command. Returns 204 No Content on success. Discord:
+      DELETE /applications/{application_id}/guilds/{guild_id}/commands/{command_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2801,7 +3007,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_guild_emoji
-    title: Delete guild emoji
+    title: Delete Guild Emoji
+    description: 'Delete the given emoji. For emojis created by the current user, requires
+      either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission. For
+      other emojis, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns 204 No
+      Content on success. Fires a Guild Emojis Update Gateway event. Discord: DELETE
+      /guilds/{guild_id}/emojis/{emoji_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2839,7 +3050,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_guild_integration
-    title: Delete guild integration
+    title: Delete Guild Integration
+    description: 'Delete the attached integration object for the guild. Deletes any
+      associated webhooks and kicks the associated bot if there is one. Requires the
+      MANAGE_GUILD permission. Returns a 204 empty response on success. Fires Guild
+      Integrations Update and Integration Delete Gateway events. Discord: DELETE /guilds/{guild_id}/integrations/{integration_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2877,7 +3092,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_guild_member
-    title: Delete guild member
+    title: Remove Guild Member
+    description: 'Remove a member from a guild. Requires KICK_MEMBERS permission. Returns
+      a 204 empty response on success. Fires a Guild Member Remove Gateway event. Discord:
+      DELETE /guilds/{guild_id}/members/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2915,7 +3133,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_guild_member_role
-    title: Delete guild member role
+    title: Remove Guild Member Role
+    description: 'Removes a role from a guild member. Requires the MANAGE_ROLES permission.
+      Returns a 204 empty response on success. Fires a Guild Member Update Gateway event.
+      Discord: DELETE /guilds/{guild_id}/members/{user_id}/roles/{role_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2956,7 +3177,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_guild_role
-    title: Delete guild role
+    title: Delete Guild Role
+    description: 'Delete a guild role. Requires the MANAGE_ROLES permission. Returns
+      a 204 empty response on success. Fires a Guild Role Delete Gateway event. Discord:
+      DELETE /guilds/{guild_id}/roles/{role_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -2994,7 +3218,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_guild_scheduled_event
-    title: Delete guild scheduled event
+    title: Delete Guild Scheduled Event
+    description: 'Delete a guild scheduled event. Returns a 204 on success. Fires a
+      Guild Scheduled Event Delete Gateway event. Discord: DELETE /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3032,7 +3258,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_guild_scheduled_event_exception
-    title: Delete guild scheduled event exception
+    title: Delete Guild Scheduled Event Exception
+    description: 'Delete an exception to a recurring guild scheduled event. Discord:
+      DELETE /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions/{exception_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3073,7 +3301,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_guild_soundboard_sound
-    title: Delete guild soundboard sound
+    title: Delete Guild Soundboard Sound
+    description: 'Delete the given soundboard sound. For sounds created by the current
+      user, requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS
+      permission. For other sounds, requires the MANAGE_GUILD_EXPRESSIONS permission.
+      Returns 204 No Content on success. Fires a Guild Soundboard Sound Delete Gateway
+      event. Discord: DELETE /guilds/{guild_id}/soundboard-sounds/{sound_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3111,7 +3344,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_guild_sticker
-    title: Delete guild sticker
+    title: Delete Guild Sticker
+    description: 'Delete the given sticker. For stickers created by the current user,
+      requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission.
+      For other stickers, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns
+      204 No Content on success. Fires a Guild Stickers Update Gateway event. Discord:
+      DELETE /guilds/{guild_id}/stickers/{sticker_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3149,7 +3387,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_guild_template
-    title: Delete guild template
+    title: Delete Guild Template
+    description: 'Deletes the template. Requires the MANAGE_GUILD permission. Returns
+      the deleted guild template object on success. Discord: DELETE /guilds/{guild_id}/templates/{code}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3187,7 +3427,8 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_lobby
-    title: Delete lobby
+    title: Delete Lobby
+    description: 'Deletes the specified lobby if it exists. Discord: DELETE /lobbies/{lobby_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3222,7 +3463,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_lobby_member
-    title: Delete lobby member
+    title: Remove a Member from a Lobby
+    description: 'Removes the provided user from the specified lobby. It is safe to
+      call this even if the user is no longer a member of the lobby, but will fail if
+      the lobby does not exist. Discord: DELETE /lobbies/{lobby_id}/members/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3260,7 +3504,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_message
-    title: Delete message
+    title: Delete Message
+    description: 'Delete a message. If operating on a guild channel and trying to delete
+      a message that was not sent by the current user, this endpoint requires the MANAGE_MESSAGES
+      permission. Returns a 204 empty response on success. Fires a Message Delete Gateway
+      event. Discord: DELETE /channels/{channel_id}/messages/{message_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3298,7 +3546,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_my_message_reaction
-    title: Delete my message reaction
+    title: Delete Own Reaction
+    description: 'Delete a reaction the current user has made for the message. Returns
+      a 204 empty response on success. Fires a Message Reaction Remove Gateway event.
+      The emoji must be URL Encoded or the request will fail with 10014: Unknown Emoji.
+      To use custom emoji, you must encode it in the format name:id with the emoji name
+      and emoji id. Discord: DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3339,7 +3592,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_original_webhook_message
-    title: Delete original webhook message
+    title: Delete Original Interaction Response
+    description: 'Deletes the initial Interaction response. Returns 204 No Content on
+      success. Discord: DELETE /webhooks/{webhook_id}/{webhook_token}/messages/@original.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3377,7 +3632,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_pin
-    title: Delete pin
+    title: Unpin Message
+    description: 'Unpin a message in a channel. Requires the PIN_MESSAGES permission.
+      Returns a 204 empty response on success. Fires a Channel Pins Update Gateway event.
+      Discord: DELETE /channels/{channel_id}/messages/pins/{message_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3415,7 +3673,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_stage_instance
-    title: Delete stage instance
+    title: Delete Stage Instance
+    description: 'Deletes the Stage instance. Returns 204 No Content. Fires a Stage
+      Instance Delete Gateway event. Discord: DELETE /stage-instances/{channel_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3450,7 +3710,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_thread_member
-    title: Delete thread member
+    title: Remove Thread Member
+    description: 'Removes another member from a thread. Requires the MANAGE_THREADS
+      permission, or the creator of the thread if it is a PRIVATE_THREAD. Also requires
+      the thread is not archived. Returns a 204 empty response on success. Fires a Thread
+      Members Update Gateway event. Discord: DELETE /channels/{channel_id}/thread-members/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3488,7 +3752,13 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_user_message_reaction
-    title: Delete user message reaction
+    title: Delete User Reaction
+    description: 'Deletes another user''s reaction. This endpoint requires the MANAGE_MESSAGES
+      permission to be present on the current user. Returns a 204 empty response on
+      success. Fires a Message Reaction Remove Gateway event. The emoji must be URL
+      Encoded or the request will fail with 10014: Unknown Emoji. To use custom emoji,
+      you must encode it in the format name:id with the emoji name and emoji id. Discord:
+      DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3532,7 +3802,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_webhook
-    title: Delete webhook
+    title: Delete Webhook
+    description: 'Delete a webhook permanently. Requires the MANAGE_WEBHOOKS permission.
+      Returns a 204 No Content response on success. Fires a Webhooks Update Gateway
+      event. Discord: DELETE /webhooks/{webhook_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3567,7 +3840,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_webhook_by_token
-    title: Delete webhook by token
+    title: Delete Webhook with Token
+    description: 'Same as above, except this call does not require authentication. Discord:
+      DELETE /webhooks/{webhook_id}/{webhook_token}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3602,7 +3877,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_delete_webhook_message
-    title: Delete webhook message
+    title: Delete Webhook Message
+    description: 'Deletes a message that was created by the webhook. Returns a 204 No
+      Content response on success. Discord: DELETE /webhooks/{webhook_id}/{webhook_token}/messages/{message_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3643,7 +3920,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_deprecated_create_pin
-    title: Deprecated create pin
+    title: Pin Message (deprecated)
+    description: 'This endpoint is deprecated. Use Pin Message instead. Discord: PUT
+      /channels/{channel_id}/pins/{message_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3681,7 +3960,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_deprecated_delete_pin
-    title: Deprecated delete pin
+    title: Unpin Message (deprecated)
+    description: 'This endpoint is deprecated. Use Unpin Message instead. Discord: DELETE
+      /channels/{channel_id}/pins/{message_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3719,7 +4000,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_deprecated_list_pins
-    title: Deprecated list pins
+    title: Get Pinned Messages (deprecated)
+    description: 'Gets the first 50 pinned messages in a channel, returning an array
+      of message objects on success. This endpoint is deprecated. Use Get Channel Pins
+      instead. Discord: GET /channels/{channel_id}/pins.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3750,7 +4034,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_edit_lobby
-    title: Edit lobby
+    title: Modify Lobby
+    description: 'Modifies the specified lobby with new values, if provided. Discord:
+      PATCH /lobbies/{lobby_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3788,7 +4074,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_edit_lobby_channel_link
-    title: Edit lobby channel link
+    title: Link Channel to Lobby
+    description: 'Links an existing text channel to a lobby. See Linked Channels for
+      more information. Discord: PATCH /lobbies/{lobby_id}/channel-linking.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3826,7 +4114,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_execute_github_compatible_webhook
-    title: Execute github compatible webhook
+    title: Execute GitHub-Compatible Webhook
+    description: 'Add a new webhook to your GitHub repo (in the repo''s settings), and
+      use this endpoint as the "Payload URL." You can choose what events your Discord
+      channel receives by choosing the "Let me select individual events" option and
+      selecting individual events for the new webhook you''re configuring. Discord:
+      POST /webhooks/{webhook_id}/{webhook_token}/github.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3870,7 +4163,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_execute_slack_compatible_webhook
-    title: Execute slack compatible webhook
+    title: Execute Slack-Compatible Webhook
+    description: 'Refer to Slack''s documentation for more information. We do not support
+      Slack''s channel, icon_emoji, mrkdwn, or mrkdwn_in properties. Discord: POST /webhooks/{webhook_id}/{webhook_token}/slack.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3923,7 +4218,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_execute_webhook
-    title: Execute webhook
+    title: Execute Webhook
+    description: 'Refer to Uploading Files for details on attachments and multipart/form-data
+      requests. Returns a message or 204 No Content depending on the wait query parameter.
+      Discord: POST /webhooks/{webhook_id}/{webhook_token}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -3979,7 +4277,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_follow_channel
-    title: Follow channel
+    title: Follow Announcement Channel
+    description: 'Follow an Announcement Channel to send messages to a target channel.
+      Requires the MANAGE_WEBHOOKS permission in the target channel. Returns a followed
+      channel object. Fires a Webhooks Update Gateway event for the target channel.
+      Discord: POST /channels/{channel_id}/followers.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4017,7 +4319,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_get_active_guild_threads
-    title: Get active guild threads
+    title: List Active Guild Threads
+    description: 'Returns all active threads in the guild, including public and private
+      threads. Threads are ordered by their id, in descending order. Discord: GET /guilds/{guild_id}/threads/active.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4048,7 +4352,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_answer_voters
-    title: Get answer voters
+    title: Get Answer Voters
+    description: 'Get a list of users that voted for this specific answer. Discord:
+      GET /channels/{channel_id}/polls/{message_id}/answers/{answer_id}. With all_pages
+      it reads every page (after the step''s cursor, or from the first item without
+      one) and returns next_cursor to pass as after when the list did not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4097,7 +4405,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_application
-    title: Get application
+    title: Get Application
+    description: 'Returns an application by its ID. Discord: GET /applications/{application_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4128,7 +4437,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_application_command
-    title: Get application command
+    title: Get Global Application Command
+    description: 'Fetch a global command for your application. Returns an application
+      command object. Discord: GET /applications/{application_id}/commands/{command_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4162,7 +4473,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_application_emoji
-    title: Get application emoji
+    title: Get Application Emoji
+    description: 'Returns an emoji object for the given application and emoji IDs. Includes
+      the user field. Discord: GET /applications/{application_id}/emojis/{emoji_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4196,7 +4509,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_application_identity_profile
-    title: Get application identity profile
+    title: Get Application Identity Profile
+    description: 'Returns the Application Identity Profile object stored on the matching
+      Application Identity for the specified user and application. Discord: GET /applications/{application_id}/users/{user_id}/identities/{provider_issued_user_id}/profile.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4233,7 +4548,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_application_role_connections_metadata
-    title: Get application role connections metadata
+    title: Get Application Role Connection Metadata Records
+    description: 'Returns a list of application role connection metadata objects for
+      the given application. Discord: GET /applications/{application_id}/role-connections/metadata.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4264,7 +4581,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_application_user_role_connection
-    title: Get application user role connection
+    title: Get Current User Application Role Connection
+    description: 'Returns the application role connection for the user. Requires an
+      OAuth2 access token with role_connections.write scope for the application specified
+      in the path. Discord: GET /users/@me/applications/{application_id}/role-connection.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4295,7 +4615,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_auto_moderation_rule
-    title: Get auto moderation rule
+    title: Get Auto Moderation Rule
+    description: 'Get a single rule. Returns an auto moderation rule object. Discord:
+      GET /guilds/{guild_id}/auto-moderation/rules/{rule_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4329,7 +4651,12 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_bot_gateway
-    title: Get bot gateway
+    title: Get Gateway Bot
+    description: 'Returns an object based on the information in Get Gateway, plus additional
+      metadata that can help during the operation of large or sharded bots. Unlike the
+      Get Gateway, this route should not be cached for extended periods of time as the
+      value is not guaranteed to be the same per-call, and changes as the bot joins/leaves
+      guilds. Discord: GET /gateway/bot.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4357,7 +4684,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_channel
-    title: Get channel
+    title: Get Channel
+    description: 'Get a channel by ID. Returns a channel object. If the channel is a
+      thread, a thread member object is included in the returned result. Discord: GET
+      /channels/{channel_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4388,7 +4718,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_channel_member_permissions
-    title: Get channel member permissions
+    title: Get Channel Member Permissions
+    description: 'Returns the member''s computed permissions in the channel, including
+      their roles and member-specific overwrites. Threads use their parent channel''s
+      overwrites. Requires the VIEW_CHANNEL permission, and additionally CONNECT for
+      voice and stage channels. Discord: GET /channels/{channel_id}/permissions/member/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4425,7 +4759,12 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_channel_role_permissions
-    title: Get channel role permissions
+    title: Get Channel Role Permissions
+    description: 'Returns the permissions granted by the specified role together with
+      @everyone, applying their channel overwrites. Other roles and member-specific
+      overwrites are not included. Threads use their parent channel''s overwrites. Requires
+      the VIEW_CHANNEL permission, and additionally CONNECT for voice and stage channels.
+      Discord: GET /channels/{channel_id}/permissions/role/{role_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4462,7 +4801,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_current_user_application_entitlements
-    title: Get current user application entitlements
+    title: Get Current User Application Entitlements
+    description: 'Returns the authorized user''s entitlements for an application. Discord:
+      GET /users/@me/applications/{application_id}/entitlements.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4499,7 +4840,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_entitlement
-    title: Get entitlement
+    title: Get Entitlement
+    description: 'Returns an entitlement. Discord: GET /applications/{application_id}/entitlements/{entitlement_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4533,7 +4875,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_entitlements
-    title: Get entitlements
+    title: List Entitlements
+    description: 'Returns all entitlements for a given app, active and expired. Discord:
+      GET /applications/{application_id}/entitlements. With all_pages it reads every
+      page (after the step''s cursor, or from the first item without one) and returns
+      next_cursor to pass as after when the list did not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4597,7 +4943,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_gateway
-    title: Get gateway
+    title: Get Gateway
+    description: 'Returns an object with a valid WSS URL which the app can use when
+      Connecting to the Gateway. Apps should cache this value and only call this endpoint
+      to retrieve a new URL when they are unable to properly establish a connection
+      using the cached one. Discord: GET /gateway.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4625,7 +4975,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild
-    title: Get guild
+    title: Get Guild
+    description: 'Returns the guild object for the given id. If with_counts is set to
+      true, this endpoint will also return approximate_member_count and approximate_presence_count
+      for the guild. Discord: GET /guilds/{guild_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4659,7 +5012,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_application_command
-    title: Get guild application command
+    title: Get Guild Application Command
+    description: 'Fetch a guild command for your application. Returns an application
+      command object. Discord: GET /applications/{application_id}/guilds/{guild_id}/commands/{command_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4696,7 +5051,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_application_command_permissions
-    title: Get guild application command permissions
+    title: Get Application Command Permissions
+    description: 'Fetches permissions for a specific command for your application in
+      a guild. Returns a guild application command permissions object. Discord: GET
+      /applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4733,7 +5091,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_ban
-    title: Get guild ban
+    title: Get Guild Ban
+    description: 'Returns a ban object for the given user or a 404 not found if the
+      ban cannot be found. Requires the BAN_MEMBERS or VIEW_AUDIT_LOG permission. Discord:
+      GET /guilds/{guild_id}/bans/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4767,7 +5128,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_emoji
-    title: Get guild emoji
+    title: Get Guild Emoji
+    description: 'Returns an emoji object for the given guild and emoji IDs. Includes
+      the user field if the bot has the MANAGE_GUILD_EXPRESSIONS permission, or if the
+      bot created the emoji and has the CREATE_GUILD_EXPRESSIONS permission. Discord:
+      GET /guilds/{guild_id}/emojis/{emoji_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4801,7 +5166,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_join_requests
-    title: Get guild join requests
+    title: Get Guild Join Requests
+    description: 'List join requests for guild, optionally filtered by application status.
+      Discord: GET /guilds/{guild_id}/requests. With all_pages it reads every page (after
+      the step''s cursor, or from the first item without one) and returns next_cursor
+      to pass as after when the list did not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4850,7 +5219,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_member
-    title: Get guild member
+    title: Get Guild Member
+    description: 'Returns a guild member object for the specified user. Discord: GET
+      /guilds/{guild_id}/members/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4884,7 +5255,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_member_permissions
-    title: Get guild member permissions
+    title: Get Guild Member Permissions
+    description: 'Returns the member''s computed guild permissions, combining their
+      roles with @everyone. Discord: GET /guilds/{guild_id}/permissions/member/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4918,7 +5291,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_new_member_welcome
-    title: Get guild new member welcome
+    title: Get Guild New Member Welcome
+    description: 'Returns the server''s welcome settings for new members. Discord: GET
+      /guilds/{guild_id}/new-member-welcome.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4949,7 +5324,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_preview
-    title: Get guild preview
+    title: Get Guild Preview
+    description: 'Returns the guild preview object for the given id. If the user is
+      not in the guild, then the guild must be discoverable. Discord: GET /guilds/{guild_id}/preview.'
     required_scopes:
     - extension:invoke
     handler:
@@ -4980,7 +5357,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_role
-    title: Get guild role
+    title: Get Guild Role
+    description: 'Returns a role object for the specified role. Discord: GET /guilds/{guild_id}/roles/{role_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5014,7 +5392,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_role_permissions
-    title: Get guild role permissions
+    title: Get Guild Role Permissions
+    description: 'Returns the combined guild permissions of the specified role and @everyone.
+      This calculation does not include other roles or member-specific restrictions.
+      Discord: GET /guilds/{guild_id}/permissions/role/{role_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5048,7 +5429,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_scheduled_event
-    title: Get guild scheduled event
+    title: Get Guild Scheduled Event
+    description: 'Get a guild scheduled event. Returns a guild scheduled event object
+      on success. Discord: GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5085,7 +5468,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_soundboard_sound
-    title: Get guild soundboard sound
+    title: Get Guild Soundboard Sound
+    description: 'Returns a soundboard sound object for the given sound id. Includes
+      the user field if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS
+      permission. Discord: GET /guilds/{guild_id}/soundboard-sounds/{sound_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5119,7 +5505,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_sticker
-    title: Get guild sticker
+    title: Get Guild Sticker
+    description: 'Returns a sticker object for the given guild and sticker IDs. Includes
+      the user field if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS
+      permission. Discord: GET /guilds/{guild_id}/stickers/{sticker_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5153,7 +5542,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_template
-    title: Get guild template
+    title: Get Guild Template
+    description: 'Returns a guild template object for the given code. Discord: GET /guilds/templates/{code}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5184,7 +5574,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_vanity_url
-    title: Get guild vanity url
+    title: Get Guild Vanity URL
+    description: 'Returns a partial invite object for guilds with that feature enabled.
+      Requires the MANAGE_GUILD permission. code will be null if a vanity url for the
+      guild is not set. Discord: GET /guilds/{guild_id}/vanity-url.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5215,7 +5608,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_webhooks
-    title: Get guild webhooks
+    title: Get Guild Webhooks
+    description: 'Returns a list of guild webhook objects. Requires the MANAGE_WEBHOOKS
+      permission. Discord: GET /guilds/{guild_id}/webhooks.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5246,7 +5641,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_welcome_screen
-    title: Get guild welcome screen
+    title: Get Guild Welcome Screen
+    description: 'Returns the Welcome Screen object for the guild. If the welcome screen
+      is not enabled, the MANAGE_GUILD permission is required. Discord: GET /guilds/{guild_id}/welcome-screen.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5277,7 +5674,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_widget
-    title: Get guild widget
+    title: Get Guild Widget
+    description: 'Returns the widget for the guild. Fires an Invite Create Gateway event
+      when an invite channel is defined and a new Invite is generated. Discord: GET
+      /guilds/{guild_id}/widget.json.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5308,7 +5708,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_widget_png
-    title: Get guild widget png
+    title: Get Guild Widget Image
+    description: 'Returns a PNG image widget for the guild. Requires no permissions
+      or authentication. Discord: GET /guilds/{guild_id}/widget.png.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5342,7 +5744,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guild_widget_settings
-    title: Get guild widget settings
+    title: Get Guild Widget Settings
+    description: 'Returns a guild widget settings object. Requires the MANAGE_GUILD
+      permission. Discord: GET /guilds/{guild_id}/widget.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5373,7 +5777,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_guilds_onboarding
-    title: Get guilds onboarding
+    title: Get Guild Onboarding
+    description: 'Returns the Onboarding object for the guild. Discord: GET /guilds/{guild_id}/onboarding.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5404,7 +5809,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_invite_target_users
-    title: Get invite target users
+    title: Get Target Users
+    description: 'Gets the users allowed to see and accept this invite. Response is
+      a CSV file with the header user_id and each user ID on its own line. Requires
+      the caller to be the inviter, or have MANAGE_GUILD permission, or have VIEW_AUDIT_LOG
+      permission. Discord: GET /invites/{code}/target-users.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5435,7 +5844,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_invite_target_users_job_status
-    title: Get invite target users job status
+    title: Get Target Users Job Status
+    description: 'Processing target users from a CSV when creating or updating an invite
+      is done asynchronously. This endpoint allows you to check the status of that job.
+      Requires the caller to be the inviter, or have MANAGE_GUILD permission, or have
+      VIEW_AUDIT_LOG permission. Discord: GET /invites/{code}/target-users/job-status.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5466,7 +5879,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_lobby
-    title: Get lobby
+    title: Get Lobby
+    description: 'Returns a lobby object for the specified lobby id, if it exists. Discord:
+      GET /lobbies/{lobby_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5497,7 +5912,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_lobby_messages
-    title: Get lobby messages
+    title: Get Lobby Messages
+    description: 'Returns the most recent messages in the specified lobby. The calling
+      user must be a member of the lobby. Discord: GET /lobbies/{lobby_id}/messages.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5531,7 +5948,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_message
-    title: Get message
+    title: Get Channel Message
+    description: 'Retrieves a specific message in the channel. Returns a message object
+      on success. Discord: GET /channels/{channel_id}/messages/{message_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5565,7 +5984,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_my_application
-    title: Get my application
+    title: Get Current Application
+    description: 'Returns the application object associated with the requesting bot
+      user. Discord: GET /applications/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5593,7 +6014,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_my_guild_member
-    title: Get my guild member
+    title: Get Current User Guild Member
+    description: 'Returns a guild member object for the current user. Requires the guilds.members.read
+      OAuth2 scope. Discord: GET /users/@me/guilds/{guild_id}/member.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5624,7 +6047,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_my_oauth2_application
-    title: Get my oauth2 application
+    title: Get Current Bot Application Information
+    description: 'Returns the bot''s application object. Discord: GET /oauth2/applications/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5652,7 +6076,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_my_oauth2_authorization
-    title: Get my oauth2 authorization
+    title: Get Current Authorization Information
+    description: 'Returns info about the current authorization. Requires authentication
+      with a bearer token. Discord: GET /oauth2/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5680,7 +6106,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_my_user
-    title: Get my user
+    title: Get Current User
+    description: 'Returns the user object of the requester''s account. For OAuth2, this
+      requires the identify scope, which will return the object _without_ an email,
+      and optionally the email scope, which returns the object _with_ an email if the
+      user has one. Discord: GET /users/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5708,7 +6138,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_openid_connect_userinfo
-    title: Get openid connect userinfo
+    title: Get OpenID Connect User Info
+    description: 'Returns the OpenID Connect user information of the authorized user.
+      Discord: GET /oauth2/userinfo.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5736,7 +6168,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_original_webhook_message
-    title: Get original webhook message
+    title: Get Original Interaction Response
+    description: 'Returns the initial Interaction response. Functions the same as Get
+      Webhook Message. Discord: GET /webhooks/{webhook_id}/{webhook_token}/messages/@original.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5770,7 +6204,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_public_keys
-    title: Get public keys
+    title: Get OAuth2 Public Keys
+    description: 'Returns Discord''s OAuth2 public signing keys (a JSON Web Key Set).
+      Discord: GET /oauth2/keys.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5798,7 +6234,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_self_voice_state
-    title: Get self voice state
+    title: Get Current User Voice State
+    description: 'Returns the current user''s voice state in the guild. Discord: GET
+      /guilds/{guild_id}/voice-states/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5829,7 +6267,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_sku_subscription
-    title: Get sku subscription
+    title: Get SKU Subscription
+    description: 'Get a subscription by its ID. Returns a subscription object. Discord:
+      GET /skus/{sku_id}/subscriptions/{subscription_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5866,7 +6306,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_sku_subscriptions
-    title: Get sku subscriptions
+    title: List SKU Subscriptions
+    description: 'Returns all subscriptions containing the SKU, filtered by user. Returns
+      a list of subscription objects. Discord: GET /skus/{sku_id}/subscriptions. With
+      all_pages it reads every page (after the step''s cursor, or from the first item
+      without one) and returns next_cursor to pass as after when the list did not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5915,7 +6359,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_soundboard_default_sounds
-    title: Get soundboard default sounds
+    title: List Default Soundboard Sounds
+    description: 'Returns an array of soundboard sound objects that can be used by all
+      users. Discord: GET /soundboard-default-sounds.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5943,7 +6389,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_stage_instance
-    title: Get stage instance
+    title: Get Stage Instance
+    description: 'Gets the stage instance associated with the Stage channel, if it exists.
+      Discord: GET /stage-instances/{channel_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -5974,7 +6422,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_sticker
-    title: Get sticker
+    title: Get Sticker
+    description: 'Returns a sticker object for the given sticker ID. Discord: GET /stickers/{sticker_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6005,7 +6454,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_sticker_pack
-    title: Get sticker pack
+    title: Get Sticker Pack
+    description: 'Returns a sticker pack object for the given sticker pack ID. Discord:
+      GET /sticker-packs/{pack_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6036,7 +6487,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_thread_member
-    title: Get thread member
+    title: Get Thread Member
+    description: 'Returns a thread member object for the specified user if they are
+      a member of the thread, returns a 404 response otherwise. Discord: GET /channels/{channel_id}/thread-members/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6073,7 +6526,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_user
-    title: Get user
+    title: Get User
+    description: 'Returns a user object for a given user ID. Discord: GET /users/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6104,7 +6558,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_voice_state
-    title: Get voice state
+    title: Get User Voice State
+    description: 'Returns the specified user''s voice state in the guild. Discord: GET
+      /guilds/{guild_id}/voice-states/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6138,7 +6594,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_webhook
-    title: Get webhook
+    title: Get Webhook
+    description: 'Returns the new webhook object for the given id. Discord: GET /webhooks/{webhook_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6169,7 +6626,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_webhook_by_token
-    title: Get webhook by token
+    title: Get Webhook with Token
+    description: 'Same as above, except this call does not require authentication and
+      returns no user in the webhook object. Discord: GET /webhooks/{webhook_id}/{webhook_token}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6200,7 +6659,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_get_webhook_message
-    title: Get webhook message
+    title: Get Webhook Message
+    description: 'Returns a previously-sent webhook message from the same token. Returns
+      a message object on success. Discord: GET /webhooks/{webhook_id}/{webhook_token}/messages/{message_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6237,7 +6698,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_guild_role_member_counts
-    title: Guild role member counts
+    title: Get Guild Role Member Counts
+    description: 'Returns a map of role IDs to the number of members with the role.
+      Does not include the @everyone role. Discord: GET /guilds/{guild_id}/roles/member-counts.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6268,7 +6731,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_guild_search
-    title: Guild search
+    title: Search Guild Messages
+    description: 'Returns a list of messages without the reactions key that match a
+      search query in the guild. Requires the READ_MESSAGE_HISTORY permission. Discord:
+      GET /guilds/{guild_id}/messages/search.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6371,7 +6837,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_invite_resolve
-    title: Invite resolve
+    title: Get Invite
+    description: 'Returns an invite object for the given code. Discord: GET /invites/{code}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6414,7 +6881,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_invite_revoke
-    title: Invite revoke
+    title: Delete Invite
+    description: 'Delete an invite. Requires the MANAGE_CHANNELS permission on the channel
+      this invite belongs to, or MANAGE_GUILD to remove any invite across the guild.
+      Returns an invite object on success. Fires an Invite Delete Gateway event. Discord:
+      DELETE /invites/{code}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6449,7 +6920,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_join_thread
-    title: Join thread
+    title: Join Thread
+    description: 'Adds the current user to a thread. Also requires the thread is not
+      archived. Returns a 204 empty response on success. Fires a Thread Members Update
+      and a Thread Create Gateway event. Discord: PUT /channels/{channel_id}/thread-members/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6484,7 +6958,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_leave_guild
-    title: Leave guild
+    title: Leave Guild
+    description: 'Leave a guild. Returns a 204 empty response on success. Fires a Guild
+      Delete Gateway event and a Guild Member Remove Gateway event. Discord: DELETE
+      /users/@me/guilds/{guild_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6519,7 +6996,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_leave_lobby
-    title: Leave lobby
+    title: Leave Lobby
+    description: 'Removes the current user from the specified lobby. It is safe to call
+      this even if the user is no longer a member of the lobby, but will fail if the
+      lobby does not exist. Discord: DELETE /lobbies/{lobby_id}/members/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6554,7 +7034,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_leave_thread
-    title: Leave thread
+    title: Leave Thread
+    description: 'Removes the current user from a thread. Also requires the thread is
+      not archived. Returns a 204 empty response on success. Fires a Thread Members
+      Update Gateway event. Discord: DELETE /channels/{channel_id}/thread-members/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6589,7 +7072,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_list_application_commands
-    title: List application commands
+    title: Get Global Application Commands
+    description: 'Fetch all of the global commands for your application. Returns an
+      array of application command objects. Discord: GET /applications/{application_id}/commands.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6623,7 +7108,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_application_emojis
-    title: List application emojis
+    title: List Application Emojis
+    description: 'Returns an object containing a list of emoji objects for the given
+      application under the items key. Includes a user object for the team member that
+      uploaded the emoji from the app''s settings, or for the bot user if uploaded using
+      the API. Discord: GET /applications/{application_id}/emojis.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6654,7 +7143,12 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_application_identities_by_external_id
-    title: List application identities by external id
+    title: Get Application Identities by External ID
+    description: 'Returns the application identities for the user/application record
+      currently associated with the specified external ID (combination of provider_type,
+      provider_issued_user_id, and optional provider_id). Use this endpoint when you
+      need to resolve the Discord user_id for an Application Identity but only know
+      the external ID fields. Discord: GET /applications/{application_id}/application-identities/{provider_type}/{provider_issued_user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6694,7 +7188,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_application_identities_by_user_id
-    title: List application identities by user id
+    title: Get Application Identities by User ID
+    description: 'Returns the application identities for the specified user and application.
+      Use this endpoint to discover the exact external ID values (provider_type, provider_issued_user_id,
+      and optional provider_id) for a user''s application identities. Discord: GET /users/{user_id}/application-identities/{application_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6728,7 +7225,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_application_skus
-    title: List application skus
+    title: List SKUs
+    description: 'Returns all SKUs for a given application. Discord: GET /applications/{application_id}/skus.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6759,7 +7257,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_auto_moderation_rules
-    title: List auto moderation rules
+    title: List Auto Moderation Rules for Guild
+    description: 'Get a list of all rules currently configured for the guild. Returns
+      a list of auto moderation rule objects for the given guild. Discord: GET /guilds/{guild_id}/auto-moderation/rules.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6790,7 +7290,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_channel_invites
-    title: List channel invites
+    title: Get Channel Invites
+    description: 'Returns a list of invite objects (with invite metadata) for the channel.
+      Only usable for guild channels. Requires the MANAGE_CHANNELS permission. Discord:
+      GET /channels/{channel_id}/invites.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6821,7 +7324,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_channel_webhooks
-    title: List channel webhooks
+    title: Get Channel Webhooks
+    description: 'Returns a list of channel webhook objects. Requires the MANAGE_WEBHOOKS
+      permission. Discord: GET /channels/{channel_id}/webhooks.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6852,7 +7357,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_application_command_permissions
-    title: List guild application command permissions
+    title: Get Guild Application Command Permissions
+    description: 'Fetches permissions for all commands for your application in a guild.
+      Returns an array of guild application command permissions objects. Discord: GET
+      /applications/{application_id}/guilds/{guild_id}/commands/permissions.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6886,7 +7394,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_application_commands
-    title: List guild application commands
+    title: Get Guild Application Commands
+    description: 'Fetch all of the guild commands for your application for a specific
+      guild. Returns an array of application command objects. Discord: GET /applications/{application_id}/guilds/{guild_id}/commands.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6923,7 +7433,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_audit_log_entries
-    title: List guild audit log entries
+    title: Get Guild Audit Log
+    description: 'Returns an audit log object for the guild. Requires the VIEW_AUDIT_LOG
+      permission. Discord: GET /guilds/{guild_id}/audit-logs. With all_pages it reads
+      every page (before the step''s cursor, or from the newest item without one) and
+      returns next_cursor to pass as before when the list did not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -6978,7 +7492,12 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_bans
-    title: List guild bans
+    title: Get Guild Bans
+    description: 'Returns a list of ban objects for the users banned from this guild.
+      Requires the BAN_MEMBERS or VIEW_AUDIT_LOG permission. Discord: GET /guilds/{guild_id}/bans.
+      With all_pages it reads every page (after the step''s cursor, or from the first
+      item without one) and returns next_cursor to pass as after when the list did not
+      end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7024,7 +7543,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_channels
-    title: List guild channels
+    title: Get Guild Channels
+    description: 'Returns a list of guild channel objects. Does not include threads.
+      Discord: GET /guilds/{guild_id}/channels.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7055,7 +7576,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_emojis
-    title: List guild emojis
+    title: List Guild Emojis
+    description: 'Returns a list of emoji objects for the given guild. Includes user
+      fields if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS
+      permission. Discord: GET /guilds/{guild_id}/emojis.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7086,7 +7610,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_integrations
-    title: List guild integrations
+    title: Get Guild Integrations
+    description: 'Returns a list of integration objects for the guild. Requires the
+      MANAGE_GUILD permission. Discord: GET /guilds/{guild_id}/integrations.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7117,7 +7643,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_invites
-    title: List guild invites
+    title: Get Guild Invites
+    description: 'Returns a list of invite objects. Requires the MANAGE_GUILD or VIEW_AUDIT_LOG
+      permission. Invite Metadata is included with the MANAGE_GUILD permission. Discord:
+      GET /guilds/{guild_id}/invites.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7148,7 +7677,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_members
-    title: List guild members
+    title: List Guild Members
+    description: 'Returns a list of guild member objects that are members of the guild.
+      Discord: GET /guilds/{guild_id}/members. With all_pages it reads every page (after
+      the step''s cursor, or from the first item without one) and returns next_cursor
+      to pass as after when the list did not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7191,7 +7724,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_roles
-    title: List guild roles
+    title: Get Guild Roles
+    description: 'Returns a list of role objects for the guild. Discord: GET /guilds/{guild_id}/roles.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7222,7 +7756,12 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_scheduled_event_exception_users
-    title: List guild scheduled event exception users
+    title: List Guild Scheduled Event Exception Users
+    description: 'Get a list of users subscribed to a guild scheduled event exception.
+      Discord: GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/{guild_scheduled_event_exception_id}/users.
+      With all_pages it reads every page (after the step''s cursor, or from the first
+      item without one) and returns next_cursor to pass as after when the list did not
+      end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7277,7 +7816,14 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_scheduled_event_users
-    title: List guild scheduled event users
+    title: Get Guild Scheduled Event Users
+    description: 'Get a list of guild scheduled event users subscribed to a guild scheduled
+      event. Returns a list of guild scheduled event user objects on success. Guild
+      member data, if it exists, is included if the with_member query parameter is set.
+      Discord: GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users.
+      With all_pages it reads every page (after the step''s cursor, or from the first
+      item without one) and returns next_cursor to pass as after when the list did not
+      end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7329,7 +7875,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_scheduled_events
-    title: List guild scheduled events
+    title: List Scheduled Events for Guild
+    description: 'Returns a list of guild scheduled event objects for the given guild.
+      Discord: GET /guilds/{guild_id}/scheduled-events.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7363,7 +7911,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_soundboard_sounds
-    title: List guild soundboard sounds
+    title: List Guild Soundboard Sounds
+    description: 'Returns a list of the guild''s soundboard sounds. Includes user fields
+      if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission.
+      Discord: GET /guilds/{guild_id}/soundboard-sounds.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7394,7 +7945,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_stickers
-    title: List guild stickers
+    title: List Guild Stickers
+    description: 'Returns an array of sticker objects for the given guild. Includes
+      user fields if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS
+      permission. Discord: GET /guilds/{guild_id}/stickers.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7425,7 +7979,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_templates
-    title: List guild templates
+    title: Get Guild Templates
+    description: 'Returns an array of guild template objects. Requires the MANAGE_GUILD
+      permission. Discord: GET /guilds/{guild_id}/templates.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7456,7 +8012,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_guild_voice_regions
-    title: List guild voice regions
+    title: Get Guild Voice Regions
+    description: 'Returns a list of voice region objects for the guild. Unlike the similar
+      /voice route, this returns VIP servers when the guild is VIP-enabled. Discord:
+      GET /guilds/{guild_id}/regions.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7487,7 +8046,14 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_message_reactions_by_emoji
-    title: List message reactions by emoji
+    title: Get Reactions
+    description: 'Get a list of users that reacted with this emoji. Returns an array
+      of user objects on success. The emoji must be URL Encoded or the request will
+      fail with 10014: Unknown Emoji. To use custom emoji, you must encode it in the
+      format name:id with the emoji name and emoji id. Discord: GET /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}.
+      With all_pages it reads every page (after the step''s cursor, or from the first
+      item without one) and returns next_cursor to pass as after when the list did not
+      end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7539,7 +8105,12 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_messages
-    title: List messages
+    title: Get Channel Messages
+    description: 'Retrieves the messages in a channel. Returns an array of message objects
+      from newest to oldest on success. Discord: GET /channels/{channel_id}/messages.
+      With all_pages it reads every page (before the step''s cursor, or from the newest
+      item without one) and returns next_cursor to pass as before when the list did
+      not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7588,7 +8159,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_my_connections
-    title: List my connections
+    title: Get Current User Connections
+    description: 'Returns a list of connection objects. Requires the connections OAuth2
+      scope. Discord: GET /users/@me/connections.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7616,7 +8189,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_my_guilds
-    title: List my guilds
+    title: Get Current User Guilds
+    description: 'Returns a list of partial guild objects the current user is a member
+      of. For OAuth2, requires the guilds scope. Discord: GET /users/@me/guilds. With
+      all_pages it reads every page (after the step''s cursor, or from the first item
+      without one) and returns next_cursor to pass as after when the list did not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7665,7 +8242,13 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_my_private_archived_threads
-    title: List my private archived threads
+    title: List Joined Private Archived Threads
+    description: 'Returns archived threads in the channel that are of type PRIVATE_THREAD,
+      and the user has joined. Threads are ordered by their id, in descending order.
+      Requires the READ_MESSAGE_HISTORY permission. Discord: GET /channels/{channel_id}/users/@me/threads/archived/private.
+      With all_pages it reads every page (before the step''s cursor, or from the newest
+      item without one) and returns next_cursor to pass as before when the list did
+      not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7708,7 +8291,13 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_pins
-    title: List pins
+    title: Get Channel Pins
+    description: 'Retrieves the list of pins in a channel. Requires the VIEW_CHANNEL
+      permission. If the user is missing the READ_MESSAGE_HISTORY permission in the
+      channel, then no pins will be returned. Discord: GET /channels/{channel_id}/messages/pins.
+      With all_pages it reads every page (before the step''s cursor, or from the newest
+      item without one) and returns next_cursor to pass as before when the list did
+      not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7751,7 +8340,13 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_private_archived_threads
-    title: List private archived threads
+    title: List Private Archived Threads
+    description: 'Returns archived threads in the channel that are of type PRIVATE_THREAD.
+      Threads are ordered by archive_timestamp, in descending order. Requires both the
+      READ_MESSAGE_HISTORY and MANAGE_THREADS permissions. Discord: GET /channels/{channel_id}/threads/archived/private.
+      With all_pages it reads every page (before the step''s cursor, or from the newest
+      item without one) and returns next_cursor to pass as before when the list did
+      not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7794,7 +8389,14 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_public_archived_threads
-    title: List public archived threads
+    title: List Public Archived Threads
+    description: 'Returns archived threads in the channel that are public. When called
+      on a GUILD_TEXT channel, returns threads of type PUBLIC_THREAD. When called on
+      a GUILD_ANNOUNCEMENT channel returns threads of type ANNOUNCEMENT_THREAD. Threads
+      are ordered by archive_timestamp, in descending order. Requires the READ_MESSAGE_HISTORY
+      permission. Discord: GET /channels/{channel_id}/threads/archived/public. With
+      all_pages it reads every page (before the step''s cursor, or from the newest item
+      without one) and returns next_cursor to pass as before when the list did not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7837,7 +8439,8 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_sticker_packs
-    title: List sticker packs
+    title: List Sticker Packs
+    description: 'Returns a list of available sticker packs. Discord: GET /sticker-packs.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7865,7 +8468,11 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_thread_members
-    title: List thread members
+    title: List Thread Members
+    description: 'Returns array of thread members objects that are members of the thread.
+      Discord: GET /channels/{channel_id}/thread-members. With all_pages it reads every
+      page (after the step''s cursor, or from the first item without one) and returns
+      next_cursor to pass as after when the list did not end.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7911,7 +8518,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_list_voice_regions
-    title: List voice regions
+    title: List Voice Regions
+    description: 'Returns an array of voice region objects that can be used when setting
+      a voice or stage channel''s rtc_region. Discord: GET /voice/regions.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7939,7 +8548,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_modify_current_user_nick
-    title: Modify current user nick
+    title: Modify Current User Nick
+    description: 'Modifies the nickname of the current user in a guild. Returns a 200
+      with the nickname on success. Fires a Guild Member Update Gateway event. Discord:
+      PATCH /guilds/{guild_id}/members/@me/nick.'
     required_scopes:
     - extension:invoke
     handler:
@@ -7977,7 +8589,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_partner_sdk_token
-    title: Partner sdk token
+    title: Social SDK Token
+    description: 'Exchanges an external account''s credentials for a Discord provisional
+      account token (Discord Social SDK). Discord: POST /partner-sdk/token.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8012,7 +8626,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_partner_sdk_unmerge_provisional_account
-    title: Partner sdk unmerge provisional account
+    title: Unmerge Provisional Account
+    description: 'Separates a provisional account from the Discord account it was merged
+      into (Discord Social SDK). Discord: POST /partner-sdk/provisional-accounts/unmerge.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8047,7 +8663,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_poll_expire
-    title: Poll expire
+    title: End Poll
+    description: 'Immediately ends the poll. You cannot end polls from other users.
+      Discord: POST /channels/{channel_id}/polls/{message_id}/expire.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8085,7 +8703,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_preview_prune_guild
-    title: Preview prune guild
+    title: Get Guild Prune Count
+    description: 'Returns an object with one pruned key indicating the number of members
+      that would be removed in a prune operation. Requires the MANAGE_GUILD and KICK_MEMBERS
+      permissions, unless the guild has the PRUNE_REQUIRES_ADMIN guild feature, in which
+      case it requires the ADMINISTRATOR permission. Discord: GET /guilds/{guild_id}/prune.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8122,7 +8744,13 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_prune_guild
-    title: Prune guild
+    title: Begin Guild Prune
+    description: 'Begin a prune operation. Requires the MANAGE_GUILD and KICK_MEMBERS
+      permissions, unless the guild has the PRUNE_REQUIRES_ADMIN guild feature, in which
+      case it requires the ADMINISTRATOR permission. Returns an object with one pruned
+      key indicating the number of members that were removed in the prune operation.
+      For large guilds it''s recommended to set the compute_prune_count option to false,
+      forcing pruned to null. Discord: POST /guilds/{guild_id}/prune.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8160,7 +8788,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_put_guilds_onboarding
-    title: Put guilds onboarding
+    title: Modify Guild Onboarding
+    description: 'Modifies the onboarding configuration of the guild. Returns a 200
+      with the Onboarding object for the guild. Requires the MANAGE_GUILD and MANAGE_ROLES
+      permissions. Discord: PUT /guilds/{guild_id}/onboarding.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8198,7 +8829,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_remove_invite_target_user
-    title: Remove invite target user
+    title: Remove Target User
+    description: 'Removes a target user from an existing invite. Requires the caller
+      to be the inviter or have the MANAGE_GUILD permission. Returns a 204 empty response
+      on success. Discord: DELETE /invites/{code}/target-users/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8236,7 +8870,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_search_guild_members
-    title: Search guild members
+    title: Search Guild Members
+    description: 'Returns a list of guild member objects whose username or nickname
+      starts with a provided string. Discord: GET /guilds/{guild_id}/members/search.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8273,7 +8909,9 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_send_soundboard_sound
-    title: Send soundboard sound
+    title: Send Soundboard Sound
+    description: 'Send a soundboard sound to a voice channel the user is connected to.
+      Fires a Voice Channel Effect Send Gateway event. Discord: POST /channels/{channel_id}/send-soundboard-sound.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8311,7 +8949,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_set_channel_permission_overwrite
-    title: Set channel permission overwrite
+    title: Edit Channel Permissions
+    description: 'Edit the channel permission overwrites for a user or role in a channel.
+      Only usable for guild channels. Requires the MANAGE_ROLES permission. Only permissions
+      your bot has in the guild or parent channel (if applicable) can be allowed/denied
+      (unless your bot has a MANAGE_ROLES overwrite in the channel). Returns a 204 empty
+      response on success. Fires a Channel Update Gateway event. Discord: PUT /channels/{channel_id}/permissions/{overwrite_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8352,7 +8995,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_set_guild_application_command_permissions
-    title: Set guild application command permissions
+    title: Edit Application Command Permissions
+    description: 'Edits command permissions for a specific command for your application
+      in a guild and returns a guild application command permissions object. Fires an
+      Application Command Permissions Update Gateway event. Discord: PUT /applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8396,7 +9042,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_sync_guild_template
-    title: Sync guild template
+    title: Sync Guild Template
+    description: 'Syncs the template to the guild''s current state. Requires the MANAGE_GUILD
+      permission. Returns the guild template object on success. Discord: PUT /guilds/{guild_id}/templates/{code}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8434,7 +9082,8 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_thread_search
-    title: Thread search
+    title: Search Threads
+    description: 'Searches the threads of a channel. Discord: GET /channels/{channel_id}/threads/search.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8498,7 +9147,10 @@ actions:
     - invalid_response
     - response_too_large
   - action_id: rest_trigger_typing_indicator
-    title: Trigger typing indicator
+    title: Trigger Typing Indicator
+    description: 'Post a typing indicator for the specified channel, which expires after
+      10 seconds. Returns a 204 empty response on success. Fires a Typing Start Gateway
+      event. Discord: POST /channels/{channel_id}/typing.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8533,7 +9185,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_unban_user_from_guild
-    title: Unban user from guild
+    title: Remove Guild Ban
+    description: 'Remove the ban for a user. Requires the BAN_MEMBERS permissions. Returns
+      a 204 empty response on success. Fires a Guild Ban Remove Gateway event. Discord:
+      DELETE /guilds/{guild_id}/bans/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8574,7 +9229,8 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_application
-    title: Update application
+    title: Modify Application
+    description: 'Changes an application by its ID. Discord: PATCH /applications/{application_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8612,7 +9268,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_application_command
-    title: Update application command
+    title: Edit Global Application Command
+    description: 'Edit a global command. Returns 200 and an application command object.
+      All fields are optional, but any fields provided will entirely overwrite the existing
+      values of those fields. Discord: PATCH /applications/{application_id}/commands/{command_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8653,7 +9312,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_application_emoji
-    title: Update application emoji
+    title: Modify Application Emoji
+    description: 'Modify the given emoji. Returns the updated emoji object on success.
+      Discord: PATCH /applications/{application_id}/emojis/{emoji_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8694,7 +9355,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_application_identity_profile
-    title: Update application identity profile
+    title: Update Application Identity Profile
+    description: 'Updates the profile data on the user''s matching Application Identity
+      record. Returns an Application Identity Profile object. Discord: PATCH /applications/{application_id}/users/{user_id}/identities/{provider_issued_user_id}/profile.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8738,7 +9401,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_application_role_connections_metadata
-    title: Update application role connections metadata
+    title: Update Application Role Connection Metadata Records
+    description: 'Updates and returns a list of application role connection metadata
+      objects for the given application. Discord: PUT /applications/{application_id}/role-connections/metadata.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8776,7 +9441,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_application_user_role_connection
-    title: Update application user role connection
+    title: Update Current User Application Role Connection
+    description: 'Updates and returns the application role connection for the user.
+      Requires an OAuth2 access token with role_connections.write scope for the application
+      specified in the path. Discord: PUT /users/@me/applications/{application_id}/role-connection.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8814,7 +9482,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_auto_moderation_rule
-    title: Update auto moderation rule
+    title: Modify Auto Moderation Rule
+    description: 'Modify an existing rule. Returns an auto moderation rule on success.
+      Fires an Auto Moderation Rule Update Gateway event. Discord: PATCH /guilds/{guild_id}/auto-moderation/rules/{rule_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8855,7 +9525,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_channel
-    title: Update channel
+    title: Modify Channel
+    description: 'Update a channel''s settings. Returns a channel on success, and a
+      400 BAD REQUEST on invalid parameters. Discord: PATCH /channels/{channel_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8893,7 +9565,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild
-    title: Update guild
+    title: Modify Guild
+    description: 'Modify a guild''s settings. Requires the MANAGE_GUILD permission.
+      Returns the updated guild object on success. Fires a Guild Update Gateway event.
+      Discord: PATCH /guilds/{guild_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8931,7 +9606,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild_application_command
-    title: Update guild application command
+    title: Edit Guild Application Command
+    description: 'Edit a guild command. Updates for guild commands will be available
+      immediately. Returns 200 and an application command object. All fields are optional,
+      but any fields provided will entirely overwrite the existing values of those fields.
+      Discord: PATCH /applications/{application_id}/guilds/{guild_id}/commands/{command_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -8975,7 +9654,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild_emoji
-    title: Update guild emoji
+    title: Modify Guild Emoji
+    description: 'Modify the given emoji. For emojis created by the current user, requires
+      either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission. For
+      other emojis, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns the updated
+      emoji object on success. Fires a Guild Emojis Update Gateway event. Discord: PATCH
+      /guilds/{guild_id}/emojis/{emoji_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9016,7 +9700,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild_incident_actions
-    title: Update guild incident actions
+    title: Modify Guild Incident Actions
+    description: 'Modifies the incident actions of the guild. Returns a 200 with the
+      Incidents Data object for the guild. Requires the MANAGE_GUILD permission. Discord:
+      PUT /guilds/{guild_id}/incident-actions.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9054,7 +9741,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild_member
-    title: Update guild member
+    title: Modify Guild Member
+    description: 'Modify attributes of a guild member. Returns a 200 OK with the guild
+      member as the body. Fires a Guild Member Update Gateway event. If the channel_id
+      is set to null, this will force the target user to be disconnected from voice.
+      Discord: PATCH /guilds/{guild_id}/members/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9095,7 +9786,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild_role
-    title: Update guild role
+    title: Modify Guild Role
+    description: 'Modify a guild role. Requires the MANAGE_ROLES permission. Returns
+      the updated role on success. Fires a Guild Role Update Gateway event. Discord:
+      PATCH /guilds/{guild_id}/roles/{role_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9136,7 +9830,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild_scheduled_event
-    title: Update guild scheduled event
+    title: Modify Guild Scheduled Event
+    description: 'Modify a guild scheduled event. Returns the modified guild scheduled
+      event object on success. Fires a Guild Scheduled Event Update Gateway event. Discord:
+      PATCH /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9177,7 +9874,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild_scheduled_event_exception
-    title: Update guild scheduled event exception
+    title: Modify Guild Scheduled Event Exception
+    description: 'Modify an exception to a recurring guild scheduled event. Discord:
+      PATCH /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions/{exception_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9221,7 +9920,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild_soundboard_sound
-    title: Update guild soundboard sound
+    title: Modify Guild Soundboard Sound
+    description: 'Modify the given soundboard sound. For sounds created by the current
+      user, requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS
+      permission. For other sounds, requires the MANAGE_GUILD_EXPRESSIONS permission.
+      Returns the updated soundboard sound object on success. Fires a Guild Soundboard
+      Sound Update Gateway event. Discord: PATCH /guilds/{guild_id}/soundboard-sounds/{sound_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9262,7 +9966,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild_sticker
-    title: Update guild sticker
+    title: Modify Guild Sticker
+    description: 'Modify the given sticker. For stickers created by the current user,
+      requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission.
+      For other stickers, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns
+      the updated sticker object on success. Fires a Guild Stickers Update Gateway event.
+      Discord: PATCH /guilds/{guild_id}/stickers/{sticker_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9303,7 +10012,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild_template
-    title: Update guild template
+    title: Modify Guild Template
+    description: 'Modifies the template''s metadata. Requires the MANAGE_GUILD permission.
+      Returns the guild template object on success. Discord: PATCH /guilds/{guild_id}/templates/{code}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9344,7 +10055,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild_welcome_screen
-    title: Update guild welcome screen
+    title: Modify Guild Welcome Screen
+    description: 'Modify the guild''s Welcome Screen. Requires the MANAGE_GUILD permission.
+      Returns the updated Welcome Screen object. May fire a Guild Update Gateway event.
+      Discord: PATCH /guilds/{guild_id}/welcome-screen.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9382,7 +10096,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_guild_widget_settings
-    title: Update guild widget settings
+    title: Modify Guild Widget
+    description: 'Modify a guild widget settings object for the guild. All attributes
+      may be passed in with JSON and modified. Requires the MANAGE_GUILD permission.
+      Returns the updated guild widget settings object. Fires a Guild Update Gateway
+      event. Discord: PATCH /guilds/{guild_id}/widget.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9420,7 +10138,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_invite_target_users
-    title: Update invite target users
+    title: Update Target Users
+    description: 'Updates the users allowed to see and accept this invite. Uploading
+      a file with invalid user IDs will result in a 400 with the invalid IDs described.
+      Requires the caller to be the inviter or have the MANAGE_GUILD permission. Discord:
+      PUT /invites/{code}/target-users.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9464,7 +10186,11 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_lobby_message_external_moderation_metadata
-    title: Update lobby message external moderation metadata
+    title: Update Lobby Message Moderation Metadata
+    description: 'Sets the moderation metadata for a lobby message. The metadata is
+      app-scoped and delivered to active game clients via the Social SDK as a realtime
+      message update. See Integrate Moderation for the full moderation flow. Discord:
+      PUT /lobbies/{lobby_id}/messages/{message_id}/moderation-metadata.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9514,7 +10240,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_message
-    title: Update message
+    title: Edit Message
+    description: 'Edit a previously sent message. The fields content, embeds, flags
+      and components can be edited by the original message author. Other users can only
+      edit flags and only if they have the MANAGE_MESSAGES permission in the corresponding
+      channel. When specifying flags, ensure to include all previously set flags/bits
+      in addition to ones that you are modifying. Discord: PATCH /channels/{channel_id}/messages/{message_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9564,7 +10295,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_my_application
-    title: Update my application
+    title: Edit Current Application
+    description: 'Edit properties of the app associated with the requesting bot user.
+      Only properties that are passed will be updated. Returns the updated application
+      object on success. Discord: PATCH /applications/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9599,7 +10333,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_my_guild_member
-    title: Update my guild member
+    title: Modify Current Member
+    description: 'Modifies the current member in a guild. Returns a 200 with the updated
+      member object on success. Fires a Guild Member Update Gateway event. Discord:
+      PATCH /guilds/{guild_id}/members/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9637,7 +10374,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_my_user
-    title: Update my user
+    title: Modify Current User
+    description: 'Modify the requester''s user account settings. Returns a user object
+      on success. Fires a User Update Gateway event. Discord: PATCH /users/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9672,7 +10411,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_original_webhook_message
-    title: Update original webhook message
+    title: Edit Original Interaction Response
+    description: 'Edits the initial Interaction response. Functions the same as Edit
+      Webhook Message. Discord: PATCH /webhooks/{webhook_id}/{webhook_token}/messages/@original.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9725,7 +10466,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_self_voice_state
-    title: Update self voice state
+    title: Modify Current User Voice State
+    description: 'Updates the current user''s voice state. Returns 204 No Content on
+      success. Fires a Voice State Update Gateway event. Discord: PATCH /guilds/{guild_id}/voice-states/@me.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9763,7 +10506,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_stage_instance
-    title: Update stage instance
+    title: Modify Stage Instance
+    description: 'Updates fields of an existing Stage instance. Returns the updated
+      Stage instance. Fires a Stage Instance Update Gateway event. Discord: PATCH /stage-instances/{channel_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9801,7 +10546,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_user_message_external_moderation_metadata
-    title: Update user message external moderation metadata
+    title: Update User Message Moderation Metadata
+    description: 'Update the external moderation metadata for a user message (DM). Discord:
+      PUT /partner-sdk/dms/{user_id_1}/{user_id_2}/messages/{message_id}/moderation-metadata.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9854,7 +10601,12 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_voice_channel_status
-    title: Update voice channel status
+    title: Set Voice Channel Status
+    description: 'Set a voice channel''s status. Requires the SET_VOICE_CHANNEL_STATUS
+      permission, and additionally the MANAGE_CHANNELS permission if the current user
+      is not connected to the voice channel. Users who are connected to the voice channel
+      do not need the CONNECT permission (see Implicit Permissions). Fires a Voice Channel
+      Status Update Gateway event. Discord: PUT /channels/{channel_id}/voice-status.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9892,7 +10644,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_voice_state
-    title: Update voice state
+    title: Modify User Voice State
+    description: 'Updates another user''s voice state. Returns 204 No Content on success.
+      Fires a Voice State Update Gateway event. Discord: PATCH /guilds/{guild_id}/voice-states/{user_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9933,7 +10687,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_webhook
-    title: Update webhook
+    title: Modify Webhook
+    description: 'Modify a webhook. Requires the MANAGE_WEBHOOKS permission. Returns
+      the updated webhook object on success. Fires a Webhooks Update Gateway event.
+      Discord: PATCH /webhooks/{webhook_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -9971,7 +10728,10 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_webhook_by_token
-    title: Update webhook by token
+    title: Modify Webhook with Token
+    description: 'Same as above, except this call does not require authentication, does
+      not accept a channel_id parameter in the body, and does not return a user in the
+      webhook object. Discord: PATCH /webhooks/{webhook_id}/{webhook_token}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -10009,7 +10769,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_update_webhook_message
-    title: Update webhook message
+    title: Edit Webhook Message
+    description: 'Edits a previously-sent webhook message from the same token. Returns
+      a message object on success. Discord: PATCH /webhooks/{webhook_id}/{webhook_token}/messages/{message_id}.'
     required_scopes:
     - extension:invoke
     handler:
@@ -10065,7 +10827,9 @@ actions:
     - timeout_unknown
     command_type: invoke_extension_action
   - action_id: rest_upload_application_attachment
-    title: Upload application attachment
+    title: Upload Application Attachment
+    description: 'Uploads a file as an attachment of the application. Discord: POST
+      /applications/{application_id}/attachment.'
     required_scopes:
     - extension:invoke
     handler:

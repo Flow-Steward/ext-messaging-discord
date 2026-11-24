@@ -1,0 +1,2219 @@
+{
+ "repository": "https://github.com/discord/discord-api-docs",
+ "commit": "9b737ec51ee8d5076af0565d209a9adf8f590a27",
+ "pages": {
+  "developers/events/gateway.mdx": "6f54f5a3ddfdeb44c9ac32498ccfd9db904652f35b05c7d9f6a36b2802e18592",
+  "developers/interactions/application-commands.mdx": "0edb6e1ab81f4313780d514206510ff1e065578d2f17c1273d16a0fac62edff8",
+  "developers/interactions/receiving-and-responding.mdx": "f9c9efe2d882830ae14649f22ee1e33a156ac789eeba5174ca9fb72d34c99a13",
+  "developers/resources/application-identity-profile.mdx": "ee7f01e1edb931b0f864c3774b92b1c14d1e5aa110f6ee4db52f154056fe3013",
+  "developers/resources/application-role-connection-metadata.mdx": "1f1594a55f7a0ea4bd50a14479c2e77d9b6decdb7eb69f6a88b3ab2aeb004e16",
+  "developers/resources/application.mdx": "f1a815e6372f723578c8ce6e83c9c8c0da5effb9a97dbb8bacc9050fbbbb6fa7",
+  "developers/resources/audit-log.mdx": "4b4c3556ce4e880598c95bd184f181083967f951a8437db0567f0dc4b7ab5fa7",
+  "developers/resources/auto-moderation.mdx": "45d434e45dcf78260eb085ba64a5ac1e1e49f09f44707d5048effd1aeb9e8d18",
+  "developers/resources/channel.mdx": "d054735e1501727bc34c8f79fe426f8087a33472f052579d3a4c745acd15a74d",
+  "developers/resources/emoji.mdx": "2f4bea385a19b7095a880dde0c4dd37a412c2559d3ea652ad8e5077924f57aab",
+  "developers/resources/entitlement.mdx": "4792d07ce9a8f31420b59f95379066a17cc95c7f847685f50055ec1cd94f6093",
+  "developers/resources/guild-scheduled-event.mdx": "3a19869d184d1b41b0a7728ea7cc536fb74ab9f28abe6431b76d2b74277694df",
+  "developers/resources/guild-template.mdx": "3dffc11132091982fe41ed521681b63dbe092e3dce504b2e7251a2c9ef76a8f0",
+  "developers/resources/guild.mdx": "eebd8c8ef8d1423bb48850e9a7bb753049c664ade59ef27e012b844725e42244",
+  "developers/resources/invite.mdx": "23008ab3a65b4df2ca3f255491efe2e9d0bf8e400b818ebdfa6e607b7afac535",
+  "developers/resources/lobby.mdx": "d1d07718904b1e2f38cfc59350c8f65cef7069556a67bd84b5cb724b1dffa9c2",
+  "developers/resources/message.mdx": "e4e2f2abb242096896b152e9c9d0d7e8b19e9ff07d4c337f0af580bd2d6d9a71",
+  "developers/resources/poll.mdx": "d39eb2ecf11fc5f781f417bdd59f32e3dc800f7c8f570c41383e68039725e308",
+  "developers/resources/sku.mdx": "c29bdcc5393e94bc245c8e3a1258822ba3ef90399c369aba2e3f72a7520163a5",
+  "developers/resources/soundboard.mdx": "bed639533a7f24e4051e4e5a234e04cde61e7aee78128c2840c42e74a4608b41",
+  "developers/resources/stage-instance.mdx": "2a7d5bdc80fd5718ab6643bc08a077d82a6ada12475b7d2a816273b0a148d67f",
+  "developers/resources/sticker.mdx": "56c931725100d28f085a36a0f66d32ebfb4e939ae9048daf993c1daeae2b1b18",
+  "developers/resources/subscription.mdx": "241c83988dd060d7573b8dc1c111502556a5d8bf0d79ebfd21d6f23724cb7b91",
+  "developers/resources/user.mdx": "13cb7d08e88c573aca182b640d052fea715842b174c0dfa3148b99fb1d59a4c9",
+  "developers/resources/voice.mdx": "8f24cd1d7ae7d1bd0b035bc3a15165810b260fc884e27174b477a8da36e55645",
+  "developers/resources/webhook.mdx": "aa4cfc343f0bf3ac13db12e679eadbcb57451fe4cfd75edfc0a5087fe51c94b1",
+  "developers/social-layer/game-stats-widgets/sending-game-data.mdx": "186fc0f69ce52ae36a31db4ed909529b58463b3cdd6cff811d85378a6af8384f",
+  "developers/topics/oauth2.mdx": "4019da739dcd4361f9bb95b167b0d268351cd4e34404a81dd54b31b897e7de4b"
+ },
+ "endpoints": {
+  "DELETE /applications/{}/commands/{}": {
+   "title": "Delete Global Application Command",
+   "description": "Deletes a global command. Returns 204 No Content on success.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {}
+  },
+  "DELETE /applications/{}/emojis/{}": {
+   "title": "Delete Application Emoji",
+   "description": "Delete the given emoji. Returns 204 No Content on success.",
+   "page": "developers/resources/emoji.mdx",
+   "params": {}
+  },
+  "DELETE /applications/{}/entitlements/{}": {
+   "title": "Delete Test Entitlement",
+   "description": "Deletes a currently-active test entitlement. Discord will act as though that user or guild _no longer has_ entitlement to your premium offering.",
+   "page": "developers/resources/entitlement.mdx",
+   "params": {}
+  },
+  "DELETE /applications/{}/guilds/{}/commands/{}": {
+   "title": "Delete Guild Application Command",
+   "description": "Delete a guild command. Returns 204 No Content on success.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {}
+  },
+  "DELETE /channels/{}": {
+   "title": "Delete/Close Channel",
+   "description": "Delete a channel, or close a private message. Requires the MANAGE_CHANNELS permission for the guild, or MANAGE_THREADS if the channel is a thread. Deleting a category does not delete its child channels; they will have their parent_id removed and a Channel Update Gateway event will fire for each of them. Returns a channel object on success. Fires a Channel Delete Gateway event (or Thread Delete if the channel was a thread).",
+   "page": "developers/resources/channel.mdx",
+   "params": {}
+  },
+  "DELETE /channels/{}/messages/pins/{}": {
+   "title": "Unpin Message",
+   "description": "Unpin a message in a channel. Requires the PIN_MESSAGES permission. Returns a 204 empty response on success. Fires a Channel Pins Update Gateway event.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "DELETE /channels/{}/messages/{}": {
+   "title": "Delete Message",
+   "description": "Delete a message. If operating on a guild channel and trying to delete a message that was not sent by the current user, this endpoint requires the MANAGE_MESSAGES permission. Returns a 204 empty response on success. Fires a Message Delete Gateway event.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "DELETE /channels/{}/messages/{}/reactions": {
+   "title": "Delete All Reactions",
+   "description": "Deletes all reactions on a message. This endpoint requires the MANAGE_MESSAGES permission to be present on the current user. Fires a Message Reaction Remove All Gateway event.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "DELETE /channels/{}/messages/{}/reactions/{}": {
+   "title": "Delete All Reactions for Emoji",
+   "description": "Deletes all the reactions for a given emoji on a message. This endpoint requires the MANAGE_MESSAGES permission to be present on the current user. Fires a Message Reaction Remove Emoji Gateway event. The emoji must be URL Encoded or the request will fail with 10014: Unknown Emoji. To use custom emoji, you must encode it in the format name:id with the emoji name and emoji id.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "DELETE /channels/{}/messages/{}/reactions/{}/@me": {
+   "title": "Delete Own Reaction",
+   "description": "Delete a reaction the current user has made for the message. Returns a 204 empty response on success. Fires a Message Reaction Remove Gateway event. The emoji must be URL Encoded or the request will fail with 10014: Unknown Emoji. To use custom emoji, you must encode it in the format name:id with the emoji name and emoji id.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "DELETE /channels/{}/messages/{}/reactions/{}/{}": {
+   "title": "Delete User Reaction",
+   "description": "Deletes another user's reaction. This endpoint requires the MANAGE_MESSAGES permission to be present on the current user. Returns a 204 empty response on success. Fires a Message Reaction Remove Gateway event. The emoji must be URL Encoded or the request will fail with 10014: Unknown Emoji. To use custom emoji, you must encode it in the format name:id with the emoji name and emoji id.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "DELETE /channels/{}/permissions/{}": {
+   "title": "Delete Channel Permission",
+   "description": "Delete a channel permission overwrite for a user or role in a channel. Only usable for guild channels. Requires the MANAGE_ROLES permission. Returns a 204 empty response on success. Fires a Channel Update Gateway event. For more information about permissions, see permissions",
+   "page": "developers/resources/channel.mdx",
+   "params": {}
+  },
+  "DELETE /channels/{}/pins/{}": {
+   "title": "Unpin Message (deprecated)",
+   "description": "This endpoint is deprecated. Use Unpin Message instead.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "DELETE /channels/{}/recipients/{}": {
+   "title": "Group DM Remove Recipient",
+   "description": "Removes a recipient from a Group DM.",
+   "page": "developers/resources/channel.mdx",
+   "params": {}
+  },
+  "DELETE /channels/{}/thread-members/@me": {
+   "title": "Leave Thread",
+   "description": "Removes the current user from a thread. Also requires the thread is not archived. Returns a 204 empty response on success. Fires a Thread Members Update Gateway event.",
+   "page": "developers/resources/channel.mdx",
+   "params": {}
+  },
+  "DELETE /channels/{}/thread-members/{}": {
+   "title": "Remove Thread Member",
+   "description": "Removes another member from a thread. Requires the MANAGE_THREADS permission, or the creator of the thread if it is a PRIVATE_THREAD. Also requires the thread is not archived. Returns a 204 empty response on success. Fires a Thread Members Update Gateway event.",
+   "page": "developers/resources/channel.mdx",
+   "params": {}
+  },
+  "DELETE /guilds/{}/auto-moderation/rules/{}": {
+   "title": "Delete Auto Moderation Rule",
+   "description": "Delete a rule. Returns a 204 on success. Fires an Auto Moderation Rule Delete Gateway event.",
+   "page": "developers/resources/auto-moderation.mdx",
+   "params": {}
+  },
+  "DELETE /guilds/{}/bans/{}": {
+   "title": "Remove Guild Ban",
+   "description": "Remove the ban for a user. Requires the BAN_MEMBERS permissions. Returns a 204 empty response on success. Fires a Guild Ban Remove Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "DELETE /guilds/{}/emojis/{}": {
+   "title": "Delete Guild Emoji",
+   "description": "Delete the given emoji. For emojis created by the current user, requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission. For other emojis, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns 204 No Content on success. Fires a Guild Emojis Update Gateway event.",
+   "page": "developers/resources/emoji.mdx",
+   "params": {}
+  },
+  "DELETE /guilds/{}/integrations/{}": {
+   "title": "Delete Guild Integration",
+   "description": "Delete the attached integration object for the guild. Deletes any associated webhooks and kicks the associated bot if there is one. Requires the MANAGE_GUILD permission. Returns a 204 empty response on success. Fires Guild Integrations Update and Integration Delete Gateway events.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "DELETE /guilds/{}/members/{}": {
+   "title": "Remove Guild Member",
+   "description": "Remove a member from a guild. Requires KICK_MEMBERS permission. Returns a 204 empty response on success. Fires a Guild Member Remove Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "DELETE /guilds/{}/members/{}/roles/{}": {
+   "title": "Remove Guild Member Role",
+   "description": "Removes a role from a guild member. Requires the MANAGE_ROLES permission. Returns a 204 empty response on success. Fires a Guild Member Update Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "DELETE /guilds/{}/roles/{}": {
+   "title": "Delete Guild Role",
+   "description": "Delete a guild role. Requires the MANAGE_ROLES permission. Returns a 204 empty response on success. Fires a Guild Role Delete Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "DELETE /guilds/{}/scheduled-events/{}": {
+   "title": "Delete Guild Scheduled Event",
+   "description": "Delete a guild scheduled event. Returns a 204 on success. Fires a Guild Scheduled Event Delete Gateway event.",
+   "page": "developers/resources/guild-scheduled-event.mdx",
+   "params": {}
+  },
+  "DELETE /guilds/{}/soundboard-sounds/{}": {
+   "title": "Delete Guild Soundboard Sound",
+   "description": "Delete the given soundboard sound. For sounds created by the current user, requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission. For other sounds, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns 204 No Content on success. Fires a Guild Soundboard Sound Delete Gateway event.",
+   "page": "developers/resources/soundboard.mdx",
+   "params": {}
+  },
+  "DELETE /guilds/{}/stickers/{}": {
+   "title": "Delete Guild Sticker",
+   "description": "Delete the given sticker. For stickers created by the current user, requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission. For other stickers, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns 204 No Content on success. Fires a Guild Stickers Update Gateway event.",
+   "page": "developers/resources/sticker.mdx",
+   "params": {}
+  },
+  "DELETE /guilds/{}/templates/{}": {
+   "title": "Delete Guild Template",
+   "description": "Deletes the template. Requires the MANAGE_GUILD permission. Returns the deleted guild template object on success.",
+   "page": "developers/resources/guild-template.mdx",
+   "params": {}
+  },
+  "DELETE /invites/{}": {
+   "title": "Delete Invite",
+   "description": "Delete an invite. Requires the MANAGE_CHANNELS permission on the channel this invite belongs to, or MANAGE_GUILD to remove any invite across the guild. Returns an invite object on success. Fires an Invite Delete Gateway event.",
+   "page": "developers/resources/invite.mdx",
+   "params": {}
+  },
+  "DELETE /invites/{}/target-users/{}": {
+   "title": "Remove Target User",
+   "description": "Removes a target user from an existing invite. Requires the caller to be the inviter or have the MANAGE_GUILD permission. Returns a 204 empty response on success.",
+   "page": "developers/resources/invite.mdx",
+   "params": {}
+  },
+  "DELETE /lobbies/{}": {
+   "title": "Delete Lobby",
+   "description": "Deletes the specified lobby if it exists.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "DELETE /lobbies/{}/members/@me": {
+   "title": "Leave Lobby",
+   "description": "Removes the current user from the specified lobby. It is safe to call this even if the user is no longer a member of the lobby, but will fail if the lobby does not exist.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "DELETE /lobbies/{}/members/{}": {
+   "title": "Remove a Member from a Lobby",
+   "description": "Removes the provided user from the specified lobby. It is safe to call this even if the user is no longer a member of the lobby, but will fail if the lobby does not exist.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "DELETE /stage-instances/{}": {
+   "title": "Delete Stage Instance",
+   "description": "Deletes the Stage instance. Returns 204 No Content. Fires a Stage Instance Delete Gateway event.",
+   "page": "developers/resources/stage-instance.mdx",
+   "params": {}
+  },
+  "DELETE /users/@me/applications/{}/role-connection": {
+   "title": "Delete Current User Application Role Connection",
+   "description": "Deletes the application role connection for the user. Requires an OAuth2 access token with role_connections.write scope for the application specified in the path.",
+   "page": "developers/resources/user.mdx",
+   "params": {}
+  },
+  "DELETE /users/@me/guilds/{}": {
+   "title": "Leave Guild",
+   "description": "Leave a guild. Returns a 204 empty response on success. Fires a Guild Delete Gateway event and a Guild Member Remove Gateway event.",
+   "page": "developers/resources/user.mdx",
+   "params": {}
+  },
+  "DELETE /webhooks/{}": {
+   "title": "Delete Webhook",
+   "description": "Delete a webhook permanently. Requires the MANAGE_WEBHOOKS permission. Returns a 204 No Content response on success. Fires a Webhooks Update Gateway event.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {}
+  },
+  "DELETE /webhooks/{}/{}": {
+   "title": "Delete Webhook with Token",
+   "description": "Same as above, except this call does not require authentication.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {}
+  },
+  "DELETE /webhooks/{}/{}/messages/@original": {
+   "title": "Delete Original Interaction Response",
+   "description": "Deletes the initial Interaction response. Returns 204 No Content on success.",
+   "page": "developers/interactions/receiving-and-responding.mdx",
+   "params": {}
+  },
+  "DELETE /webhooks/{}/{}/messages/{}": {
+   "title": "Delete Webhook Message",
+   "description": "Deletes a message that was created by the webhook. Returns a 204 No Content response on success.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {
+    "query": {
+     "thread_id": "id of the thread the message is in"
+    }
+   }
+  },
+  "GET /applications/@me": {
+   "title": "Get Current Application",
+   "description": "Returns the application object associated with the requesting bot user.",
+   "page": "developers/resources/application.mdx",
+   "params": {}
+  },
+  "GET /applications/{}/activity-instances/{}": {
+   "title": "Get Application Activity Instance",
+   "description": "Returns a serialized activity instance, if it exists. Useful for preventing unwanted activity sessions.",
+   "page": "developers/resources/application.mdx",
+   "params": {}
+  },
+  "GET /applications/{}/application-identities/{}/{}": {
+   "title": "Get Application Identities by External ID",
+   "description": "Returns the application identities for the user/application record currently associated with the specified external ID (combination of provider_type, provider_issued_user_id, and optional provider_id). Use this endpoint when you need to resolve the Discord user_id for an Application Identity but only know the external ID fields.",
+   "page": "developers/resources/application-identity-profile.mdx",
+   "params": {}
+  },
+  "GET /applications/{}/commands": {
+   "title": "Get Global Application Commands",
+   "description": "Fetch all of the global commands for your application. Returns an array of application command objects.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {
+    "query": {
+     "with_localizations": "Whether to include full localization dictionaries (name_localizations and description_localizations) in the returned objects, instead of the name_localized and description_localized fields. Default false."
+    }
+   }
+  },
+  "GET /applications/{}/commands/{}": {
+   "title": "Get Global Application Command",
+   "description": "Fetch a global command for your application. Returns an application command object.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {}
+  },
+  "GET /applications/{}/emojis": {
+   "title": "List Application Emojis",
+   "description": "Returns an object containing a list of emoji objects for the given application under the items key. Includes a user object for the team member that uploaded the emoji from the app's settings, or for the bot user if uploaded using the API.",
+   "page": "developers/resources/emoji.mdx",
+   "params": {}
+  },
+  "GET /applications/{}/emojis/{}": {
+   "title": "Get Application Emoji",
+   "description": "Returns an emoji object for the given application and emoji IDs. Includes the user field.",
+   "page": "developers/resources/emoji.mdx",
+   "params": {}
+  },
+  "GET /applications/{}/entitlements": {
+   "title": "List Entitlements",
+   "description": "Returns all entitlements for a given app, active and expired.",
+   "page": "developers/resources/entitlement.mdx",
+   "params": {
+    "query": {
+     "user_id": "User ID to look up entitlements for",
+     "sku_ids": "Optional list of SKU IDs to check entitlements for",
+     "before": "Retrieve entitlements before this entitlement ID",
+     "after": "Retrieve entitlements after this entitlement ID",
+     "limit": "Number of entitlements to return, 1-100, default 100",
+     "guild_id": "Guild ID to look up entitlements for",
+     "exclude_ended": "Whether or not ended entitlements should be omitted. Defaults to false, ended entitlements are included by default.",
+     "exclude_deleted": "Whether or not deleted entitlements should be omitted. Defaults to true, deleted entitlements are not included by default."
+    }
+   }
+  },
+  "GET /applications/{}/entitlements/{}": {
+   "title": "Get Entitlement",
+   "description": "Returns an entitlement.",
+   "page": "developers/resources/entitlement.mdx",
+   "params": {}
+  },
+  "GET /applications/{}/guilds/{}/commands": {
+   "title": "Get Guild Application Commands",
+   "description": "Fetch all of the guild commands for your application for a specific guild. Returns an array of application command objects.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {
+    "query": {
+     "with_localizations": "Whether to include full localization dictionaries (name_localizations and description_localizations) in the returned objects, instead of the name_localized and description_localized fields. Default false."
+    }
+   }
+  },
+  "GET /applications/{}/guilds/{}/commands/permissions": {
+   "title": "Get Guild Application Command Permissions",
+   "description": "Fetches permissions for all commands for your application in a guild. Returns an array of guild application command permissions objects.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {}
+  },
+  "GET /applications/{}/guilds/{}/commands/{}": {
+   "title": "Get Guild Application Command",
+   "description": "Fetch a guild command for your application. Returns an application command object.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {}
+  },
+  "GET /applications/{}/guilds/{}/commands/{}/permissions": {
+   "title": "Get Application Command Permissions",
+   "description": "Fetches permissions for a specific command for your application in a guild. Returns a guild application command permissions object.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {}
+  },
+  "GET /applications/{}/role-connections/metadata": {
+   "title": "Get Application Role Connection Metadata Records",
+   "description": "Returns a list of application role connection metadata objects for the given application.",
+   "page": "developers/resources/application-role-connection-metadata.mdx",
+   "params": {}
+  },
+  "GET /applications/{}/skus": {
+   "title": "List SKUs",
+   "description": "Returns all SKUs for a given application.",
+   "page": "developers/resources/sku.mdx",
+   "params": {}
+  },
+  "GET /applications/{}/users/{}/identities/{}/profile": {
+   "title": "Get Application Identity Profile",
+   "description": "Returns the Application Identity Profile object stored on the matching Application Identity for the specified user and application.",
+   "page": "developers/resources/application-identity-profile.mdx",
+   "params": {}
+  },
+  "GET /channels/{}": {
+   "title": "Get Channel",
+   "description": "Get a channel by ID. Returns a channel object. If the channel is a thread, a thread member object is included in the returned result.",
+   "page": "developers/resources/channel.mdx",
+   "params": {}
+  },
+  "GET /channels/{}/invites": {
+   "title": "Get Channel Invites",
+   "description": "Returns a list of invite objects (with invite metadata) for the channel. Only usable for guild channels. Requires the MANAGE_CHANNELS permission.",
+   "page": "developers/resources/channel.mdx",
+   "params": {}
+  },
+  "GET /channels/{}/messages": {
+   "title": "Get Channel Messages",
+   "description": "Retrieves the messages in a channel. Returns an array of message objects from newest to oldest on success.",
+   "page": "developers/resources/message.mdx",
+   "params": {
+    "query": {
+     "around": "Get messages around this message ID",
+     "before": "Get messages before this message ID",
+     "after": "Get messages after this message ID",
+     "limit": "Max number of messages to return (1-100)"
+    }
+   }
+  },
+  "GET /channels/{}/messages/pins": {
+   "title": "Get Channel Pins",
+   "description": "Retrieves the list of pins in a channel. Requires the VIEW_CHANNEL permission. If the user is missing the READ_MESSAGE_HISTORY permission in the channel, then no pins will be returned.",
+   "page": "developers/resources/message.mdx",
+   "params": {
+    "query": {
+     "before": "Get messages pinned before this timestamp",
+     "limit": "Max number of pins to return (1-50)"
+    }
+   }
+  },
+  "GET /channels/{}/messages/{}": {
+   "title": "Get Channel Message",
+   "description": "Retrieves a specific message in the channel. Returns a message object on success.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "GET /channels/{}/messages/{}/reactions/{}": {
+   "title": "Get Reactions",
+   "description": "Get a list of users that reacted with this emoji. Returns an array of user objects on success. The emoji must be URL Encoded or the request will fail with 10014: Unknown Emoji. To use custom emoji, you must encode it in the format name:id with the emoji name and emoji id.",
+   "page": "developers/resources/message.mdx",
+   "params": {
+    "query": {
+     "type": "The type of reaction",
+     "after": "Get users after this user ID",
+     "limit": "Max number of users to return (1-100)"
+    }
+   }
+  },
+  "GET /channels/{}/permissions/member/{}": {
+   "title": "Get Channel Member Permissions",
+   "description": "Returns the member's computed permissions in the channel, including their roles and member-specific overwrites. Threads use their parent channel's overwrites. Requires the VIEW_CHANNEL permission, and additionally CONNECT for voice and stage channels.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "query": {
+     "implicit": "whether to apply implicit permission masking for missing VIEW_CHANNEL or voice/stage CONNECT. Not applied when the target member is a bot"
+    }
+   }
+  },
+  "GET /channels/{}/permissions/role/{}": {
+   "title": "Get Channel Role Permissions",
+   "description": "Returns the permissions granted by the specified role together with @everyone, applying their channel overwrites. Other roles and member-specific overwrites are not included. Threads use their parent channel's overwrites. Requires the VIEW_CHANNEL permission, and additionally CONNECT for voice and stage channels.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "query": {
+     "implicit": "whether to apply implicit permission masking for missing VIEW_CHANNEL or voice/stage CONNECT"
+    }
+   }
+  },
+  "GET /channels/{}/pins": {
+   "title": "Get Pinned Messages (deprecated)",
+   "description": "Gets the first 50 pinned messages in a channel, returning an array of message objects on success. This endpoint is deprecated. Use Get Channel Pins instead.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "GET /channels/{}/polls/{}/answers/{}": {
+   "title": "Get Answer Voters",
+   "description": "Get a list of users that voted for this specific answer.",
+   "page": "developers/resources/poll.mdx",
+   "params": {
+    "query": {
+     "after": "Get users after this user ID",
+     "limit": "Max number of users to return (1-100)"
+    }
+   }
+  },
+  "GET /channels/{}/thread-members": {
+   "title": "List Thread Members",
+   "description": "Returns array of thread members objects that are members of the thread.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "query": {
+     "with_member": "Whether to include a guild member object for each thread member",
+     "after": "Get thread members after this user ID",
+     "limit": "Max number of thread members to return (1-100). Defaults to 100."
+    }
+   }
+  },
+  "GET /channels/{}/thread-members/{}": {
+   "title": "Get Thread Member",
+   "description": "Returns a thread member object for the specified user if they are a member of the thread, returns a 404 response otherwise.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "query": {
+     "with_member": "Whether to include a guild member object for the thread member"
+    }
+   }
+  },
+  "GET /channels/{}/threads/archived/private": {
+   "title": "List Private Archived Threads",
+   "description": "Returns archived threads in the channel that are of type PRIVATE_THREAD. Threads are ordered by archive_timestamp, in descending order. Requires both the READ_MESSAGE_HISTORY and MANAGE_THREADS permissions.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "query": {
+     "before": "returns threads archived before this timestamp",
+     "limit": "optional maximum number of threads to return"
+    }
+   }
+  },
+  "GET /channels/{}/threads/archived/public": {
+   "title": "List Public Archived Threads",
+   "description": "Returns archived threads in the channel that are public. When called on a GUILD_TEXT channel, returns threads of type PUBLIC_THREAD. When called on a GUILD_ANNOUNCEMENT channel returns threads of type ANNOUNCEMENT_THREAD. Threads are ordered by archive_timestamp, in descending order. Requires the READ_MESSAGE_HISTORY permission.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "query": {
+     "before": "returns threads archived before this timestamp",
+     "limit": "optional maximum number of threads to return"
+    }
+   }
+  },
+  "GET /channels/{}/users/@me/threads/archived/private": {
+   "title": "List Joined Private Archived Threads",
+   "description": "Returns archived threads in the channel that are of type PRIVATE_THREAD, and the user has joined. Threads are ordered by their id, in descending order. Requires the READ_MESSAGE_HISTORY permission.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "query": {
+     "before": "returns threads before this id",
+     "limit": "optional maximum number of threads to return"
+    }
+   }
+  },
+  "GET /channels/{}/webhooks": {
+   "title": "Get Channel Webhooks",
+   "description": "Returns a list of channel webhook objects. Requires the MANAGE_WEBHOOKS permission.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {}
+  },
+  "GET /gateway": {
+   "title": "Get Gateway",
+   "description": "Returns an object with a valid WSS URL which the app can use when Connecting to the Gateway. Apps should cache this value and only call this endpoint to retrieve a new URL when they are unable to properly establish a connection using the cached one.",
+   "page": "developers/events/gateway.mdx",
+   "params": {}
+  },
+  "GET /gateway/bot": {
+   "title": "Get Gateway Bot",
+   "description": "Returns an object based on the information in Get Gateway, plus additional metadata that can help during the operation of large or sharded bots. Unlike the Get Gateway, this route should not be cached for extended periods of time as the value is not guaranteed to be the same per-call, and changes as the bot joins/leaves guilds.",
+   "page": "developers/events/gateway.mdx",
+   "params": {
+    "body": {
+     "url": "WSS URL that can be used for connecting to the Gateway",
+     "shards": "Recommended number of shards to use when connecting",
+     "session_start_limit": "Information on the current session start limit"
+    }
+   }
+  },
+  "GET /guilds/templates/{}": {
+   "title": "Get Guild Template",
+   "description": "Returns a guild template object for the given code.",
+   "page": "developers/resources/guild-template.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}": {
+   "title": "Get Guild",
+   "description": "Returns the guild object for the given id. If with_counts is set to true, this endpoint will also return approximate_member_count and approximate_presence_count for the guild.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "query": {
+     "with_counts": "when true, will return approximate member and presence counts for the guild"
+    }
+   }
+  },
+  "GET /guilds/{}/audit-logs": {
+   "title": "Get Guild Audit Log",
+   "description": "Returns an audit log object for the guild. Requires the VIEW_AUDIT_LOG permission.",
+   "page": "developers/resources/audit-log.mdx",
+   "params": {
+    "query": {
+     "user_id": "Entries from a specific user ID",
+     "action_type": "Entries for a specific audit log event",
+     "before": "Entries with ID less than a specific audit log entry ID",
+     "after": "Entries with ID greater than a specific audit log entry ID",
+     "limit": "Maximum number of entries (between 1-100) to return, defaults to 50"
+    }
+   }
+  },
+  "GET /guilds/{}/auto-moderation/rules": {
+   "title": "List Auto Moderation Rules for Guild",
+   "description": "Get a list of all rules currently configured for the guild. Returns a list of auto moderation rule objects for the given guild.",
+   "page": "developers/resources/auto-moderation.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/auto-moderation/rules/{}": {
+   "title": "Get Auto Moderation Rule",
+   "description": "Get a single rule. Returns an auto moderation rule object.",
+   "page": "developers/resources/auto-moderation.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/bans": {
+   "title": "Get Guild Bans",
+   "description": "Returns a list of ban objects for the users banned from this guild. Requires the BAN_MEMBERS or VIEW_AUDIT_LOG permission.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "query": {
+     "limit": "number of users to return (up to maximum 1000)",
+     "before?": "consider only users before given user id",
+     "after?": "consider only users after given user id"
+    }
+   }
+  },
+  "GET /guilds/{}/bans/{}": {
+   "title": "Get Guild Ban",
+   "description": "Returns a ban object for the given user or a 404 not found if the ban cannot be found. Requires the BAN_MEMBERS or VIEW_AUDIT_LOG permission.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/channels": {
+   "title": "Get Guild Channels",
+   "description": "Returns a list of guild channel objects. Does not include threads.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/emojis": {
+   "title": "List Guild Emojis",
+   "description": "Returns a list of emoji objects for the given guild. Includes user fields if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission.",
+   "page": "developers/resources/emoji.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/emojis/{}": {
+   "title": "Get Guild Emoji",
+   "description": "Returns an emoji object for the given guild and emoji IDs. Includes the user field if the bot has the MANAGE_GUILD_EXPRESSIONS permission, or if the bot created the emoji and has the CREATE_GUILD_EXPRESSIONS permission.",
+   "page": "developers/resources/emoji.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/integrations": {
+   "title": "Get Guild Integrations",
+   "description": "Returns a list of integration objects for the guild. Requires the MANAGE_GUILD permission.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/invites": {
+   "title": "Get Guild Invites",
+   "description": "Returns a list of invite objects. Requires the MANAGE_GUILD or VIEW_AUDIT_LOG permission. Invite Metadata is included with the MANAGE_GUILD permission.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/members": {
+   "title": "List Guild Members",
+   "description": "Returns a list of guild member objects that are members of the guild.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "query": {
+     "limit": "max number of members to return (1-1000)",
+     "after": "the highest user id in the previous page"
+    }
+   }
+  },
+  "GET /guilds/{}/members/search": {
+   "title": "Search Guild Members",
+   "description": "Returns a list of guild member objects whose username or nickname starts with a provided string.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "query": {
+     "query": "Query string to match username(s) and nickname(s) against.",
+     "limit": "max number of members to return (1-1000)"
+    }
+   }
+  },
+  "GET /guilds/{}/members/{}": {
+   "title": "Get Guild Member",
+   "description": "Returns a guild member object for the specified user.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/messages/search": {
+   "title": "Search Guild Messages",
+   "description": "Returns a list of messages without the reactions key that match a search query in the guild. Requires the READ_MESSAGE_HISTORY permission.",
+   "page": "developers/resources/message.mdx",
+   "params": {
+    "query": {
+     "limit": "Max number of messages to return (1-25, default 25)",
+     "offset": "Number to offset the returned messages by (max 9975)",
+     "max_id": "Get messages before this message ID",
+     "min_id": "Get messages after this message ID",
+     "slop": "Max number of words to skip between matching tokens in the search content (max 100, default 2)",
+     "content": "Filter messages by content (max 1024 characters)",
+     "channel_id": "Filter messages by these channels (max 500)",
+     "author_type": "Filter messages by author type",
+     "author_id": "Filter messages by these authors (max 100)",
+     "mentions": "Filter messages that mention these users (max 100)",
+     "mentions_role_id": "Filter messages that mention these roles (max 100)",
+     "mention_everyone": "Filter messages that do or do not mention @everyone",
+     "replied_to_user_id": "Filter messages that reply to these users (max 100)",
+     "replied_to_message_id": "Filter messages that reply to these messages (max 100)",
+     "pinned": "Filter messages by whether they are or are not pinned",
+     "has": "Filter messages by whether or not they have specific things",
+     "embed_type": "Filter messages by embed type",
+     "embed_provider": "Filter messages by embed provider (case-sensitive, e.g. Tenor) (max 256 characters, max 100)",
+     "link_hostname": "Filter messages by link hostname (e.g. discordapp.com) (max 256 characters, max 100)",
+     "attachment_filename": "Filter messages by attachment filename (max 1024 characters, max 100)",
+     "attachment_extension": "Filter messages by attachment extension (e.g. txt) (max 256 characters, max 100)",
+     "sort_by? [1]": "The sorting algorithm to use",
+     "sort_order? [1]": "The direction to sort (asc or desc, default desc)",
+     "include_nsfw": "Whether to include results from age-restricted channels (default false)"
+    }
+   }
+  },
+  "GET /guilds/{}/onboarding": {
+   "title": "Get Guild Onboarding",
+   "description": "Returns the Onboarding object for the guild.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/permissions/member/{}": {
+   "title": "Get Guild Member Permissions",
+   "description": "Returns the member's computed guild permissions, combining their roles with @everyone.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/permissions/role/{}": {
+   "title": "Get Guild Role Permissions",
+   "description": "Returns the combined guild permissions of the specified role and @everyone. This calculation does not include other roles or member-specific restrictions.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/preview": {
+   "title": "Get Guild Preview",
+   "description": "Returns the guild preview object for the given id. If the user is not in the guild, then the guild must be discoverable.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/prune": {
+   "title": "Get Guild Prune Count",
+   "description": "Returns an object with one pruned key indicating the number of members that would be removed in a prune operation. Requires the MANAGE_GUILD and KICK_MEMBERS permissions, unless the guild has the PRUNE_REQUIRES_ADMIN guild feature, in which case it requires the ADMINISTRATOR permission.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "query": {
+     "days": "number of days to count prune for (1-30)",
+     "include_roles": "role(s) to include"
+    }
+   }
+  },
+  "GET /guilds/{}/regions": {
+   "title": "Get Guild Voice Regions",
+   "description": "Returns a list of voice region objects for the guild. Unlike the similar /voice route, this returns VIP servers when the guild is VIP-enabled.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/roles": {
+   "title": "Get Guild Roles",
+   "description": "Returns a list of role objects for the guild.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/roles/member-counts": {
+   "title": "Get Guild Role Member Counts",
+   "description": "Returns a map of role IDs to the number of members with the role. Does not include the @everyone role.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/roles/{}": {
+   "title": "Get Guild Role",
+   "description": "Returns a role object for the specified role.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/scheduled-events": {
+   "title": "List Scheduled Events for Guild",
+   "description": "Returns a list of guild scheduled event objects for the given guild.",
+   "page": "developers/resources/guild-scheduled-event.mdx",
+   "params": {
+    "query": {
+     "with_user_count": "include number of users subscribed to each event"
+    }
+   }
+  },
+  "GET /guilds/{}/scheduled-events/{}": {
+   "title": "Get Guild Scheduled Event",
+   "description": "Get a guild scheduled event. Returns a guild scheduled event object on success.",
+   "page": "developers/resources/guild-scheduled-event.mdx",
+   "params": {
+    "query": {
+     "with_user_count": "include number of users subscribed to this event"
+    }
+   }
+  },
+  "GET /guilds/{}/scheduled-events/{}/users": {
+   "title": "Get Guild Scheduled Event Users",
+   "description": "Get a list of guild scheduled event users subscribed to a guild scheduled event. Returns a list of guild scheduled event user objects on success. Guild member data, if it exists, is included if the with_member query parameter is set.",
+   "page": "developers/resources/guild-scheduled-event.mdx",
+   "params": {
+    "query": {
+     "limit": "number of users to return (up to maximum 100)",
+     "with_member": "include guild member data if it exists",
+     "before?": "consider only users before given user id",
+     "after?": "consider only users after given user id"
+    }
+   }
+  },
+  "GET /guilds/{}/soundboard-sounds": {
+   "title": "List Guild Soundboard Sounds",
+   "description": "Returns a list of the guild's soundboard sounds. Includes user fields if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission.",
+   "page": "developers/resources/soundboard.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/soundboard-sounds/{}": {
+   "title": "Get Guild Soundboard Sound",
+   "description": "Returns a soundboard sound object for the given sound id. Includes the user field if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission.",
+   "page": "developers/resources/soundboard.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/stickers": {
+   "title": "List Guild Stickers",
+   "description": "Returns an array of sticker objects for the given guild. Includes user fields if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission.",
+   "page": "developers/resources/sticker.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/stickers/{}": {
+   "title": "Get Guild Sticker",
+   "description": "Returns a sticker object for the given guild and sticker IDs. Includes the user field if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission.",
+   "page": "developers/resources/sticker.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/templates": {
+   "title": "Get Guild Templates",
+   "description": "Returns an array of guild template objects. Requires the MANAGE_GUILD permission.",
+   "page": "developers/resources/guild-template.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/threads/active": {
+   "title": "List Active Guild Threads",
+   "description": "Returns all active threads in the guild, including public and private threads. Threads are ordered by their id, in descending order.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/vanity-url": {
+   "title": "Get Guild Vanity URL",
+   "description": "Returns a partial invite object for guilds with that feature enabled. Requires the MANAGE_GUILD permission. code will be null if a vanity url for the guild is not set.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/voice-states/@me": {
+   "title": "Get Current User Voice State",
+   "description": "Returns the current user's voice state in the guild.",
+   "page": "developers/resources/voice.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/voice-states/{}": {
+   "title": "Get User Voice State",
+   "description": "Returns the specified user's voice state in the guild.",
+   "page": "developers/resources/voice.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/webhooks": {
+   "title": "Get Guild Webhooks",
+   "description": "Returns a list of guild webhook objects. Requires the MANAGE_WEBHOOKS permission.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/welcome-screen": {
+   "title": "Get Guild Welcome Screen",
+   "description": "Returns the Welcome Screen object for the guild. If the welcome screen is not enabled, the MANAGE_GUILD permission is required.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/widget": {
+   "title": "Get Guild Widget Settings",
+   "description": "Returns a guild widget settings object. Requires the MANAGE_GUILD permission.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/widget.json": {
+   "title": "Get Guild Widget",
+   "description": "Returns the widget for the guild. Fires an Invite Create Gateway event when an invite channel is defined and a new Invite is generated.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "GET /guilds/{}/widget.png": {
+   "title": "Get Guild Widget Image",
+   "description": "Returns a PNG image widget for the guild. Requires no permissions or authentication.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "query": {
+     "style": "style of the widget image returned (see below)"
+    }
+   }
+  },
+  "GET /invites/{}": {
+   "title": "Get Invite",
+   "description": "Returns an invite object for the given code.",
+   "page": "developers/resources/invite.mdx",
+   "params": {
+    "query": {
+     "with_counts": "whether the invite should contain approximate member counts",
+     "guild_scheduled_event_id": "the guild scheduled event to include with the invite"
+    }
+   }
+  },
+  "GET /invites/{}/target-users": {
+   "title": "Get Target Users",
+   "description": "Gets the users allowed to see and accept this invite. Response is a CSV file with the header user_id and each user ID on its own line. Requires the caller to be the inviter, or have MANAGE_GUILD permission, or have VIEW_AUDIT_LOG permission.",
+   "page": "developers/resources/invite.mdx",
+   "params": {}
+  },
+  "GET /invites/{}/target-users/job-status": {
+   "title": "Get Target Users Job Status",
+   "description": "Processing target users from a CSV when creating or updating an invite is done asynchronously. This endpoint allows you to check the status of that job. Requires the caller to be the inviter, or have MANAGE_GUILD permission, or have VIEW_AUDIT_LOG permission.",
+   "page": "developers/resources/invite.mdx",
+   "params": {}
+  },
+  "GET /lobbies/{}": {
+   "title": "Get Lobby",
+   "description": "Returns a lobby object for the specified lobby id, if it exists.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "GET /lobbies/{}/messages": {
+   "title": "Get Lobby Messages",
+   "description": "Returns the most recent messages in the specified lobby. The calling user must be a member of the lobby.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "GET /oauth2/@me": {
+   "title": "Get Current Authorization Information",
+   "description": "Returns info about the current authorization. Requires authentication with a bearer token.",
+   "page": "developers/topics/oauth2.mdx",
+   "params": {
+    "body": {}
+   }
+  },
+  "GET /oauth2/applications/@me": {
+   "title": "Get Current Bot Application Information",
+   "description": "Returns the bot's application object.",
+   "page": "developers/topics/oauth2.mdx",
+   "params": {}
+  },
+  "GET /skus/{}/subscriptions": {
+   "title": "List SKU Subscriptions",
+   "description": "Returns all subscriptions containing the SKU, filtered by user. Returns a list of subscription objects.",
+   "page": "developers/resources/subscription.mdx",
+   "params": {}
+  },
+  "GET /skus/{}/subscriptions/{}": {
+   "title": "Get SKU Subscription",
+   "description": "Get a subscription by its ID. Returns a subscription object.",
+   "page": "developers/resources/subscription.mdx",
+   "params": {}
+  },
+  "GET /soundboard-default-sounds": {
+   "title": "List Default Soundboard Sounds",
+   "description": "Returns an array of soundboard sound objects that can be used by all users.",
+   "page": "developers/resources/soundboard.mdx",
+   "params": {}
+  },
+  "GET /stage-instances/{}": {
+   "title": "Get Stage Instance",
+   "description": "Gets the stage instance associated with the Stage channel, if it exists.",
+   "page": "developers/resources/stage-instance.mdx",
+   "params": {}
+  },
+  "GET /sticker-packs": {
+   "title": "List Sticker Packs",
+   "description": "Returns a list of available sticker packs.",
+   "page": "developers/resources/sticker.mdx",
+   "params": {}
+  },
+  "GET /sticker-packs/{}": {
+   "title": "Get Sticker Pack",
+   "description": "Returns a sticker pack object for the given sticker pack ID.",
+   "page": "developers/resources/sticker.mdx",
+   "params": {}
+  },
+  "GET /stickers/{}": {
+   "title": "Get Sticker",
+   "description": "Returns a sticker object for the given sticker ID.",
+   "page": "developers/resources/sticker.mdx",
+   "params": {}
+  },
+  "GET /users/@me": {
+   "title": "Get Current User",
+   "description": "Returns the user object of the requester's account. For OAuth2, this requires the identify scope, which will return the object _without_ an email, and optionally the email scope, which returns the object _with_ an email if the user has one.",
+   "page": "developers/resources/user.mdx",
+   "params": {}
+  },
+  "GET /users/@me/applications/{}/role-connection": {
+   "title": "Get Current User Application Role Connection",
+   "description": "Returns the application role connection for the user. Requires an OAuth2 access token with role_connections.write scope for the application specified in the path.",
+   "page": "developers/resources/user.mdx",
+   "params": {}
+  },
+  "GET /users/@me/connections": {
+   "title": "Get Current User Connections",
+   "description": "Returns a list of connection objects. Requires the connections OAuth2 scope.",
+   "page": "developers/resources/user.mdx",
+   "params": {}
+  },
+  "GET /users/@me/guilds": {
+   "title": "Get Current User Guilds",
+   "description": "Returns a list of partial guild objects the current user is a member of. For OAuth2, requires the guilds scope.",
+   "page": "developers/resources/user.mdx",
+   "params": {
+    "query": {
+     "before": "get guilds before this guild ID",
+     "after": "get guilds after this guild ID",
+     "limit": "max number of guilds to return (1-200)",
+     "shard": "only return guilds in this shard (0 to max_concurrency - 1)",
+     "with_counts": "include approximate member and presence counts in response"
+    }
+   }
+  },
+  "GET /users/@me/guilds/{}/member": {
+   "title": "Get Current User Guild Member",
+   "description": "Returns a guild member object for the current user. Requires the guilds.members.read OAuth2 scope.",
+   "page": "developers/resources/user.mdx",
+   "params": {}
+  },
+  "GET /users/{}": {
+   "title": "Get User",
+   "description": "Returns a user object for a given user ID.",
+   "page": "developers/resources/user.mdx",
+   "params": {}
+  },
+  "GET /users/{}/application-identities/{}": {
+   "title": "Get Application Identities by User ID",
+   "description": "Returns the application identities for the specified user and application. Use this endpoint to discover the exact external ID values (provider_type, provider_issued_user_id, and optional provider_id) for a user's application identities.",
+   "page": "developers/resources/application-identity-profile.mdx",
+   "params": {}
+  },
+  "GET /voice/regions": {
+   "title": "List Voice Regions",
+   "description": "Returns an array of voice region objects that can be used when setting a voice or stage channel's rtc_region.",
+   "page": "developers/resources/voice.mdx",
+   "params": {}
+  },
+  "GET /webhooks/{}": {
+   "title": "Get Webhook",
+   "description": "Returns the new webhook object for the given id.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {}
+  },
+  "GET /webhooks/{}/{}": {
+   "title": "Get Webhook with Token",
+   "description": "Same as above, except this call does not require authentication and returns no user in the webhook object.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {}
+  },
+  "GET /webhooks/{}/{}/messages/@original": {
+   "title": "Get Original Interaction Response",
+   "description": "Returns the initial Interaction response. Functions the same as Get Webhook Message.",
+   "page": "developers/interactions/receiving-and-responding.mdx",
+   "params": {}
+  },
+  "GET /webhooks/{}/{}/messages/{}": {
+   "title": "Get Webhook Message",
+   "description": "Returns a previously-sent webhook message from the same token. Returns a message object on success.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {
+    "query": {
+     "thread_id": "id of the thread the message is in"
+    }
+   }
+  },
+  "PATCH /applications/@me": {
+   "title": "Edit Current Application",
+   "description": "Edit properties of the app associated with the requesting bot user. Only properties that are passed will be updated. Returns the updated application object on success.",
+   "page": "developers/resources/application.mdx",
+   "params": {
+    "body": {
+     "custom_install_url": "Default custom authorization URL for the app, if enabled",
+     "description": "Description of the app",
+     "role_connections_verification_url": "Role connection verification URL for the app",
+     "install_params": "Settings for the app's default in-app authorization link, if enabled",
+     "integration_types_config": "Default scopes and permissions for each supported installation context. Value for each key is an integration type configuration object",
+     "flags": "App's public flags",
+     "icon": "Icon for the app",
+     "cover_image": "Default rich presence invite cover image for the app",
+     "interactions_endpoint_url": "Interactions endpoint URL for the app",
+     "tags": "List of tags describing the content and functionality of the app (max of 20 characters per tag). Max of 5 tags.",
+     "event_webhooks_url": "Event webhooks URL for the app to receive webhook events",
+     "event_webhooks_status": "If webhook events are enabled for the app. 1 to disable, and 2 to enable",
+     "event_webhooks_types": "List of Webhook event types to subscribe to"
+    }
+   }
+  },
+  "PATCH /applications/{}/commands/{}": {
+   "title": "Edit Global Application Command",
+   "description": "Edit a global command. Returns 200 and an application command object. All fields are optional, but any fields provided will entirely overwrite the existing values of those fields.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {
+    "body": {
+     "name": "Name of command, 1-32 characters",
+     "name_localizations": "Localization dictionary for the name field. Values follow the same restrictions as name",
+     "description": "1-100 character description",
+     "description_localizations": "Localization dictionary for the description field. Values follow the same restrictions as description",
+     "options": "Parameters for the command, max of 25. Only for CHAT_INPUT commands",
+     "default_member_permissions": "Set of permissions represented as a bit set",
+     "dm_permission": "**Deprecated (use contexts instead)**; Indicates whether the command is available in DMs with the app, only for globally-scoped commands. By default, commands are visible.",
+     "default_permission": "Replaced by default_member_permissions and will be deprecated in the future. Indicates whether the command is enabled by default when the app is added to a guild. Defaults to true",
+     "integration_types": "Installation context(s) where the command is available",
+     "contexts": "Interaction context(s) where the command can be used",
+     "nsfw": "Indicates whether the command is age-restricted",
+     "handler": "Determines whether the interaction is handled by the app's interactions handler or by Discord. Only for PRIMARY_ENTRY_POINT commands"
+    }
+   }
+  },
+  "PATCH /applications/{}/emojis/{}": {
+   "title": "Modify Application Emoji",
+   "description": "Modify the given emoji. Returns the updated emoji object on success.",
+   "page": "developers/resources/emoji.mdx",
+   "params": {
+    "body": {
+     "name": "name of the emoji"
+    }
+   }
+  },
+  "PATCH /applications/{}/guilds/{}/commands/{}": {
+   "title": "Edit Guild Application Command",
+   "description": "Edit a guild command. Updates for guild commands will be available immediately. Returns 200 and an application command object. All fields are optional, but any fields provided will entirely overwrite the existing values of those fields.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {
+    "body": {
+     "name": "Name of command, 1-32 characters",
+     "name_localizations": "Localization dictionary for the name field. Values follow the same restrictions as name",
+     "description": "1-100 character description",
+     "description_localizations": "Localization dictionary for the description field. Values follow the same restrictions as description",
+     "options": "Parameters for the command, max of 25. Only for CHAT_INPUT commands",
+     "default_member_permissions": "Set of permissions represented as a bit set",
+     "default_permission": "Replaced by default_member_permissions and will be deprecated in the future. Indicates whether the command is enabled by default when the app is added to a guild. Defaults to true",
+     "nsfw": "Indicates whether the command is age-restricted"
+    }
+   }
+  },
+  "PATCH /applications/{}/users/{}/identities/{}/profile": {
+   "title": "Update Application Identity Profile",
+   "description": "Updates the profile data on the user's matching Application Identity record. Returns an Application Identity Profile object.",
+   "page": "developers/resources/application-identity-profile.mdx",
+   "params": {}
+  },
+  "PATCH /channels/{}": {
+   "title": "Modify Channel",
+   "description": "Update a channel's settings. Returns a channel on success, and a 400 BAD REQUEST on invalid parameters.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "body": {
+     "name": "1-100 character channel name",
+     "icon": "base64 encoded icon",
+     "type": "the type of channel; only conversion between text and announcement is supported and only in guilds with the \"NEWS\" feature",
+     "position": "the position of the channel in the left-hand listing (channels with the same position are sorted by id)",
+     "topic": "0-1024 character channel topic (0-4096 characters for GUILD_FORUM and GUILD_MEDIA channels)",
+     "nsfw": "whether the channel is age-restricted",
+     "rate_limit_per_user": "amount of seconds a user has to wait before sending another message (0-21600); bots, as well as users with the permission BYPASS_SLOWMODE, are unaffected",
+     "bitrate": "the bitrate (in bits per second) of the voice or stage channel; min 8000",
+     "user_limit": "the user limit of the voice or stage channel, max 99 for voice channels and 10,000 for stage channels (0 refers to no limit)",
+     "permission_overwrites": "channel or category-specific permissions",
+     "parent_id": "id of the new parent category for a channel",
+     "rtc_region": "channel voice region id, automatic when set to null",
+     "video_quality_mode": "the camera video quality mode of the voice channel",
+     "default_auto_archive_duration": "the default duration that the clients use (not the API) for newly created threads in the channel, in minutes, to automatically archive the thread after recent activity",
+     "flags": "channel flags combined as a bitfield; PINNED can only be set for threads in forum and media channels",
+     "available_tags": "the set of tags that can be used in a GUILD_FORUM or a GUILD_MEDIA channel; limited to 20",
+     "default_reaction_emoji": "the emoji to show in the add reaction button on a thread in a GUILD_FORUM or a GUILD_MEDIA channel",
+     "default_thread_rate_limit_per_user": "the initial rate_limit_per_user to set on newly created threads in a channel. this field is copied to the thread at creation time and does not live update.",
+     "default_sort_order": "the default sort order type used to order posts in GUILD_FORUM and GUILD_MEDIA channels",
+     "default_forum_layout": "the default forum layout type used to display posts in GUILD_FORUM channels",
+     "archived": "whether the thread is archived",
+     "auto_archive_duration": "the thread will stop showing in the channel list after auto_archive_duration minutes of inactivity, can be set to: 60, 1440, 4320, 10080",
+     "locked": "whether the thread is locked; when a thread is locked, only users with MANAGE_THREADS can unarchive it",
+     "invitable": "whether non-moderators can add other non-moderators to a thread; only available on private threads",
+     "applied_tags": "the IDs of the set of tags that have been applied to a thread in a GUILD_FORUM or a GUILD_MEDIA channel; limited to 5"
+    }
+   }
+  },
+  "PATCH /channels/{}/messages/{}": {
+   "title": "Edit Message",
+   "description": "Edit a previously sent message. The fields content, embeds, flags and components can be edited by the original message author. Other users can only edit flags and only if they have the MANAGE_MESSAGES permission in the corresponding channel. When specifying flags, ensure to include all previously set flags/bits in addition to ones that you are modifying. Only flags documented in the table below may be modified by users (unsupported flag changes are currently ignored without error).",
+   "page": "developers/resources/message.mdx",
+   "params": {
+    "body": {
+     "content": "Message contents (up to 2000 characters)",
+     "embeds": "Up to 10 rich embeds (up to 6000 characters)",
+     "flags": "Edit the flags of a message (SUPPRESS_EMBEDS and IS_COMPONENTS_V2 only)",
+     "allowed_mentions": "Allowed mentions for the message",
+     "components": "Components to include with the message",
+     "files[n]": "Contents of the file being sent/edited. See Uploading Files",
+     "payload_json": "JSON-encoded body of non-file params (multipart/form-data only). See Uploading Files",
+     "attachments": "Attached files to keep and their metadata. See Uploading Files"
+    }
+   }
+  },
+  "PATCH /guilds/{}": {
+   "title": "Modify Guild",
+   "description": "Modify a guild's settings. Requires the MANAGE_GUILD permission. Returns the updated guild object on success. Fires a Guild Update Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "name": "guild name",
+     "region": "guild voice region id (deprecated)",
+     "verification_level": "verification level",
+     "default_message_notifications": "default message notification level",
+     "explicit_content_filter": "explicit content filter level",
+     "afk_channel_id": "id for afk channel",
+     "afk_timeout": "afk timeout in seconds, can be set to: 60, 300, 900, 1800, 3600",
+     "icon": "base64 1024x1024 png/jpeg/gif image for the guild icon (can be animated gif when the server has the ANIMATED_ICON feature)",
+     "splash": "base64 16:9 png/jpeg image for the guild splash (when the server has the INVITE_SPLASH feature)",
+     "discovery_splash": "base64 16:9 png/jpeg image for the guild discovery splash (when the server has the DISCOVERABLE feature)",
+     "banner": "base64 16:9 png/jpeg image for the guild banner (when the server has the BANNER feature; can be animated gif when the server has the ANIMATED_BANNER feature)",
+     "system_channel_id": "the id of the channel where guild notices such as welcome messages and boost events are posted",
+     "system_channel_flags": "system channel flags",
+     "rules_channel_id": "the id of the channel where Community guilds display rules and/or guidelines",
+     "public_updates_channel_id": "the id of the channel where admins and moderators of Community guilds receive notices from Discord",
+     "preferred_locale": "the preferred locale of a Community guild used in server discovery and notices from Discord; defaults to \"en-US\"",
+     "features": "enabled guild features",
+     "description": "the description for the guild",
+     "premium_progress_bar_enabled": "whether the guild's boost progress bar should be enabled",
+     "safety_alerts_channel_id": "the id of the channel where admins and moderators of Community guilds receive safety alerts from Discord"
+    }
+   }
+  },
+  "PATCH /guilds/{}/auto-moderation/rules/{}": {
+   "title": "Modify Auto Moderation Rule",
+   "description": "Modify an existing rule. Returns an auto moderation rule on success. Fires an Auto Moderation Rule Update Gateway event.",
+   "page": "developers/resources/auto-moderation.mdx",
+   "params": {
+    "body": {
+     "name": "the rule name",
+     "event_type": "the event type",
+     "trigger_metadata?": "the trigger metadata",
+     "actions": "the actions which will execute when the rule is triggered",
+     "enabled": "whether the rule is enabled",
+     "exempt_roles": "the role ids that should not be affected by the rule (Maximum of 20)",
+     "exempt_channels": "the channel ids that should not be affected by the rule (Maximum of 50)"
+    }
+   }
+  },
+  "PATCH /guilds/{}/channels": {
+   "title": "Modify Guild Channel Positions",
+   "description": "Modify the positions of a set of channel objects for the guild. Requires MANAGE_CHANNELS permission. Returns a 204 empty response on success. Fires multiple Channel Update Gateway events.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "id": "channel id",
+     "position": "sorting position of the channel (channels with the same position are sorted by id)",
+     "lock_permissions": "syncs the permission overwrites with the new parent, if moving to a new category",
+     "parent_id": "the new parent ID for the channel that is moved"
+    }
+   }
+  },
+  "PATCH /guilds/{}/emojis/{}": {
+   "title": "Modify Guild Emoji",
+   "description": "Modify the given emoji. For emojis created by the current user, requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission. For other emojis, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns the updated emoji object on success. Fires a Guild Emojis Update Gateway event.",
+   "page": "developers/resources/emoji.mdx",
+   "params": {
+    "body": {
+     "name": "name of the emoji",
+     "roles": "roles allowed to use this emoji"
+    }
+   }
+  },
+  "PATCH /guilds/{}/members/@me": {
+   "title": "Modify Current Member",
+   "description": "Modifies the current member in a guild. Returns a 200 with the updated member object on success. Fires a Guild Member Update Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "nick": "value to set user's nickname to",
+     "banner": "data URI base64 encoded banner image",
+     "avatar": "data URI base64 encoded avatar image",
+     "bio": "guild member bio"
+    }
+   }
+  },
+  "PATCH /guilds/{}/members/@me/nick": {
+   "title": "Modify Current User Nick",
+   "description": "Modifies the nickname of the current user in a guild. Returns a 200 with the nickname on success. Fires a Guild Member Update Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "nick": "value to set user's nickname to"
+    }
+   }
+  },
+  "PATCH /guilds/{}/members/{}": {
+   "title": "Modify Guild Member",
+   "description": "Modify attributes of a guild member. Returns a 200 OK with the guild member as the body. Fires a Guild Member Update Gateway event. If the channel_id is set to null, this will force the target user to be disconnected from voice.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "nick": "value to set user's nickname to",
+     "roles": "array of role ids the member is assigned",
+     "mute": "whether the user is muted in voice channels. Will throw a 400 error if the user is not in a voice channel",
+     "deaf": "whether the user is deafened in voice channels. Will throw a 400 error if the user is not in a voice channel",
+     "channel_id": "id of channel to move user to (if they are connected to voice)",
+     "communication_disabled_until": "when the user's timeout will expire and the user will be able to communicate in the guild again (up to 28 days in the future), set to null to remove timeout. Will throw a 403 error if the user has the ADMINISTRATOR permission or is the owner of the guild",
+     "flags": "guild member flags"
+    }
+   }
+  },
+  "PATCH /guilds/{}/roles": {
+   "title": "Modify Guild Role Positions",
+   "description": "Modify the positions of a set of role objects for the guild. Requires the MANAGE_ROLES permission. Returns a list of all of the guild's role objects on success. Fires multiple Guild Role Update Gateway events.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "id": "role",
+     "position": "sorting position of the role (roles with the same position are sorted by id)"
+    }
+   }
+  },
+  "PATCH /guilds/{}/roles/{}": {
+   "title": "Modify Guild Role",
+   "description": "Modify a guild role. Requires the MANAGE_ROLES permission. Returns the updated role on success. Fires a Guild Role Update Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "name": "name of the role, max 100 characters",
+     "permissions": "bitwise value of the enabled/disabled permissions",
+     "color": "**Deprecated** RGB color value",
+     "colors": "the role's colors",
+     "hoist": "whether the role should be displayed separately in the sidebar",
+     "icon": "the role's icon image (if the guild has the ROLE_ICONS feature)",
+     "unicode_emoji": "the role's unicode emoji as a standard emoji (if the guild has the ROLE_ICONS feature)",
+     "mentionable": "whether the role should be mentionable"
+    }
+   }
+  },
+  "PATCH /guilds/{}/scheduled-events/{}": {
+   "title": "Modify Guild Scheduled Event",
+   "description": "Modify a guild scheduled event. Returns the modified guild scheduled event object on success. Fires a Guild Scheduled Event Update Gateway event.",
+   "page": "developers/resources/guild-scheduled-event.mdx",
+   "params": {
+    "body": {
+     "channel_id?": "the channel id of the scheduled event, set to null if changing entity type to EXTERNAL",
+     "entity_metadata": "the entity metadata of the scheduled event",
+     "name": "the name of the scheduled event",
+     "privacy_level": "the privacy level of the scheduled event",
+     "scheduled_start_time": "the time to schedule the scheduled event",
+     "scheduled_end_time?": "the time when the scheduled event is scheduled to end",
+     "description": "the description of the scheduled event",
+     "entity_type?": "the entity type of the scheduled event",
+     "status": "the status of the scheduled event",
+     "image": "the cover image of the scheduled event",
+     "recurrence_rule": "the definition for how often this event should recur"
+    }
+   }
+  },
+  "PATCH /guilds/{}/soundboard-sounds/{}": {
+   "title": "Modify Guild Soundboard Sound",
+   "description": "Modify the given soundboard sound. For sounds created by the current user, requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission. For other sounds, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns the updated soundboard sound object on success. Fires a Guild Soundboard Sound Update Gateway event.",
+   "page": "developers/resources/soundboard.mdx",
+   "params": {
+    "body": {
+     "name": "name of the soundboard sound (2-32 characters)",
+     "volume": "the volume of the soundboard sound, from 0 to 1",
+     "emoji_id": "the id of the custom emoji for the soundboard sound",
+     "emoji_name": "the unicode character of a standard emoji for the soundboard sound"
+    }
+   }
+  },
+  "PATCH /guilds/{}/stickers/{}": {
+   "title": "Modify Guild Sticker",
+   "description": "Modify the given sticker. For stickers created by the current user, requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission. For other stickers, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns the updated sticker object on success. Fires a Guild Stickers Update Gateway event.",
+   "page": "developers/resources/sticker.mdx",
+   "params": {
+    "body": {
+     "name": "name of the sticker (2-30 characters)",
+     "description": "description of the sticker (2-100 characters)",
+     "tags": "autocomplete/suggestion tags for the sticker (max 200 characters)"
+    }
+   }
+  },
+  "PATCH /guilds/{}/templates/{}": {
+   "title": "Modify Guild Template",
+   "description": "Modifies the template's metadata. Requires the MANAGE_GUILD permission. Returns the guild template object on success.",
+   "page": "developers/resources/guild-template.mdx",
+   "params": {
+    "body": {
+     "name": "name of the template (1-100 characters)",
+     "description": "description for the template (0-120 characters)"
+    }
+   }
+  },
+  "PATCH /guilds/{}/voice-states/@me": {
+   "title": "Modify Current User Voice State",
+   "description": "Updates the current user's voice state. Returns 204 No Content on success. Fires a Voice State Update Gateway event.",
+   "page": "developers/resources/voice.mdx",
+   "params": {
+    "body": {
+     "channel_id": "the id of the channel the user is currently in",
+     "suppress": "toggles the user's suppress state",
+     "request_to_speak_timestamp": "sets the user's request to speak"
+    }
+   }
+  },
+  "PATCH /guilds/{}/voice-states/{}": {
+   "title": "Modify User Voice State",
+   "description": "Updates another user's voice state. Returns 204 No Content on success. Fires a Voice State Update Gateway event.",
+   "page": "developers/resources/voice.mdx",
+   "params": {
+    "body": {
+     "channel_id": "the id of the channel the user is currently in",
+     "suppress": "toggles the user's suppress state"
+    }
+   }
+  },
+  "PATCH /guilds/{}/welcome-screen": {
+   "title": "Modify Guild Welcome Screen",
+   "description": "Modify the guild's Welcome Screen. Requires the MANAGE_GUILD permission. Returns the updated Welcome Screen object. May fire a Guild Update Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "enabled": "whether the welcome screen is enabled",
+     "welcome_channels": "channels linked in the welcome screen and their display options",
+     "description": "the server description to show in the welcome screen"
+    }
+   }
+  },
+  "PATCH /guilds/{}/widget": {
+   "title": "Modify Guild Widget",
+   "description": "Modify a guild widget settings object for the guild. All attributes may be passed in with JSON and modified. Requires the MANAGE_GUILD permission. Returns the updated guild widget settings object. Fires a Guild Update Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "PATCH /lobbies/{}": {
+   "title": "Modify Lobby",
+   "description": "Modifies the specified lobby with new values, if provided.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "PATCH /lobbies/{}/channel-linking": {
+   "title": "Link Channel to Lobby",
+   "description": "Links an existing text channel to a lobby. See Linked Channels for more information.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "PATCH /stage-instances/{}": {
+   "title": "Modify Stage Instance",
+   "description": "Updates fields of an existing Stage instance. Returns the updated Stage instance. Fires a Stage Instance Update Gateway event.",
+   "page": "developers/resources/stage-instance.mdx",
+   "params": {
+    "body": {
+     "topic": "The topic of the Stage instance (1-120 characters)",
+     "privacy_level": "The privacy level of the Stage instance"
+    }
+   }
+  },
+  "PATCH /users/@me": {
+   "title": "Modify Current User",
+   "description": "Modify the requester's user account settings. Returns a user object on success. Fires a User Update Gateway event.",
+   "page": "developers/resources/user.mdx",
+   "params": {
+    "body": {
+     "username": "user's username, if changed may cause the user's discriminator to be randomized.",
+     "avatar": "if passed, modifies the user's avatar",
+     "banner": "if passed, modifies the user's banner"
+    }
+   }
+  },
+  "PATCH /webhooks/{}": {
+   "title": "Modify Webhook",
+   "description": "Modify a webhook. Requires the MANAGE_WEBHOOKS permission. Returns the updated webhook object on success. Fires a Webhooks Update Gateway event.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {
+    "body": {
+     "name": "the default name of the webhook",
+     "avatar": "image for the default webhook avatar",
+     "channel_id": "the new channel id this webhook should be moved to"
+    }
+   }
+  },
+  "PATCH /webhooks/{}/{}": {
+   "title": "Modify Webhook with Token",
+   "description": "Same as above, except this call does not require authentication, does not accept a channel_id parameter in the body, and does not return a user in the webhook object.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {}
+  },
+  "PATCH /webhooks/{}/{}/messages/@original": {
+   "title": "Edit Original Interaction Response",
+   "description": "Edits the initial Interaction response. Functions the same as Edit Webhook Message.",
+   "page": "developers/interactions/receiving-and-responding.mdx",
+   "params": {}
+  },
+  "PATCH /webhooks/{}/{}/messages/{}": {
+   "title": "Edit Webhook Message",
+   "description": "Edits a previously-sent webhook message from the same token. Returns a message object on success.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {
+    "query": {
+     "thread_id": "id of the thread the message is in",
+     "with_components": "whether to respect the components field of the request. When enabled, allows application-owned webhooks to use all components and non-owned webhooks to use non-interactive components. (defaults to false)"
+    },
+    "body": {
+     "content": "the message contents (up to 2000 characters)",
+     "embeds": "embedded rich content",
+     "flags": "message flags combined as a bitfield (SUPPRESS_EMBEDS and IS_COMPONENTS_V2 only)",
+     "allowed_mentions": "allowed mentions for the message",
+     "components": "the components to include with the message",
+     "files[n]": "the contents of the file being sent/edited",
+     "payload_json": "JSON encoded body of non-file params (multipart/form-data only)",
+     "attachments": "attached files to keep and their metadata",
+     "poll": "A poll!"
+    }
+   }
+  },
+  "POST /applications/{}/commands": {
+   "title": "Create Global Application Command",
+   "description": "Create a new global command. Returns 201 if a command with the same name does not already exist, or a 200 if it does (in which case the previous command will be overwritten). Both responses include an application command object.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {
+    "body": {
+     "name": "Name of command, 1-32 characters",
+     "name_localizations": "Localization dictionary for the name field. Values follow the same restrictions as name",
+     "description": "1-100 character description for CHAT_INPUT and PRIMARY_ENTRY_POINT commands",
+     "description_localizations": "Localization dictionary for the description field. Values follow the same restrictions as description",
+     "options": "Parameters for the command, max of 25. Only for CHAT_INPUT commands",
+     "default_member_permissions": "Set of permissions represented as a bit set",
+     "dm_permission": "**Deprecated (use contexts instead)**; Indicates whether the command is available in DMs with the app, only for globally-scoped commands. By default, commands are visible.",
+     "default_permission": "Replaced by default_member_permissions and will be deprecated in the future. Indicates whether the command is enabled by default when the app is added to a guild. Defaults to true",
+     "integration_types": "Installation context(s) where the command is available",
+     "contexts": "Interaction context(s) where the command can be used",
+     "type": "Type of command, defaults 1 if not set",
+     "nsfw": "Indicates whether the command is age-restricted",
+     "handler": "Determines whether the interaction is handled by the app's interactions handler or by Discord. Only for PRIMARY_ENTRY_POINT commands"
+    }
+   }
+  },
+  "POST /applications/{}/emojis": {
+   "title": "Create Application Emoji",
+   "description": "Create a new emoji for the application. Returns the new emoji object on success.",
+   "page": "developers/resources/emoji.mdx",
+   "params": {
+    "body": {
+     "name": "name of the emoji",
+     "image": "the 128x128 emoji image"
+    }
+   }
+  },
+  "POST /applications/{}/entitlements": {
+   "title": "Create Test Entitlement",
+   "description": "Creates a test entitlement to a given SKU for a given guild or user. Discord will act as though that user or guild has entitlement to your premium offering.",
+   "page": "developers/resources/entitlement.mdx",
+   "params": {
+    "body": {
+     "sku_id": "ID of the SKU to grant the entitlement to",
+     "owner_id": "ID of the guild or user to grant the entitlement to",
+     "owner_type": "1 for a guild subscription, 2 for a user subscription"
+    }
+   }
+  },
+  "POST /applications/{}/entitlements/{}/consume": {
+   "title": "Consume an Entitlement",
+   "description": "For One-Time Purchase consumable SKUs, marks a given entitlement for the user as consumed. The entitlement will have consumed: true when using List Entitlements.",
+   "page": "developers/resources/entitlement.mdx",
+   "params": {}
+  },
+  "POST /applications/{}/guilds/{}/commands": {
+   "title": "Create Guild Application Command",
+   "description": "Create a new guild command. New guild commands will be available in the guild immediately. Returns 201 if a command with the same name does not already exist, or a 200 if it does (in which case the previous command will be overwritten). Both responses include an application command object.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {
+    "body": {
+     "name": "Name of command, 1-32 characters",
+     "name_localizations": "Localization dictionary for the name field. Values follow the same restrictions as name",
+     "description": "1-100 character description for CHAT_INPUT commands",
+     "description_localizations": "Localization dictionary for the description field. Values follow the same restrictions as description",
+     "options": "Parameters for the command, max of 25. Only for CHAT_INPUT commands",
+     "default_member_permissions": "Set of permissions represented as a bit set",
+     "default_permission": "Replaced by default_member_permissions and will be deprecated in the future. Indicates whether the command is enabled by default when the app is added to a guild. Defaults to true",
+     "type": "Type of command, defaults 1 if not set",
+     "nsfw": "Indicates whether the command is age-restricted"
+    }
+   }
+  },
+  "POST /channels/{}/followers": {
+   "title": "Follow Announcement Channel",
+   "description": "Follow an Announcement Channel to send messages to a target channel. Requires the MANAGE_WEBHOOKS permission in the target channel. Returns a followed channel object. Fires a Webhooks Update Gateway event for the target channel.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "body": {
+     "webhook_channel_id": "id of target channel"
+    }
+   }
+  },
+  "POST /channels/{}/invites": {
+   "title": "Create Channel Invite",
+   "description": "Create a new invite object for the channel. Only usable for guild channels. Requires the CREATE_INSTANT_INVITE permission. All JSON parameters for this route are optional, however the request body is not. If you are not sending any fields, you still have to send an empty JSON object ({}). Returns an invite object. Fires an Invite Create Gateway event.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "body": {
+     "max_age": "duration of invite in seconds before expiry, or 0 for never. between 0 and 604800 (7 days)",
+     "max_uses": "max number of uses or 0 for unlimited. between 0 and 100",
+     "temporary": "whether this invite only grants temporary membership",
+     "unique": "if true, don't try to reuse a similar invite (useful for creating many unique one time use invites)",
+     "target_type": "the type of target for this voice channel invite",
+     "target_user_id": "the id of the user whose stream to display for this invite, required if target_type is 1, the user must be streaming in the channel",
+     "target_application_id": "the id of the embedded application to open for this invite, required if target_type is 2, the application must have the EMBEDDED flag",
+     "target_users_file": "a csv file with a single column of user IDs for all the users able to accept this invite",
+     "target_user_ids": "an array of IDs of all users able to see and accept this invite. Max of 1000 IDs",
+     "payload_json": "JSON-encoded body of non-file params, only for multipart/form-data requests.",
+     "role_ids": "the role ID(s) for roles in the guild given to the users that accept this invite"
+    }
+   }
+  },
+  "POST /channels/{}/messages": {
+   "title": "Create Message",
+   "description": "Post a message to a guild text or DM channel. Returns a message object. Fires a Message Create Gateway event. See message formatting for more information on how to properly format messages.",
+   "page": "developers/resources/message.mdx",
+   "params": {
+    "body": {
+     "content": "Message contents (up to 2000 characters)",
+     "nonce": "Can be used to verify a message was sent (up to 25 characters). Value will appear in the Message Create event.",
+     "tts": "true if this is a TTS message",
+     "embeds": "Up to 10 rich embeds (up to 6000 characters)",
+     "allowed_mentions": "Allowed mentions for the message",
+     "message_reference": "Include to make your message a reply or a forward",
+     "components": "Components to include with the message",
+     "sticker_ids": "IDs of up to 3 stickers in the server to send in the message",
+     "files[n]": "Contents of the file being sent. See Uploading Files",
+     "payload_json": "JSON-encoded body of non-file params, only for multipart/form-data requests. See Uploading Files",
+     "attachments": "Metadata for the attachments. See Uploading Files",
+     "flags": "Message flags combined as a bitfield (only SUPPRESS_EMBEDS, SUPPRESS_NOTIFICATIONS, IS_VOICE_MESSAGE, and IS_COMPONENTS_V2 can be set)",
+     "enforce_nonce": "If true and nonce is present, it will be checked for uniqueness in the past few minutes. If another message was created by the same author with the same nonce, that message will be returned and no new message will be created.",
+     "poll": "A poll!",
+     "shared_client_theme": "The custom client-side theme to share via the message"
+    }
+   }
+  },
+  "POST /channels/{}/messages/bulk-delete": {
+   "title": "Bulk Delete Messages",
+   "description": "Delete multiple messages in a single request. This endpoint can only be used on guild channels and requires the MANAGE_MESSAGES permission. Returns a 204 empty response on success. Fires a Message Delete Bulk Gateway event.",
+   "page": "developers/resources/message.mdx",
+   "params": {
+    "body": {
+     "messages": "an array of message ids to delete (2-100)"
+    }
+   }
+  },
+  "POST /channels/{}/messages/{}/crosspost": {
+   "title": "Crosspost Message",
+   "description": "Crosspost a message in an Announcement Channel to following channels. This endpoint requires the SEND_MESSAGES permission, if the current user sent the message, or additionally the MANAGE_MESSAGES permission, for all other messages, to be present for the current user.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "POST /channels/{}/messages/{}/threads": {
+   "title": "Start Thread from Message",
+   "description": "Creates a new thread from an existing message. Returns a channel on success, and a 400 BAD REQUEST on invalid parameters. Fires a Thread Create and a Message Update Gateway event.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "body": {
+     "name": "1-100 character channel name",
+     "auto_archive_duration": "the thread will stop showing in the channel list after auto_archive_duration minutes of inactivity, can be set to: 60, 1440, 4320, 10080",
+     "rate_limit_per_user": "amount of seconds a user has to wait before sending another message (0-21600)"
+    }
+   }
+  },
+  "POST /channels/{}/polls/{}/expire": {
+   "title": "End Poll",
+   "description": "Immediately ends the poll. You cannot end polls from other users.",
+   "page": "developers/resources/poll.mdx",
+   "params": {}
+  },
+  "POST /channels/{}/send-soundboard-sound": {
+   "title": "Send Soundboard Sound",
+   "description": "Send a soundboard sound to a voice channel the user is connected to. Fires a Voice Channel Effect Send Gateway event.",
+   "page": "developers/resources/soundboard.mdx",
+   "params": {
+    "body": {
+     "sound_id": "the id of the soundboard sound to play",
+     "source_guild_id": "the id of the guild the soundboard sound is from, required to play sounds from different servers"
+    }
+   }
+  },
+  "POST /channels/{}/threads": {
+   "title": "Start Thread without Message",
+   "description": "Creates a new thread that is not connected to an existing message. Returns a channel on success, and a 400 BAD REQUEST on invalid parameters. Fires a Thread Create Gateway event.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "body": {
+     "name": "1-100 character channel name",
+     "auto_archive_duration": "the thread will stop showing in the channel list after auto_archive_duration minutes of inactivity, can be set to: 60, 1440, 4320, 10080",
+     "type": "the type of thread to create",
+     "invitable": "whether non-moderators can add other non-moderators to a thread; only available when creating a private thread",
+     "rate_limit_per_user": "amount of seconds a user has to wait before sending another message (0-21600)"
+    }
+   }
+  },
+  "POST /channels/{}/typing": {
+   "title": "Trigger Typing Indicator",
+   "description": "Post a typing indicator for the specified channel, which expires after 10 seconds. Returns a 204 empty response on success. Fires a Typing Start Gateway event.",
+   "page": "developers/resources/channel.mdx",
+   "params": {}
+  },
+  "POST /channels/{}/webhooks": {
+   "title": "Create Webhook",
+   "description": "Creates a new webhook and returns a webhook object on success. Requires the MANAGE_WEBHOOKS permission. Fires a Webhooks Update Gateway event.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {
+    "body": {
+     "name": "name of the webhook (1-80 characters)",
+     "avatar": "image for the default webhook avatar"
+    }
+   }
+  },
+  "POST /guilds/{}/auto-moderation/rules": {
+   "title": "Create Auto Moderation Rule",
+   "description": "Create a new rule. Returns an auto moderation rule on success. Fires an Auto Moderation Rule Create Gateway event.",
+   "page": "developers/resources/auto-moderation.mdx",
+   "params": {
+    "body": {
+     "name": "the rule name",
+     "event_type": "the event type",
+     "trigger_type": "the trigger type",
+     "trigger_metadata?": "the trigger metadata",
+     "actions": "the actions which will execute when the rule is triggered",
+     "enabled": "whether the rule is enabled (False by default)",
+     "exempt_roles": "the role ids that should not be affected by the rule (Maximum of 20)",
+     "exempt_channels": "the channel ids that should not be affected by the rule (Maximum of 50)"
+    }
+   }
+  },
+  "POST /guilds/{}/bulk-ban": {
+   "title": "Bulk Guild Ban",
+   "description": "Ban up to 200 users from a guild, and optionally delete previous messages sent by the banned users. Requires both the BAN_MEMBERS and MANAGE_GUILD permissions. Returns a 200 response on success, including the fields banned_users with the IDs of the banned users and failed_users with IDs that could not be banned or were already banned.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "user_ids": "list of user ids to ban (max 200)",
+     "delete_message_seconds": "number of seconds to delete messages for, between 0 and 604800 (7 days)"
+    }
+   }
+  },
+  "POST /guilds/{}/channels": {
+   "title": "Create Guild Channel",
+   "description": "Create a new channel object for the guild. Requires the MANAGE_CHANNELS permission. If setting permission overwrites, only permissions your bot has in the guild can be allowed/denied. Setting MANAGE_ROLES permission in channels is only possible for guild administrators. Returns the new channel object on success. Fires a Channel Create Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "name": "channel name (1-100 characters)",
+     "type": "the type of channel",
+     "topic": "channel topic (0-1024 characters)",
+     "bitrate": "the bitrate (in bits per second) of the voice or stage channel; min 8000",
+     "user_limit": "the user limit of the voice channel",
+     "rate_limit_per_user": "amount of seconds a user has to wait before sending another message (0-21600); bots, as well as users with the permission BYPASS_SLOWMODE, are unaffected",
+     "position": "sorting position of the channel (channels with the same position are sorted by id)",
+     "permission_overwrites": "the channel's permission overwrites",
+     "parent_id": "id of the parent category for a channel",
+     "nsfw": "whether the channel is age-restricted",
+     "rtc_region": "channel voice region id of the voice or stage channel, automatic when set to null",
+     "video_quality_mode": "the camera video quality mode of the voice channel",
+     "default_auto_archive_duration": "the default duration that the clients use (not the API) for newly created threads in the channel, in minutes, to automatically archive the thread after recent activity",
+     "default_reaction_emoji": "emoji to show in the add reaction button on a thread in a GUILD_FORUM or a GUILD_MEDIA channel",
+     "available_tags": "set of tags that can be used in a GUILD_FORUM or a GUILD_MEDIA channel",
+     "default_sort_order": "the default sort order type used to order posts in GUILD_FORUM and GUILD_MEDIA channels",
+     "default_forum_layout": "the default forum layout view used to display posts in GUILD_FORUM channels",
+     "default_thread_rate_limit_per_user": "the initial rate_limit_per_user to set on newly created threads in a channel. this field is copied to the thread at creation time and does not live update.",
+     "flags": "channel flags combined as a bitfield."
+    }
+   }
+  },
+  "POST /guilds/{}/emojis": {
+   "title": "Create Guild Emoji",
+   "description": "Create a new emoji for the guild. Requires the CREATE_GUILD_EXPRESSIONS permission. Returns the new emoji object on success. Fires a Guild Emojis Update Gateway event.",
+   "page": "developers/resources/emoji.mdx",
+   "params": {
+    "body": {
+     "name": "name of the emoji",
+     "image": "the 128x128 emoji image",
+     "roles": "roles allowed to use this emoji"
+    }
+   }
+  },
+  "POST /guilds/{}/prune": {
+   "title": "Begin Guild Prune",
+   "description": "Begin a prune operation. Requires the MANAGE_GUILD and KICK_MEMBERS permissions, unless the guild has the PRUNE_REQUIRES_ADMIN guild feature, in which case it requires the ADMINISTRATOR permission. Returns an object with one pruned key indicating the number of members that were removed in the prune operation. For large guilds it's recommended to set the compute_prune_count option to false, forcing pruned to null. Fires multiple Guild Member Remove Gateway events.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "days": "number of days to prune (1-30)",
+     "compute_prune_count": "whether pruned is returned, discouraged for large guilds",
+     "include_roles": "role(s) to include",
+     "reason": "reason for the prune (deprecated)"
+    }
+   }
+  },
+  "POST /guilds/{}/roles": {
+   "title": "Create Guild Role",
+   "description": "Create a new role for the guild. Requires the MANAGE_ROLES permission. Returns the new role object on success. Fires a Guild Role Create Gateway event. All JSON params are optional.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "name": "name of the role, max 100 characters",
+     "permissions": "bitwise value of the enabled/disabled permissions",
+     "color": "**Deprecated** RGB color value",
+     "colors": "the role's colors",
+     "hoist": "whether the role should be displayed separately in the sidebar",
+     "icon": "the role's icon image (if the guild has the ROLE_ICONS feature)",
+     "unicode_emoji": "the role's unicode emoji as a standard emoji (if the guild has the ROLE_ICONS feature)",
+     "mentionable": "whether the role should be mentionable"
+    }
+   }
+  },
+  "POST /guilds/{}/scheduled-events": {
+   "title": "Create Guild Scheduled Event",
+   "description": "Create a guild scheduled event in the guild. Returns a guild scheduled event object on success. Fires a Guild Scheduled Event Create Gateway event.",
+   "page": "developers/resources/guild-scheduled-event.mdx",
+   "params": {
+    "body": {
+     "channel_id?": "the channel id of the scheduled event.",
+     "entity_metadata?": "the entity metadata of the scheduled event",
+     "name": "the name of the scheduled event",
+     "privacy_level": "the privacy level of the scheduled event",
+     "scheduled_start_time": "the time to schedule the scheduled event",
+     "scheduled_end_time?": "the time when the scheduled event is scheduled to end",
+     "description": "the description of the scheduled event",
+     "entity_type": "the entity type of the scheduled event",
+     "image": "the cover image of the scheduled event",
+     "recurrence_rule": "the definition for how often this event should recur"
+    }
+   }
+  },
+  "POST /guilds/{}/soundboard-sounds": {
+   "title": "Create Guild Soundboard Sound",
+   "description": "Create a new soundboard sound for the guild. Requires the CREATE_GUILD_EXPRESSIONS permission. Returns the new soundboard sound object on success. Fires a Guild Soundboard Sound Create Gateway event.",
+   "page": "developers/resources/soundboard.mdx",
+   "params": {
+    "body": {
+     "name": "name of the soundboard sound (2-32 characters)",
+     "sound": "the mp3 or ogg sound data, base64 encoded, similar to image data",
+     "volume": "the volume of the soundboard sound, from 0 to 1, defaults to 1",
+     "emoji_id": "the id of the custom emoji for the soundboard sound",
+     "emoji_name": "the unicode character of a standard emoji for the soundboard sound"
+    }
+   }
+  },
+  "POST /guilds/{}/stickers": {
+   "title": "Create Guild Sticker",
+   "description": "Create a new sticker for the guild. Send a multipart/form-data body as described in Uploading Files. Requires the CREATE_GUILD_EXPRESSIONS permission. Returns the new sticker object on success. Fires a Guild Stickers Update Gateway event.",
+   "page": "developers/resources/sticker.mdx",
+   "params": {
+    "body": {
+     "name": "name of the sticker (2-30 characters)",
+     "description": "description of the sticker (empty or 2-100 characters)",
+     "tags": "autocomplete/suggestion tags for the sticker (max 200 characters)",
+     "file": "the sticker file to upload, must be a PNG, APNG, GIF, or Lottie JSON file, max 512 KiB"
+    }
+   }
+  },
+  "POST /guilds/{}/templates": {
+   "title": "Create Guild Template",
+   "description": "Creates a template for the guild. Requires the MANAGE_GUILD permission. Returns the created guild template object on success.",
+   "page": "developers/resources/guild-template.mdx",
+   "params": {
+    "body": {
+     "name": "name of the template (1-100 characters)",
+     "description": "description for the template (0-120 characters)"
+    }
+   }
+  },
+  "POST /interactions/{}/{}/callback": {
+   "title": "Create Interaction Response",
+   "description": "Create a response to an Interaction. Body is an interaction response. Returns 204 unless with_response is set to true which returns 200 with the body as interaction callback response.",
+   "page": "developers/interactions/receiving-and-responding.mdx",
+   "params": {
+    "query": {
+     "with_response": "Whether to include an interaction callback object as the response"
+    }
+   }
+  },
+  "POST /invites/{}/target-users/bulk-add": {
+   "title": "Bulk-Add Target Users",
+   "description": "Adds multiple target users to an existing invite. Requires the caller to be the inviter or have the MANAGE_GUILD permission. Returns a 204 empty response on success.",
+   "page": "developers/resources/invite.mdx",
+   "params": {
+    "body": {
+     "user_ids": "the IDs of users to add, max of 1000 users"
+    }
+   }
+  },
+  "POST /invites/{}/target-users/bulk-delete": {
+   "title": "Bulk-Delete Target Users",
+   "description": "Removes multiple target users from an existing invite. Requires the caller to be the inviter or have the MANAGE_GUILD permission. Returns a 204 empty response on success.",
+   "page": "developers/resources/invite.mdx",
+   "params": {
+    "body": {
+     "user_ids": "the IDs of users to remove, max of 1000 users"
+    }
+   }
+  },
+  "POST /lobbies": {
+   "title": "Create Lobby",
+   "description": "Creates a new lobby, adding any of the specified members to it, if provided.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "POST /lobbies/{}/members/@me/invites": {
+   "title": "Create Lobby Channel Invite for Self",
+   "description": "Creates a single-use guild invite to the lobby's linked channel, targeted at the calling user. The lobby must have a linked channel and the caller must be a member of the lobby. The invite expires after one hour.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "POST /lobbies/{}/members/bulk": {
+   "title": "Bulk Update Lobby Members",
+   "description": "Adds, updates, or removes up to 25 members from the specified lobby in a single request. Members with remove_member: false (the default) are upserted — added if not present, or updated with the provided metadata and flags if already a member. Members with remove_member: true are removed.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "POST /lobbies/{}/members/{}/invites": {
+   "title": "Create Lobby Channel Invite for User",
+   "description": "Creates a single-use guild invite to the lobby's linked channel on behalf of an application, targeted at the specified user. The lobby must have a linked channel. The invite expires after one hour.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "POST /lobbies/{}/messages": {
+   "title": "Send Lobby Message",
+   "description": "Sends a message to the specified lobby. The calling user must be a member of the lobby.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "POST /stage-instances": {
+   "title": "Create Stage Instance",
+   "description": "Creates a new Stage instance associated to a Stage channel. Returns that Stage instance. Fires a Stage Instance Create Gateway event.",
+   "page": "developers/resources/stage-instance.mdx",
+   "params": {
+    "body": {
+     "channel_id": "The id of the Stage channel",
+     "topic": "The topic of the Stage instance (1-120 characters)",
+     "privacy_level": "The privacy level of the Stage instance (default GUILD_ONLY)",
+     "send_start_notification?": "Notify @everyone that a Stage instance has started",
+     "guild_scheduled_event_id": "The guild scheduled event associated with this Stage instance"
+    }
+   }
+  },
+  "POST /users/@me/channels": {
+   "title": "Create DM",
+   "description": "Create a new DM channel with a user. Returns a DM channel object (if one already exists, it will be returned instead).",
+   "page": "developers/resources/user.mdx",
+   "params": {
+    "body": {
+     "recipient_id": "the recipient to open a DM channel with"
+    }
+   }
+  },
+  "POST /users/{}/application-identities/{}/{}/{}/delete": {
+   "title": "Delete Application Identity",
+   "description": "Deletes one Application Identity and its associated profile data for the specified user and application. Use this endpoint when a stale provider-issued user ID prevents you from writing profile data for the user's current identity.",
+   "page": "developers/resources/application-identity-profile.mdx",
+   "params": {}
+  },
+  "POST /webhooks/{}/{}": {
+   "title": "Execute Webhook",
+   "description": "Refer to Uploading Files for details on attachments and multipart/form-data requests. Returns a message or 204 No Content depending on the wait query parameter.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {
+    "query": {
+     "wait": "waits for server confirmation of message send before response, and returns the created message body (defaults to false; when false a message that is not saved does not return an error)",
+     "thread_id": "Send a message to the specified thread within a webhook's channel. The thread will automatically be unarchived.",
+     "with_components": "whether to respect the components field of the request. When enabled, allows application-owned webhooks to use all components and non-owned webhooks to use non-interactive components. (defaults to false)"
+    },
+    "body": {
+     "content": "the message contents (up to 2000 characters)",
+     "username": "override the default username of the webhook",
+     "avatar_url": "override the default avatar of the webhook",
+     "tts": "true if this is a TTS message",
+     "embeds": "embedded rich content",
+     "allowed_mentions": "allowed mentions for the message",
+     "components": "the components to include with the message",
+     "files[n]": "the contents of the file being sent",
+     "payload_json": "JSON encoded body of non-file params",
+     "attachments": "metadata for the attachments",
+     "flags": "message flags combined as a bitfield (only SUPPRESS_EMBEDS, SUPPRESS_NOTIFICATIONS and IS_COMPONENTS_V2 can be set)",
+     "thread_name": "name of thread to create (requires the webhook channel to be a forum or media channel)",
+     "applied_tags": "array of tag ids to apply to the thread (requires the webhook channel to be a forum or media channel)",
+     "poll": "A poll!"
+    }
+   }
+  },
+  "POST /webhooks/{}/{}/github": {
+   "title": "Execute GitHub-Compatible Webhook",
+   "description": "Add a new webhook to your GitHub repo (in the repo's settings), and use this endpoint as the \"Payload URL.\" You can choose what events your Discord channel receives by choosing the \"Let me select individual events\" option and selecting individual events for the new webhook you're configuring. The supported events are commit_comment, create, delete, fork, issue_comment, issues, member, public, pull_request, pull_request_review, pull_request_review_comment, push, release, watch, check_run, check_suite, discussion, and discussion_comment.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {
+    "query": {
+     "thread_id": "id of the thread to send the message in",
+     "wait": "waits for server confirmation of message send before response (defaults to true; when false a message that is not saved does not return an error)"
+    }
+   }
+  },
+  "POST /webhooks/{}/{}/slack": {
+   "title": "Execute Slack-Compatible Webhook",
+   "description": "Refer to Slack's documentation for more information. We do not support Slack's channel, icon_emoji, mrkdwn, or mrkdwn_in properties.",
+   "page": "developers/resources/webhook.mdx",
+   "params": {
+    "query": {
+     "thread_id": "id of the thread to send the message in",
+     "wait": "waits for server confirmation of message send before response (defaults to true; when false a message that is not saved does not return an error)"
+    }
+   }
+  },
+  "PUT /applications/{}/commands": {
+   "title": "Bulk Overwrite Global Application Commands",
+   "description": "Takes a list of application commands, overwriting the existing global command list for this application. Returns 200 and a list of application command objects. Commands that do not already exist will count toward daily application command create limits.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {}
+  },
+  "PUT /applications/{}/guilds/{}/commands": {
+   "title": "Bulk Overwrite Guild Application Commands",
+   "description": "Takes a list of application commands, overwriting the existing command list for this application for the targeted guild. Returns 200 and a list of application command objects.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {
+    "body": {
+     "id": "ID of the command, if known",
+     "name": "Name of command, 1-32 characters",
+     "name_localizations": "Localization dictionary for the name field. Values follow the same restrictions as name",
+     "description": "1-100 character description",
+     "description_localizations": "Localization dictionary for the description field. Values follow the same restrictions as description",
+     "options": "Parameters for the command",
+     "default_member_permissions": "Set of permissions represented as a bit set",
+     "dm_permission": "**Deprecated (use contexts instead)**; Indicates whether the command is available in DMs with the app, only for globally-scoped commands. By default, commands are visible.",
+     "default_permission": "Replaced by default_member_permissions and will be deprecated in the future. Indicates whether the command is enabled by default when the app is added to a guild. Defaults to true",
+     "integration_types": "Installation context(s) where the command is available, defaults to GUILD_INSTALL ([0])",
+     "contexts": "Interaction context(s) where the command can be used, defaults to all contexts [0,1,2]",
+     "type": "Type of command, defaults 1 if not set"
+    }
+   }
+  },
+  "PUT /applications/{}/guilds/{}/commands/permissions": {
+   "title": "Batch Edit Application Command Permissions",
+   "description": "This endpoint has been disabled with updates to command permissions (Permissions v2). Instead, you can edit each application command permissions (though you should be careful to handle any potential rate limits).",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {}
+  },
+  "PUT /applications/{}/guilds/{}/commands/{}/permissions": {
+   "title": "Edit Application Command Permissions",
+   "description": "Edits command permissions for a specific command for your application in a guild and returns a guild application command permissions object. Fires an Application Command Permissions Update Gateway event.",
+   "page": "developers/interactions/application-commands.mdx",
+   "params": {
+    "body": {
+     "permissions": "Permissions for the command in the guild"
+    }
+   }
+  },
+  "PUT /applications/{}/role-connections/metadata": {
+   "title": "Update Application Role Connection Metadata Records",
+   "description": "Updates and returns a list of application role connection metadata objects for the given application.",
+   "page": "developers/resources/application-role-connection-metadata.mdx",
+   "params": {}
+  },
+  "PUT /channels/{}/messages/pins/{}": {
+   "title": "Pin Message",
+   "description": "Pin a message in a channel. Requires the PIN_MESSAGES permission. Fires a Channel Pins Update Gateway event.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "PUT /channels/{}/messages/{}/reactions/{}/@me": {
+   "title": "Create Reaction",
+   "description": "Create a reaction for the message. This endpoint requires the READ_MESSAGE_HISTORY permission to be present on the current user. Additionally, if nobody else has reacted to the message using this emoji, this endpoint requires the ADD_REACTIONS permission to be present on the current user. Returns a 204 empty response on success. Fires a Message Reaction Add Gateway event. The emoji must be URL Encoded or the request will fail with 10014: Unknown Emoji. To use custom emoji, you must encode it in the format name:id with the emoji name and emoji id.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "PUT /channels/{}/permissions/{}": {
+   "title": "Edit Channel Permissions",
+   "description": "Edit the channel permission overwrites for a user or role in a channel. Only usable for guild channels. Requires the MANAGE_ROLES permission. Only permissions your bot has in the guild or parent channel (if applicable) can be allowed/denied (unless your bot has a MANAGE_ROLES overwrite in the channel). Returns a 204 empty response on success. Fires a Channel Update Gateway event. For more information about permissions, see permissions.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "body": {
+     "allow": "the bitwise value of all allowed permissions (default \"0\")",
+     "deny": "the bitwise value of all disallowed permissions (default \"0\")",
+     "type": "0 for a role or 1 for a member"
+    }
+   }
+  },
+  "PUT /channels/{}/pins/{}": {
+   "title": "Pin Message (deprecated)",
+   "description": "This endpoint is deprecated. Use Pin Message instead.",
+   "page": "developers/resources/message.mdx",
+   "params": {}
+  },
+  "PUT /channels/{}/recipients/{}": {
+   "title": "Group DM Add Recipient",
+   "description": "Adds a recipient to a Group DM using their access token.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "body": {
+     "access_token": "access token of a user that has granted your app the gdm.join scope",
+     "nick": "nickname of the user being added"
+    }
+   }
+  },
+  "PUT /channels/{}/thread-members/@me": {
+   "title": "Join Thread",
+   "description": "Adds the current user to a thread. Also requires the thread is not archived. Returns a 204 empty response on success. Fires a Thread Members Update and a Thread Create Gateway event.",
+   "page": "developers/resources/channel.mdx",
+   "params": {}
+  },
+  "PUT /channels/{}/thread-members/{}": {
+   "title": "Add Thread Member",
+   "description": "Adds another member to a thread. Requires the ability to send messages in the thread. Also requires the thread is not archived. Returns a 204 empty response if the member is successfully added or was already a member of the thread. Fires a Thread Members Update Gateway event.",
+   "page": "developers/resources/channel.mdx",
+   "params": {}
+  },
+  "PUT /channels/{}/voice-status": {
+   "title": "Set Voice Channel Status",
+   "description": "Set a voice channel's status. Requires the SET_VOICE_CHANNEL_STATUS permission, and additionally the MANAGE_CHANNELS permission if the current user is not connected to the voice channel. Users who are connected to the voice channel do not need the CONNECT permission (see Implicit Permissions). Fires a Voice Channel Status Update Gateway event.",
+   "page": "developers/resources/channel.mdx",
+   "params": {
+    "body": {
+     "status": "new voice channel status (up to 500 characters)"
+    }
+   }
+  },
+  "PUT /guilds/{}/bans/{}": {
+   "title": "Create Guild Ban",
+   "description": "Create a guild ban, and optionally delete previous messages sent by the banned user. Requires the BAN_MEMBERS permission. Returns a 204 empty response on success. Fires a Guild Ban Add Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "delete_message_days": "number of days to delete messages for (0-7) (deprecated)",
+     "delete_message_seconds": "number of seconds to delete messages for, between 0 and 604800 (7 days)"
+    }
+   }
+  },
+  "PUT /guilds/{}/incident-actions": {
+   "title": "Modify Guild Incident Actions",
+   "description": "Modifies the incident actions of the guild. Returns a 200 with the Incidents Data object for the guild. Requires the MANAGE_GUILD permission.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "invites_disabled_until": "when invites will be enabled again",
+     "dms_disabled_until": "when direct messages will be enabled again"
+    }
+   }
+  },
+  "PUT /guilds/{}/members/{}": {
+   "title": "Add Guild Member",
+   "description": "Adds a user to the guild, provided you have a valid oauth2 access token for the user with the guilds.join scope. Returns a 201 Created with the guild member as the body, or 204 No Content if the user is already a member of the guild. Fires a Guild Member Add Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "access_token": "an oauth2 access token granted with the guilds.join to the bot's application for the user you want to add to the guild",
+     "nick": "value to set user's nickname to",
+     "roles": "array of role ids the member is assigned",
+     "mute": "whether the user is muted in voice channels",
+     "deaf": "whether the user is deafened in voice channels"
+    }
+   }
+  },
+  "PUT /guilds/{}/members/{}/roles/{}": {
+   "title": "Add Guild Member Role",
+   "description": "Adds a role to a guild member. Requires the MANAGE_ROLES permission. Returns a 204 empty response on success. Fires a Guild Member Update Gateway event.",
+   "page": "developers/resources/guild.mdx",
+   "params": {}
+  },
+  "PUT /guilds/{}/onboarding": {
+   "title": "Modify Guild Onboarding",
+   "description": "Modifies the onboarding configuration of the guild. Returns a 200 with the Onboarding object for the guild. Requires the MANAGE_GUILD and MANAGE_ROLES permissions.",
+   "page": "developers/resources/guild.mdx",
+   "params": {
+    "body": {
+     "prompts": "Prompts shown during onboarding and in customize community",
+     "default_channel_ids": "Channel IDs that members get opted into automatically",
+     "enabled": "Whether onboarding is enabled in the guild",
+     "mode": "Current mode of onboarding"
+    }
+   }
+  },
+  "PUT /guilds/{}/templates/{}": {
+   "title": "Sync Guild Template",
+   "description": "Syncs the template to the guild's current state. Requires the MANAGE_GUILD permission. Returns the guild template object on success.",
+   "page": "developers/resources/guild-template.mdx",
+   "params": {}
+  },
+  "PUT /invites/{}/target-users": {
+   "title": "Update Target Users",
+   "description": "Updates the users allowed to see and accept this invite. Uploading a file with invalid user IDs will result in a 400 with the invalid IDs described. Requires the caller to be the inviter or have the MANAGE_GUILD permission.",
+   "page": "developers/resources/invite.mdx",
+   "params": {
+    "body": {
+     "target_users_file": "a csv file with a single column of user IDs for all the users able to accept this invite"
+    }
+   }
+  },
+  "PUT /invites/{}/target-users/{}": {
+   "title": "Add Target User",
+   "description": "Adds a target user to an existing invite. Requires the caller to be the inviter or have the MANAGE_GUILD permission. Returns a 204 empty response on success.",
+   "page": "developers/resources/invite.mdx",
+   "params": {}
+  },
+  "PUT /lobbies": {
+   "title": "Create or Join Lobby",
+   "description": "Creates a new lobby for the application identified by a secret, or joins the calling user to the existing lobby with that secret if one already exists. Updates lobby metadata and the calling member's metadata on join.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "PUT /lobbies/{}/members/{}": {
+   "title": "Add a Member to a Lobby",
+   "description": "Adds the provided user to the specified lobby. If called when the user is already a member of the lobby will update fields such as metadata on that user instead.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "PUT /lobbies/{}/messages/{}/moderation-metadata": {
+   "title": "Update Lobby Message Moderation Metadata",
+   "description": "Sets the moderation metadata for a lobby message. The metadata is app-scoped and delivered to active game clients via the Social SDK as a realtime message update. See Integrate Moderation for the full moderation flow.",
+   "page": "developers/resources/lobby.mdx",
+   "params": {}
+  },
+  "PUT /users/@me/applications/{}/role-connection": {
+   "title": "Update Current User Application Role Connection",
+   "description": "Updates and returns the application role connection for the user. Requires an OAuth2 access token with role_connections.write scope for the application specified in the path.",
+   "page": "developers/resources/user.mdx",
+   "params": {
+    "body": {
+     "platform_name": "the vanity name of the platform a bot has connected (max 50 characters)",
+     "platform_username": "the username on the platform a bot has connected (max 100 characters)",
+     "metadata": "object mapping application role connection metadata keys to their string-ified value (max 100 characters) for the user on the platform a bot has connected"
+    }
+   }
+  }
+ }
+}

@@ -1,7 +1,7 @@
 operations:
   - operation_id: test_connection
     display_name: Test connection
-    description: Check the identity of the bot behind the project connection.
+    description: 'Checks that Discord accepts the bot token by reading the bot''s own user, and returns its ID and name. Discord: GET /users/@me.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -42,7 +42,7 @@ operations:
     - invalid_response
   - operation_id: send_message
     display_name: Send message
-    description: Send a text message to a Discord channel without notifying mentions.
+    description: 'Posts a text message to a channel as the bot. Mentions in the text do not notify anyone. Discord: POST /channels/{channel_id}/messages.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -112,7 +112,7 @@ operations:
     - timeout_unknown
   - operation_id: get_channel
     display_name: Get channel
-    description: Get channel using the selected Discord bot connection.
+    description: 'Reads a channel by its ID (name, type, topic, parent, permissions). Discord: GET /channels/{channel_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -160,7 +160,7 @@ operations:
     - response_too_large
   - operation_id: list_messages
     display_name: List channel messages
-    description: List channel messages using the selected Discord bot connection.
+    description: 'Reads the messages of a channel, newest first; with all_pages the whole history, page after page. Discord: GET /channels/{channel_id}/messages.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -255,7 +255,7 @@ operations:
     - response_too_large
   - operation_id: get_guild
     display_name: Get server
-    description: Get server using the selected Discord bot connection.
+    description: 'Reads a server by its ID, with approximate member counts when asked. Discord: GET /guilds/{guild_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -308,7 +308,7 @@ operations:
     - response_too_large
   - operation_id: list_guild_channels
     display_name: List server channels
-    description: List server channels using the selected Discord bot connection.
+    description: 'Reads every channel of a server (not threads). Discord: GET /guilds/{guild_id}/channels.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -358,7 +358,7 @@ operations:
     - response_too_large
   - operation_id: discord_rest_read
     display_name: Run Discord REST read
-    description: Invoke an operation by ID from the pinned Discord v10 registry.
+    description: 'Archived picker kept for workflows made before the dedicated steps; calls any Discord operation by its ID. New workflows use the dedicated step of the operation.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -432,7 +432,7 @@ operations:
     - response_too_large
   - operation_id: discord_rest_write
     display_name: Run Discord REST write
-    description: Invoke an operation by ID from the pinned Discord v10 registry.
+    description: 'Archived picker kept for workflows made before the dedicated steps; calls any Discord operation by its ID. New workflows use the dedicated step of the operation.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -527,8 +527,8 @@ operations:
     effect_kind: discord_rest_write
 # Generated Discord REST actions. Run scripts/build_actions.py.
   - operation_id: rest_action_guild_join_request
-    display_name: Action guild join request
-    description: Discord REST v10 PATCH /guilds/{guild_id}/requests/{request_id}
+    display_name: Action Guild Join Request
+    description: 'Approve or reject guild join request. Discord: PATCH /guilds/{guild_id}/requests/{request_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -624,8 +624,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_action_guild_join_request
   - operation_id: rest_add_group_dm_user
-    display_name: Add group dm user
-    description: Discord REST v10 PUT /channels/{channel_id}/recipients/{user_id}
+    display_name: Group DM Add Recipient
+    description: 'Adds a recipient to a Group DM using their access token. Discord:
+      PUT /channels/{channel_id}/recipients/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -713,8 +714,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_add_group_dm_user
   - operation_id: rest_add_guild_member
-    display_name: Add guild member
-    description: Discord REST v10 PUT /guilds/{guild_id}/members/{user_id}
+    display_name: Add Guild Member
+    description: 'Adds a user to the guild, provided you have a valid oauth2 access
+      token for the user with the guilds.join scope. Returns a 201 Created with the
+      guild member as the body, or 204 No Content if the user is already a member of
+      the guild. Fires a Guild Member Add Gateway event. Discord: PUT /guilds/{guild_id}/members/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -823,8 +827,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_add_guild_member
   - operation_id: rest_add_guild_member_role
-    display_name: Add guild member role
-    description: Discord REST v10 PUT /guilds/{guild_id}/members/{user_id}/roles/{role_id}
+    display_name: Add Guild Member Role
+    description: 'Adds a role to a guild member. Requires the MANAGE_ROLES permission.
+      Returns a 204 empty response on success. Fires a Guild Member Update Gateway event.
+      Discord: PUT /guilds/{guild_id}/members/{user_id}/roles/{role_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -899,8 +905,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_add_guild_member_role
   - operation_id: rest_add_invite_target_user
-    display_name: Add invite target user
-    description: Discord REST v10 PUT /invites/{code}/target-users/{user_id}
+    display_name: Add Target User
+    description: 'Adds a target user to an existing invite. Requires the caller to be
+      the inviter or have the MANAGE_GUILD permission. Returns a 204 empty response
+      on success. Discord: PUT /invites/{code}/target-users/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -969,8 +977,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_add_invite_target_user
   - operation_id: rest_add_lobby_member
-    display_name: Add lobby member
-    description: Discord REST v10 PUT /lobbies/{lobby_id}/members/{user_id}
+    display_name: Add a Member to a Lobby
+    description: 'Adds the provided user to the specified lobby. If called when the
+      user is already a member of the lobby will update fields such as metadata on that
+      user instead. Discord: PUT /lobbies/{lobby_id}/members/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -1070,8 +1080,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_add_lobby_member
   - operation_id: rest_add_my_message_reaction
-    display_name: Add my message reaction
-    description: Discord REST v10 PUT /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me
+    display_name: Create Reaction
+    description: 'Create a reaction for the message. This endpoint requires the READ_MESSAGE_HISTORY
+      permission to be present on the current user. Additionally, if nobody else has
+      reacted to the message using this emoji, this endpoint requires the ADD_REACTIONS
+      permission to be present on the current user. Returns a 204 empty response on
+      success. Fires a Message Reaction Add Gateway event. Discord: PUT /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -1146,8 +1160,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_add_my_message_reaction
   - operation_id: rest_add_thread_member
-    display_name: Add thread member
-    description: Discord REST v10 PUT /channels/{channel_id}/thread-members/{user_id}
+    display_name: Add Thread Member
+    description: 'Adds another member to a thread. Requires the ability to send messages
+      in the thread. Also requires the thread is not archived. Returns a 204 empty response
+      if the member is successfully added or was already a member of the thread. Fires
+      a Thread Members Update Gateway event. Discord: PUT /channels/{channel_id}/thread-members/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -1216,8 +1233,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_add_thread_member
   - operation_id: rest_applications_get_activity_instance
-    display_name: Applications get activity instance
-    description: Discord REST v10 GET /applications/{application_id}/activity-instances/{instance_id}
+    display_name: Get Application Activity Instance
+    description: 'Returns a serialized activity instance, if it exists. Useful for preventing
+      unwanted activity sessions. Discord: GET /applications/{application_id}/activity-instances/{instance_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -1275,8 +1293,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_ban_user_from_guild
-    display_name: Ban user from guild
-    description: Discord REST v10 PUT /guilds/{guild_id}/bans/{user_id}
+    display_name: Create Guild Ban
+    description: 'Create a guild ban, and optionally delete previous messages sent by
+      the banned user. Requires the BAN_MEMBERS permission. Returns a 204 empty response
+      on success. Fires a Guild Ban Add Gateway event. Discord: PUT /guilds/{guild_id}/bans/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -1369,11 +1389,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_ban_user_from_guild
   - operation_id: rest_batch_edit_application_command_permissions
-    display_name: Batch edit application command permissions
-    description: Discord REST v10 PUT /applications/{application_id}/guilds/{guild_id}/commands/permissions.
-      Disabled by Discord under Permissions v2. Edit each command separately using an
-      authorized OAuth2 bearer token and respect rate limits. The batch operation cannot
-      be executed.
+    display_name: Batch Edit Application Command Permissions
+    description: 'This endpoint has been disabled with updates to command permissions
+      (Permissions v2). Instead, you can edit each application command permissions (though
+      you should be careful to handle any potential rate limits). Discord: PUT /applications/{application_id}/guilds/{guild_id}/commands/permissions.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -1445,8 +1464,10 @@ operations:
     - operation_disabled
     effect_kind: discord_batch_edit_application_command_permissions
   - operation_id: rest_bot_partner_sdk_token
-    display_name: Bot partner sdk token
-    description: Discord REST v10 POST /partner-sdk/token/bot
+    display_name: Social SDK Token (Bot)
+    description: 'Exchanges an external account''s credentials for a Discord provisional
+      account token, authorized with the bot token (Discord Social SDK). Discord: POST
+      /partner-sdk/token/bot.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -1532,8 +1553,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_bot_partner_sdk_token
   - operation_id: rest_bot_partner_sdk_unmerge_provisional_account
-    display_name: Bot partner sdk unmerge provisional account
-    description: Discord REST v10 POST /partner-sdk/provisional-accounts/unmerge/bot
+    display_name: Unmerge Provisional Account (Bot)
+    description: 'Separates a provisional account from the Discord account it was merged
+      into, authorized with the bot token (Discord Social SDK). Discord: POST /partner-sdk/provisional-accounts/unmerge/bot.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -1608,8 +1630,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_bot_partner_sdk_unmerge_provisional_account
   - operation_id: rest_bulk_add_invite_target_users
-    display_name: Bulk add invite target users
-    description: Discord REST v10 POST /invites/{code}/target-users/bulk-add
+    display_name: Bulk-Add Target Users
+    description: 'Adds multiple target users to an existing invite. Requires the caller
+      to be the inviter or have the MANAGE_GUILD permission. Returns a 204 empty response
+      on success. Discord: POST /invites/{code}/target-users/bulk-add.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -1693,8 +1717,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_bulk_add_invite_target_users
   - operation_id: rest_bulk_ban_users_from_guild
-    display_name: Bulk ban users from guild
-    description: Discord REST v10 POST /guilds/{guild_id}/bulk-ban
+    display_name: Bulk Guild Ban
+    description: 'Ban up to 200 users from a guild, and optionally delete previous messages
+      sent by the banned users. Requires both the BAN_MEMBERS and MANAGE_GUILD permissions.
+      Returns a 200 response on success, including the fields banned_users with the
+      IDs of the banned users and failed_users with IDs that could not be banned or
+      were already banned. Discord: POST /guilds/{guild_id}/bulk-ban.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -1783,8 +1811,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_bulk_ban_users_from_guild
   - operation_id: rest_bulk_delete_messages
-    display_name: Bulk delete messages
-    description: Discord REST v10 POST /channels/{channel_id}/messages/bulk-delete
+    display_name: Bulk Delete Messages
+    description: 'Delete multiple messages in a single request. This endpoint can only
+      be used on guild channels and requires the MANAGE_MESSAGES permission. Returns
+      a 204 empty response on success. Fires a Message Delete Bulk Gateway event. Discord:
+      POST /channels/{channel_id}/messages/bulk-delete.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -1868,8 +1899,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_bulk_delete_messages
   - operation_id: rest_bulk_remove_invite_target_users
-    display_name: Bulk remove invite target users
-    description: Discord REST v10 POST /invites/{code}/target-users/bulk-delete
+    display_name: Bulk-Delete Target Users
+    description: 'Removes multiple target users from an existing invite. Requires the
+      caller to be the inviter or have the MANAGE_GUILD permission. Returns a 204 empty
+      response on success. Discord: POST /invites/{code}/target-users/bulk-delete.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -1953,8 +1986,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_bulk_remove_invite_target_users
   - operation_id: rest_bulk_set_application_commands
-    display_name: Bulk set application commands
-    description: Discord REST v10 PUT /applications/{application_id}/commands
+    display_name: Bulk Overwrite Global Application Commands
+    description: 'Takes a list of application commands, overwriting the existing global
+      command list for this application. Returns 200 and a list of application command
+      objects. Commands that do not already exist will count toward daily application
+      command create limits. Discord: PUT /applications/{application_id}/commands.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -2100,8 +2136,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_bulk_set_application_commands
   - operation_id: rest_bulk_set_guild_application_commands
-    display_name: Bulk set guild application commands
-    description: Discord REST v10 PUT /applications/{application_id}/guilds/{guild_id}/commands
+    display_name: Bulk Overwrite Guild Application Commands
+    description: 'Takes a list of application commands, overwriting the existing command
+      list for this application for the targeted guild. Returns 200 and a list of application
+      command objects. Discord: PUT /applications/{application_id}/guilds/{guild_id}/commands.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -2236,8 +2274,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_bulk_set_guild_application_commands
   - operation_id: rest_bulk_update_guild_channels
-    display_name: Bulk update guild channels
-    description: Discord REST v10 PATCH /guilds/{guild_id}/channels
+    display_name: Modify Guild Channel Positions
+    description: 'Modify the positions of a set of channel objects for the guild. Requires
+      MANAGE_CHANNELS permission. Returns a 204 empty response on success. Fires multiple
+      Channel Update Gateway events. Discord: PATCH /guilds/{guild_id}/channels.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -2331,8 +2371,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_bulk_update_guild_channels
   - operation_id: rest_bulk_update_guild_roles
-    display_name: Bulk update guild roles
-    description: Discord REST v10 PATCH /guilds/{guild_id}/roles
+    display_name: Modify Guild Role Positions
+    description: 'Modify the positions of a set of role objects for the guild. Requires
+      the MANAGE_ROLES permission. Returns a list of all of the guild''s role objects
+      on success. Fires multiple Guild Role Update Gateway events. Discord: PATCH /guilds/{guild_id}/roles.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -2417,8 +2459,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_bulk_update_guild_roles
   - operation_id: rest_bulk_update_lobby_members
-    display_name: Bulk update lobby members
-    description: Discord REST v10 POST /lobbies/{lobby_id}/members/bulk
+    display_name: Bulk Update Lobby Members
+    description: 'Adds, updates, or removes up to 25 members from the specified lobby
+      in a single request. Members with remove_member: false (the default) are upserted
+      — added if not present, or updated with the provided metadata and flags if already
+      a member. Members with remove_member: true are removed. Discord: POST /lobbies/{lobby_id}/members/bulk.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -2526,8 +2571,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_bulk_update_lobby_members
   - operation_id: rest_consume_entitlement
-    display_name: Consume entitlement
-    description: Discord REST v10 POST /applications/{application_id}/entitlements/{entitlement_id}/consume
+    display_name: Consume an Entitlement
+    description: 'For One-Time Purchase consumable SKUs, marks a given entitlement for
+      the user as consumed. The entitlement will have consumed: true when using List
+      Entitlements. Discord: POST /applications/{application_id}/entitlements/{entitlement_id}/consume.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -2597,8 +2644,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_consume_entitlement
   - operation_id: rest_count_guild_scheduled_event_users
-    display_name: Count guild scheduled event users
-    description: Discord REST v10 GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users/counts
+    display_name: Count Guild Scheduled Event Users
+    description: 'Get the count of users subscribed to a guild scheduled event. Discord:
+      GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users/counts.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -2665,8 +2713,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_create_application_command
-    display_name: Create application command
-    description: Discord REST v10 POST /applications/{application_id}/commands
+    display_name: Create Global Application Command
+    description: 'Create a new global command. Returns 201 if a command with the same
+      name does not already exist, or a 200 if it does (in which case the previous command
+      will be overwritten). Both responses include an application command object. Discord:
+      POST /applications/{application_id}/commands.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -2834,8 +2885,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_application_command
   - operation_id: rest_create_application_emoji
-    display_name: Create application emoji
-    description: Discord REST v10 POST /applications/{application_id}/emojis
+    display_name: Create Application Emoji
+    description: 'Create a new emoji for the application. Returns the new emoji object
+      on success. Discord: POST /applications/{application_id}/emojis.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -2919,8 +2971,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_application_emoji
   - operation_id: rest_create_auto_moderation_rule
-    display_name: Create auto moderation rule
-    description: Discord REST v10 POST /guilds/{guild_id}/auto-moderation/rules
+    display_name: Create Auto Moderation Rule
+    description: 'Create a new rule. Returns an auto moderation rule on success. Fires
+      an Auto Moderation Rule Create Gateway event. Discord: POST /guilds/{guild_id}/auto-moderation/rules.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -3259,8 +3312,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_auto_moderation_rule
   - operation_id: rest_create_channel_invite
-    display_name: Create channel invite
-    description: Discord REST v10 POST /channels/{channel_id}/invites
+    display_name: Create Channel Invite
+    description: 'Create a new invite object for the channel. Only usable for guild
+      channels. Requires the CREATE_INSTANT_INVITE permission. All JSON parameters for
+      this route are optional, however the request body is not. If you are not sending
+      any fields, you still have to send an empty JSON object ({}). Returns an invite
+      object. Fires an Invite Create Gateway event. Discord: POST /channels/{channel_id}/invites.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -3464,8 +3521,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_channel_invite
   - operation_id: rest_create_dm
-    display_name: Create dm
-    description: Discord REST v10 POST /users/@me/channels
+    display_name: Create DM
+    description: 'Create a new DM channel with a user. Returns a DM channel object (if
+      one already exists, it will be returned instead). Discord: POST /users/@me/channels.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -3556,8 +3614,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_dm
   - operation_id: rest_create_entitlement
-    display_name: Create entitlement
-    description: Discord REST v10 POST /applications/{application_id}/entitlements
+    display_name: Create Test Entitlement
+    description: 'Creates a test entitlement to a given SKU for a given guild or user.
+      Discord will act as though that user or guild has entitlement to your premium
+      offering. Discord: POST /applications/{application_id}/entitlements.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -3647,8 +3707,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_entitlement
   - operation_id: rest_create_guild_application_command
-    display_name: Create guild application command
-    description: Discord REST v10 POST /applications/{application_id}/guilds/{guild_id}/commands
+    display_name: Create Guild Application Command
+    description: 'Create a new guild command. New guild commands will be available in
+      the guild immediately. Returns 201 if a command with the same name does not already
+      exist, or a 200 if it does (in which case the previous command will be overwritten).
+      Both responses include an application command object. Discord: POST /applications/{application_id}/guilds/{guild_id}/commands.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -3806,8 +3869,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_guild_application_command
   - operation_id: rest_create_guild_channel
-    display_name: Create guild channel
-    description: Discord REST v10 POST /guilds/{guild_id}/channels
+    display_name: Create Guild Channel
+    description: 'Create a new channel object for the guild. Requires the MANAGE_CHANNELS
+      permission. If setting permission overwrites, only permissions your bot has in
+      the guild can be allowed/denied. Setting MANAGE_ROLES permission in channels is
+      only possible for guild administrators. Returns the new channel object on success.
+      Fires a Channel Create Gateway event. Discord: POST /guilds/{guild_id}/channels.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -4026,8 +4093,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_guild_channel
   - operation_id: rest_create_guild_emoji
-    display_name: Create guild emoji
-    description: Discord REST v10 POST /guilds/{guild_id}/emojis
+    display_name: Create Guild Emoji
+    description: 'Create a new emoji for the guild. Requires the CREATE_GUILD_EXPRESSIONS
+      permission. Returns the new emoji object on success. Fires a Guild Emojis Update
+      Gateway event. Discord: POST /guilds/{guild_id}/emojis.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -4120,8 +4189,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_guild_emoji
   - operation_id: rest_create_guild_role
-    display_name: Create guild role
-    description: Discord REST v10 POST /guilds/{guild_id}/roles
+    display_name: Create Guild Role
+    description: 'Create a new role for the guild. Requires the MANAGE_ROLES permission.
+      Returns the new role object on success. Fires a Guild Role Create Gateway event.
+      All JSON params are optional. Discord: POST /guilds/{guild_id}/roles.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -4246,8 +4317,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_guild_role
   - operation_id: rest_create_guild_scheduled_event
-    display_name: Create guild scheduled event
-    description: Discord REST v10 POST /guilds/{guild_id}/scheduled-events
+    display_name: Create Guild Scheduled Event
+    description: 'Create a guild scheduled event in the guild. Returns a guild scheduled
+      event object on success. Fires a Guild Scheduled Event Create Gateway event. Discord:
+      POST /guilds/{guild_id}/scheduled-events.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -4466,8 +4539,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_guild_scheduled_event
   - operation_id: rest_create_guild_scheduled_event_exception
-    display_name: Create guild scheduled event exception
-    description: Discord REST v10 POST /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions
+    display_name: Create Guild Scheduled Event Exception
+    description: 'Create an exception to a recurring guild scheduled event. Discord:
+      POST /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -4564,8 +4638,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_guild_scheduled_event_exception
   - operation_id: rest_create_guild_soundboard_sound
-    display_name: Create guild soundboard sound
-    description: Discord REST v10 POST /guilds/{guild_id}/soundboard-sounds
+    display_name: Create Guild Soundboard Sound
+    description: 'Create a new soundboard sound for the guild. Requires the CREATE_GUILD_EXPRESSIONS
+      permission. Returns the new soundboard sound object on success. Fires a Guild
+      Soundboard Sound Create Gateway event. Discord: POST /guilds/{guild_id}/soundboard-sounds.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -4666,8 +4742,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_guild_soundboard_sound
   - operation_id: rest_create_guild_sticker
-    display_name: Create guild sticker
-    description: Discord REST v10 POST /guilds/{guild_id}/stickers
+    display_name: Create Guild Sticker
+    description: 'Create a new sticker for the guild. Send a multipart/form-data body
+      as described in Uploading Files. Requires the CREATE_GUILD_EXPRESSIONS permission.
+      Returns the new sticker object on success. Fires a Guild Stickers Update Gateway
+      event. Discord: POST /guilds/{guild_id}/stickers.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -4800,8 +4879,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_guild_sticker
   - operation_id: rest_create_guild_template
-    display_name: Create guild template
-    description: Discord REST v10 POST /guilds/{guild_id}/templates
+    display_name: Create Guild Template
+    description: 'Creates a template for the guild. Requires the MANAGE_GUILD permission.
+      Returns the created guild template object on success. Discord: POST /guilds/{guild_id}/templates.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -4887,8 +4967,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_guild_template
   - operation_id: rest_create_interaction_response
-    display_name: Create interaction response
-    description: Discord REST v10 POST /interactions/{interaction_id}/{interaction_token}/callback
+    display_name: Create Interaction Response
+    description: 'Create a response to an Interaction. Body is an interaction response.
+      Returns 204 unless with_response is set to true which returns 200 with the body
+      as interaction callback response. Discord: POST /interactions/{interaction_id}/{interaction_token}/callback.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -5129,8 +5211,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_interaction_response
   - operation_id: rest_create_linked_lobby_guild_invite_for_self
-    display_name: Create linked lobby guild invite for self
-    description: Discord REST v10 POST /lobbies/{lobby_id}/members/@me/invites
+    display_name: Create Lobby Channel Invite for Self
+    description: 'Creates a single-use guild invite to the lobby''s linked channel,
+      targeted at the calling user. The lobby must have a linked channel and the caller
+      must be a member of the lobby. The invite expires after one hour. Discord: POST
+      /lobbies/{lobby_id}/members/@me/invites.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -5194,8 +5279,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_linked_lobby_guild_invite_for_self
   - operation_id: rest_create_linked_lobby_guild_invite_for_user
-    display_name: Create linked lobby guild invite for user
-    description: Discord REST v10 POST /lobbies/{lobby_id}/members/{user_id}/invites
+    display_name: Create Lobby Channel Invite for User
+    description: 'Creates a single-use guild invite to the lobby''s linked channel on
+      behalf of an application, targeted at the specified user. The lobby must have
+      a linked channel. The invite expires after one hour. Discord: POST /lobbies/{lobby_id}/members/{user_id}/invites.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -5264,8 +5351,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_linked_lobby_guild_invite_for_user
   - operation_id: rest_create_lobby
-    display_name: Create lobby
-    description: Discord REST v10 POST /lobbies
+    display_name: Create Lobby
+    description: 'Creates a new lobby, adding any of the specified members to it, if
+      provided. Discord: POST /lobbies.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -5385,8 +5473,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_lobby
   - operation_id: rest_create_lobby_message
-    display_name: Create lobby message
-    description: Discord REST v10 POST /lobbies/{lobby_id}/messages
+    display_name: Send Lobby Message
+    description: 'Sends a message to the specified lobby. The calling user must be a
+      member of the lobby. Discord: POST /lobbies/{lobby_id}/messages.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -5711,8 +5800,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_lobby_message
   - operation_id: rest_create_message
-    display_name: Create message
-    description: Discord REST v10 POST /channels/{channel_id}/messages
+    display_name: Create Message
+    description: 'Post a message to a guild text or DM channel. Returns a message object.
+      Fires a Message Create Gateway event. See message formatting for more information
+      on how to properly format messages. Discord: POST /channels/{channel_id}/messages.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -6064,8 +6155,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_message
   - operation_id: rest_create_or_join_lobby
-    display_name: Create or join lobby
-    description: Discord REST v10 PUT /lobbies
+    display_name: Create or Join Lobby
+    description: 'Creates a new lobby for the application identified by a secret, or
+      joins the calling user to the existing lobby with that secret if one already exists.
+      Updates lobby metadata and the calling member''s metadata on join. Discord: PUT
+      /lobbies.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -6170,8 +6264,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_or_join_lobby
   - operation_id: rest_create_pin
-    display_name: Create pin
-    description: Discord REST v10 PUT /channels/{channel_id}/messages/pins/{message_id}
+    display_name: Pin Message
+    description: 'Pin a message in a channel. Requires the PIN_MESSAGES permission.
+      Fires a Channel Pins Update Gateway event. Discord: PUT /channels/{channel_id}/messages/pins/{message_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -6240,8 +6335,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_pin
   - operation_id: rest_create_stage_instance
-    display_name: Create stage instance
-    description: Discord REST v10 POST /stage-instances
+    display_name: Create Stage Instance
+    description: 'Creates a new Stage instance associated to a Stage channel. Returns
+      that Stage instance. Fires a Stage Instance Create Gateway event. Discord: POST
+      /stage-instances.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -6336,8 +6433,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_stage_instance
   - operation_id: rest_create_thread
-    display_name: Create thread
-    description: Discord REST v10 POST /channels/{channel_id}/threads
+    display_name: Start Thread without Message
+    description: 'Creates a new thread that is not connected to an existing message.
+      Returns a channel on success, and a 400 BAD REQUEST on invalid parameters. Fires
+      a Thread Create Gateway event. Discord: POST /channels/{channel_id}/threads.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -6546,8 +6645,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_thread
   - operation_id: rest_create_thread_from_message
-    display_name: Create thread from message
-    description: Discord REST v10 POST /channels/{channel_id}/messages/{message_id}/threads
+    display_name: Start Thread from Message
+    description: 'Creates a new thread from an existing message. Returns a channel on
+      success, and a 400 BAD REQUEST on invalid parameters. Fires a Thread Create and
+      a Message Update Gateway event. Discord: POST /channels/{channel_id}/messages/{message_id}/threads.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -6649,8 +6750,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_thread_from_message
   - operation_id: rest_create_webhook
-    display_name: Create webhook
-    description: Discord REST v10 POST /channels/{channel_id}/webhooks
+    display_name: Create Webhook
+    description: 'Creates a new webhook and returns a webhook object on success. Requires
+      the MANAGE_WEBHOOKS permission. Fires a Webhooks Update Gateway event. Discord:
+      POST /channels/{channel_id}/webhooks.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -6735,8 +6838,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_create_webhook
   - operation_id: rest_crosspost_message
-    display_name: Crosspost message
-    description: Discord REST v10 POST /channels/{channel_id}/messages/{message_id}/crosspost
+    display_name: Crosspost Message
+    description: 'Crosspost a message in an Announcement Channel to following channels.
+      This endpoint requires the SEND_MESSAGES permission, if the current user sent
+      the message, or additionally the MANAGE_MESSAGES permission, for all other messages,
+      to be present for the current user. Discord: POST /channels/{channel_id}/messages/{message_id}/crosspost.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -6805,8 +6911,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_crosspost_message
   - operation_id: rest_delete_all_message_reactions
-    display_name: Delete all message reactions
-    description: Discord REST v10 DELETE /channels/{channel_id}/messages/{message_id}/reactions
+    display_name: Delete All Reactions
+    description: 'Deletes all reactions on a message. This endpoint requires the MANAGE_MESSAGES
+      permission to be present on the current user. Fires a Message Reaction Remove
+      All Gateway event. Discord: DELETE /channels/{channel_id}/messages/{message_id}/reactions.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -6875,8 +6983,13 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_all_message_reactions
   - operation_id: rest_delete_all_message_reactions_by_emoji
-    display_name: Delete all message reactions by emoji
-    description: Discord REST v10 DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}
+    display_name: Delete All Reactions for Emoji
+    description: 'Deletes all the reactions for a given emoji on a message. This endpoint
+      requires the MANAGE_MESSAGES permission to be present on the current user. Fires
+      a Message Reaction Remove Emoji Gateway event. The emoji must be URL Encoded or
+      the request will fail with 10014: Unknown Emoji. To use custom emoji, you must
+      encode it in the format name:id with the emoji name and emoji id. Discord: DELETE
+      /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -6951,8 +7064,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_all_message_reactions_by_emoji
   - operation_id: rest_delete_application_command
-    display_name: Delete application command
-    description: Discord REST v10 DELETE /applications/{application_id}/commands/{command_id}
+    display_name: Delete Global Application Command
+    description: 'Deletes a global command. Returns 204 No Content on success. Discord:
+      DELETE /applications/{application_id}/commands/{command_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7022,8 +7136,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_application_command
   - operation_id: rest_delete_application_emoji
-    display_name: Delete application emoji
-    description: Discord REST v10 DELETE /applications/{application_id}/emojis/{emoji_id}
+    display_name: Delete Application Emoji
+    description: 'Delete the given emoji. Returns 204 No Content on success. Discord:
+      DELETE /applications/{application_id}/emojis/{emoji_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7092,11 +7207,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_application_emoji
   - operation_id: rest_delete_application_identity
-    display_name: Delete application identity
-    description: Discord REST v10 POST /users/{user_id}/application-identities/{application_id}/{provider_type}/{provider_issued_user_id}/delete.
-      Delete an identity and its profile data. Discord protects the user's last account-linking
-      identity. The application bot must authenticate and the target user must grant
-      application_identities.write.
+    display_name: Delete Application Identity
+    description: 'Deletes one Application Identity and its associated profile data for
+      the specified user and application. Use this endpoint when a stale provider-issued
+      user ID prevents you from writing profile data for the user''s current identity.
+      Discord: POST /users/{user_id}/application-identities/{application_id}/{provider_type}/{provider_issued_user_id}/delete.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7194,8 +7309,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_application_identity
   - operation_id: rest_delete_application_user_role_connection
-    display_name: Delete application user role connection
-    description: Discord REST v10 DELETE /users/@me/applications/{application_id}/role-connection
+    display_name: Delete Current User Application Role Connection
+    description: 'Deletes the application role connection for the user. Requires an
+      OAuth2 access token with role_connections.write scope for the application specified
+      in the path. Discord: DELETE /users/@me/applications/{application_id}/role-connection.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7258,8 +7375,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_application_user_role_connection
   - operation_id: rest_delete_auto_moderation_rule
-    display_name: Delete auto moderation rule
-    description: Discord REST v10 DELETE /guilds/{guild_id}/auto-moderation/rules/{rule_id}
+    display_name: Delete Auto Moderation Rule
+    description: 'Delete a rule. Returns a 204 on success. Fires an Auto Moderation
+      Rule Delete Gateway event. Discord: DELETE /guilds/{guild_id}/auto-moderation/rules/{rule_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7328,8 +7446,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_auto_moderation_rule
   - operation_id: rest_delete_channel
-    display_name: Delete channel
-    description: Discord REST v10 DELETE /channels/{channel_id}
+    display_name: Delete/Close Channel
+    description: 'Delete a channel, or close a private message. Requires the MANAGE_CHANNELS
+      permission for the guild, or MANAGE_THREADS if the channel is a thread. Deleting
+      a category does not delete its child channels; they will have their parent_id
+      removed and a Channel Update Gateway event will fire for each of them. Returns
+      a channel object on success. Discord: DELETE /channels/{channel_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7392,8 +7514,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_channel
   - operation_id: rest_delete_channel_permission_overwrite
-    display_name: Delete channel permission overwrite
-    description: Discord REST v10 DELETE /channels/{channel_id}/permissions/{overwrite_id}
+    display_name: Delete Channel Permission
+    description: 'Delete a channel permission overwrite for a user or role in a channel.
+      Only usable for guild channels. Requires the MANAGE_ROLES permission. Returns
+      a 204 empty response on success. Fires a Channel Update Gateway event. For more
+      information about permissions, see permissions Discord: DELETE /channels/{channel_id}/permissions/{overwrite_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7462,8 +7587,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_channel_permission_overwrite
   - operation_id: rest_delete_entitlement
-    display_name: Delete entitlement
-    description: Discord REST v10 DELETE /applications/{application_id}/entitlements/{entitlement_id}
+    display_name: Delete Test Entitlement
+    description: 'Deletes a currently-active test entitlement. Discord will act as though
+      that user or guild _no longer has_ entitlement to your premium offering. Discord:
+      DELETE /applications/{application_id}/entitlements/{entitlement_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7533,8 +7660,8 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_entitlement
   - operation_id: rest_delete_group_dm_user
-    display_name: Delete group dm user
-    description: Discord REST v10 DELETE /channels/{channel_id}/recipients/{user_id}
+    display_name: Group DM Remove Recipient
+    description: 'Removes a recipient from a Group DM. Discord: DELETE /channels/{channel_id}/recipients/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7603,8 +7730,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_group_dm_user
   - operation_id: rest_delete_guild_application_command
-    display_name: Delete guild application command
-    description: Discord REST v10 DELETE /applications/{application_id}/guilds/{guild_id}/commands/{command_id}
+    display_name: Delete Guild Application Command
+    description: 'Delete a guild command. Returns 204 No Content on success. Discord:
+      DELETE /applications/{application_id}/guilds/{guild_id}/commands/{command_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7680,8 +7808,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_guild_application_command
   - operation_id: rest_delete_guild_emoji
-    display_name: Delete guild emoji
-    description: Discord REST v10 DELETE /guilds/{guild_id}/emojis/{emoji_id}
+    display_name: Delete Guild Emoji
+    description: 'Delete the given emoji. For emojis created by the current user, requires
+      either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission. For
+      other emojis, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns 204 No
+      Content on success. Fires a Guild Emojis Update Gateway event. Discord: DELETE
+      /guilds/{guild_id}/emojis/{emoji_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7750,8 +7882,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_guild_emoji
   - operation_id: rest_delete_guild_integration
-    display_name: Delete guild integration
-    description: Discord REST v10 DELETE /guilds/{guild_id}/integrations/{integration_id}
+    display_name: Delete Guild Integration
+    description: 'Delete the attached integration object for the guild. Deletes any
+      associated webhooks and kicks the associated bot if there is one. Requires the
+      MANAGE_GUILD permission. Returns a 204 empty response on success. Fires Guild
+      Integrations Update and Integration Delete Gateway events. Discord: DELETE /guilds/{guild_id}/integrations/{integration_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7820,8 +7955,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_guild_integration
   - operation_id: rest_delete_guild_member
-    display_name: Delete guild member
-    description: Discord REST v10 DELETE /guilds/{guild_id}/members/{user_id}
+    display_name: Remove Guild Member
+    description: 'Remove a member from a guild. Requires KICK_MEMBERS permission. Returns
+      a 204 empty response on success. Fires a Guild Member Remove Gateway event. Discord:
+      DELETE /guilds/{guild_id}/members/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7890,8 +8027,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_guild_member
   - operation_id: rest_delete_guild_member_role
-    display_name: Delete guild member role
-    description: Discord REST v10 DELETE /guilds/{guild_id}/members/{user_id}/roles/{role_id}
+    display_name: Remove Guild Member Role
+    description: 'Removes a role from a guild member. Requires the MANAGE_ROLES permission.
+      Returns a 204 empty response on success. Fires a Guild Member Update Gateway event.
+      Discord: DELETE /guilds/{guild_id}/members/{user_id}/roles/{role_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -7966,8 +8105,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_guild_member_role
   - operation_id: rest_delete_guild_role
-    display_name: Delete guild role
-    description: Discord REST v10 DELETE /guilds/{guild_id}/roles/{role_id}
+    display_name: Delete Guild Role
+    description: 'Delete a guild role. Requires the MANAGE_ROLES permission. Returns
+      a 204 empty response on success. Fires a Guild Role Delete Gateway event. Discord:
+      DELETE /guilds/{guild_id}/roles/{role_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8036,8 +8177,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_guild_role
   - operation_id: rest_delete_guild_scheduled_event
-    display_name: Delete guild scheduled event
-    description: Discord REST v10 DELETE /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}
+    display_name: Delete Guild Scheduled Event
+    description: 'Delete a guild scheduled event. Returns a 204 on success. Fires a
+      Guild Scheduled Event Delete Gateway event. Discord: DELETE /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8106,8 +8248,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_guild_scheduled_event
   - operation_id: rest_delete_guild_scheduled_event_exception
-    display_name: Delete guild scheduled event exception
-    description: Discord REST v10 DELETE /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions/{exception_id}
+    display_name: Delete Guild Scheduled Event Exception
+    description: 'Delete an exception to a recurring guild scheduled event. Discord:
+      DELETE /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions/{exception_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8182,8 +8325,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_guild_scheduled_event_exception
   - operation_id: rest_delete_guild_soundboard_sound
-    display_name: Delete guild soundboard sound
-    description: Discord REST v10 DELETE /guilds/{guild_id}/soundboard-sounds/{sound_id}
+    display_name: Delete Guild Soundboard Sound
+    description: 'Delete the given soundboard sound. For sounds created by the current
+      user, requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS
+      permission. For other sounds, requires the MANAGE_GUILD_EXPRESSIONS permission.
+      Returns 204 No Content on success. Fires a Guild Soundboard Sound Delete Gateway
+      event. Discord: DELETE /guilds/{guild_id}/soundboard-sounds/{sound_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8252,8 +8399,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_guild_soundboard_sound
   - operation_id: rest_delete_guild_sticker
-    display_name: Delete guild sticker
-    description: Discord REST v10 DELETE /guilds/{guild_id}/stickers/{sticker_id}
+    display_name: Delete Guild Sticker
+    description: 'Delete the given sticker. For stickers created by the current user,
+      requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission.
+      For other stickers, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns
+      204 No Content on success. Fires a Guild Stickers Update Gateway event. Discord:
+      DELETE /guilds/{guild_id}/stickers/{sticker_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8322,8 +8473,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_guild_sticker
   - operation_id: rest_delete_guild_template
-    display_name: Delete guild template
-    description: Discord REST v10 DELETE /guilds/{guild_id}/templates/{code}
+    display_name: Delete Guild Template
+    description: 'Deletes the template. Requires the MANAGE_GUILD permission. Returns
+      the deleted guild template object on success. Discord: DELETE /guilds/{guild_id}/templates/{code}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8392,8 +8544,8 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_guild_template
   - operation_id: rest_delete_lobby
-    display_name: Delete lobby
-    description: Discord REST v10 DELETE /lobbies/{lobby_id}
+    display_name: Delete Lobby
+    description: 'Deletes the specified lobby if it exists. Discord: DELETE /lobbies/{lobby_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8456,8 +8608,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_lobby
   - operation_id: rest_delete_lobby_member
-    display_name: Delete lobby member
-    description: Discord REST v10 DELETE /lobbies/{lobby_id}/members/{user_id}
+    display_name: Remove a Member from a Lobby
+    description: 'Removes the provided user from the specified lobby. It is safe to
+      call this even if the user is no longer a member of the lobby, but will fail if
+      the lobby does not exist. Discord: DELETE /lobbies/{lobby_id}/members/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8526,8 +8680,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_lobby_member
   - operation_id: rest_delete_message
-    display_name: Delete message
-    description: Discord REST v10 DELETE /channels/{channel_id}/messages/{message_id}
+    display_name: Delete Message
+    description: 'Delete a message. If operating on a guild channel and trying to delete
+      a message that was not sent by the current user, this endpoint requires the MANAGE_MESSAGES
+      permission. Returns a 204 empty response on success. Fires a Message Delete Gateway
+      event. Discord: DELETE /channels/{channel_id}/messages/{message_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8596,8 +8753,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_message
   - operation_id: rest_delete_my_message_reaction
-    display_name: Delete my message reaction
-    description: Discord REST v10 DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me
+    display_name: Delete Own Reaction
+    description: 'Delete a reaction the current user has made for the message. Returns
+      a 204 empty response on success. Fires a Message Reaction Remove Gateway event.
+      The emoji must be URL Encoded or the request will fail with 10014: Unknown Emoji.
+      To use custom emoji, you must encode it in the format name:id with the emoji name
+      and emoji id. Discord: DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8672,8 +8833,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_my_message_reaction
   - operation_id: rest_delete_original_webhook_message
-    display_name: Delete original webhook message
-    description: Discord REST v10 DELETE /webhooks/{webhook_id}/{webhook_token}/messages/@original
+    display_name: Delete Original Interaction Response
+    description: 'Deletes the initial Interaction response. Returns 204 No Content on
+      success. Discord: DELETE /webhooks/{webhook_id}/{webhook_token}/messages/@original.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8742,8 +8904,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_original_webhook_message
   - operation_id: rest_delete_pin
-    display_name: Delete pin
-    description: Discord REST v10 DELETE /channels/{channel_id}/messages/pins/{message_id}
+    display_name: Unpin Message
+    description: 'Unpin a message in a channel. Requires the PIN_MESSAGES permission.
+      Returns a 204 empty response on success. Fires a Channel Pins Update Gateway event.
+      Discord: DELETE /channels/{channel_id}/messages/pins/{message_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8812,8 +8976,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_pin
   - operation_id: rest_delete_stage_instance
-    display_name: Delete stage instance
-    description: Discord REST v10 DELETE /stage-instances/{channel_id}
+    display_name: Delete Stage Instance
+    description: 'Deletes the Stage instance. Returns 204 No Content. Fires a Stage
+      Instance Delete Gateway event. Discord: DELETE /stage-instances/{channel_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8876,8 +9041,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_stage_instance
   - operation_id: rest_delete_thread_member
-    display_name: Delete thread member
-    description: Discord REST v10 DELETE /channels/{channel_id}/thread-members/{user_id}
+    display_name: Remove Thread Member
+    description: 'Removes another member from a thread. Requires the MANAGE_THREADS
+      permission, or the creator of the thread if it is a PRIVATE_THREAD. Also requires
+      the thread is not archived. Returns a 204 empty response on success. Fires a Thread
+      Members Update Gateway event. Discord: DELETE /channels/{channel_id}/thread-members/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -8946,8 +9114,13 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_thread_member
   - operation_id: rest_delete_user_message_reaction
-    display_name: Delete user message reaction
-    description: Discord REST v10 DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/{user_id}
+    display_name: Delete User Reaction
+    description: 'Deletes another user''s reaction. This endpoint requires the MANAGE_MESSAGES
+      permission to be present on the current user. Returns a 204 empty response on
+      success. Fires a Message Reaction Remove Gateway event. The emoji must be URL
+      Encoded or the request will fail with 10014: Unknown Emoji. To use custom emoji,
+      you must encode it in the format name:id with the emoji name and emoji id. Discord:
+      DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -9028,8 +9201,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_user_message_reaction
   - operation_id: rest_delete_webhook
-    display_name: Delete webhook
-    description: Discord REST v10 DELETE /webhooks/{webhook_id}
+    display_name: Delete Webhook
+    description: 'Delete a webhook permanently. Requires the MANAGE_WEBHOOKS permission.
+      Returns a 204 No Content response on success. Fires a Webhooks Update Gateway
+      event. Discord: DELETE /webhooks/{webhook_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -9092,8 +9267,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_webhook
   - operation_id: rest_delete_webhook_by_token
-    display_name: Delete webhook by token
-    description: Discord REST v10 DELETE /webhooks/{webhook_id}/{webhook_token}
+    display_name: Delete Webhook with Token
+    description: 'Same as above, except this call does not require authentication. Discord:
+      DELETE /webhooks/{webhook_id}/{webhook_token}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -9156,8 +9332,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_webhook_by_token
   - operation_id: rest_delete_webhook_message
-    display_name: Delete webhook message
-    description: Discord REST v10 DELETE /webhooks/{webhook_id}/{webhook_token}/messages/{message_id}
+    display_name: Delete Webhook Message
+    description: 'Deletes a message that was created by the webhook. Returns a 204 No
+      Content response on success. Discord: DELETE /webhooks/{webhook_id}/{webhook_token}/messages/{message_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -9232,8 +9409,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_delete_webhook_message
   - operation_id: rest_deprecated_create_pin
-    display_name: Deprecated create pin
-    description: Discord REST v10 PUT /channels/{channel_id}/pins/{message_id}
+    display_name: Pin Message (deprecated)
+    description: 'This endpoint is deprecated. Use Pin Message instead. Discord: PUT
+      /channels/{channel_id}/pins/{message_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -9302,8 +9480,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_deprecated_create_pin
   - operation_id: rest_deprecated_delete_pin
-    display_name: Deprecated delete pin
-    description: Discord REST v10 DELETE /channels/{channel_id}/pins/{message_id}
+    display_name: Unpin Message (deprecated)
+    description: 'This endpoint is deprecated. Use Unpin Message instead. Discord: DELETE
+      /channels/{channel_id}/pins/{message_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -9372,8 +9551,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_deprecated_delete_pin
   - operation_id: rest_deprecated_list_pins
-    display_name: Deprecated list pins
-    description: Discord REST v10 GET /channels/{channel_id}/pins
+    display_name: Get Pinned Messages (deprecated)
+    description: 'Gets the first 50 pinned messages in a channel, returning an array
+      of message objects on success. This endpoint is deprecated. Use Get Channel Pins
+      instead. Discord: GET /channels/{channel_id}/pins.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -9425,8 +9606,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_edit_lobby
-    display_name: Edit lobby
-    description: Discord REST v10 PATCH /lobbies/{lobby_id}
+    display_name: Modify Lobby
+    description: 'Modifies the specified lobby with new values, if provided. Discord:
+      PATCH /lobbies/{lobby_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -9547,8 +9729,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_edit_lobby
   - operation_id: rest_edit_lobby_channel_link
-    display_name: Edit lobby channel link
-    description: Discord REST v10 PATCH /lobbies/{lobby_id}/channel-linking
+    display_name: Link Channel to Lobby
+    description: 'Links an existing text channel to a lobby. See Linked Channels for
+      more information. Discord: PATCH /lobbies/{lobby_id}/channel-linking.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -9629,8 +9812,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_edit_lobby_channel_link
   - operation_id: rest_execute_github_compatible_webhook
-    display_name: Execute github compatible webhook
-    description: Discord REST v10 POST /webhooks/{webhook_id}/{webhook_token}/github
+    display_name: Execute GitHub-Compatible Webhook
+    description: 'Add a new webhook to your GitHub repo (in the repo''s settings), and
+      use this endpoint as the "Payload URL." You can choose what events your Discord
+      channel receives by choosing the "Let me select individual events" option and
+      selecting individual events for the new webhook you''re configuring. Discord:
+      POST /webhooks/{webhook_id}/{webhook_token}/github.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -10040,8 +10227,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_execute_github_compatible_webhook
   - operation_id: rest_execute_slack_compatible_webhook
-    display_name: Execute slack compatible webhook
-    description: Discord REST v10 POST /webhooks/{webhook_id}/{webhook_token}/slack
+    display_name: Execute Slack-Compatible Webhook
+    description: 'Refer to Slack''s documentation for more information. We do not support
+      Slack''s channel, icon_emoji, mrkdwn, or mrkdwn_in properties. Discord: POST /webhooks/{webhook_id}/{webhook_token}/slack.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -10255,8 +10443,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_execute_slack_compatible_webhook
   - operation_id: rest_execute_webhook
-    display_name: Execute webhook
-    description: Discord REST v10 POST /webhooks/{webhook_id}/{webhook_token}
+    display_name: Execute Webhook
+    description: 'Refer to Uploading Files for details on attachments and multipart/form-data
+      requests. Returns a message or 204 No Content depending on the wait query parameter.
+      Discord: POST /webhooks/{webhook_id}/{webhook_token}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -10501,8 +10691,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_execute_webhook
   - operation_id: rest_follow_channel
-    display_name: Follow channel
-    description: Discord REST v10 POST /channels/{channel_id}/followers
+    display_name: Follow Announcement Channel
+    description: 'Follow an Announcement Channel to send messages to a target channel.
+      Requires the MANAGE_WEBHOOKS permission in the target channel. Returns a followed
+      channel object. Fires a Webhooks Update Gateway event for the target channel.
+      Discord: POST /channels/{channel_id}/followers.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -10582,8 +10775,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_follow_channel
   - operation_id: rest_get_active_guild_threads
-    display_name: Get active guild threads
-    description: Discord REST v10 GET /guilds/{guild_id}/threads/active
+    display_name: List Active Guild Threads
+    description: 'Returns all active threads in the guild, including public and private
+      threads. Threads are ordered by their id, in descending order. Discord: GET /guilds/{guild_id}/threads/active.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -10635,11 +10829,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_answer_voters
-    display_name: Get answer voters
-    description: Discord REST v10 GET /channels/{channel_id}/polls/{message_id}/answers/{answer_id}.
-      With all_pages it reads every page (after the step's cursor, or from the first
-      item without one) and returns next_cursor to pass as after when the list did not
-      end
+    display_name: Get Answer Voters
+    description: 'Get a list of users that voted for this specific answer. Discord:
+      GET /channels/{channel_id}/polls/{message_id}/answers/{answer_id}. With all_pages
+      it reads every page (after the step''s cursor, or from the first item without
+      one) and returns next_cursor to pass as after when the list did not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -10737,8 +10931,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_application
-    display_name: Get application
-    description: Discord REST v10 GET /applications/{application_id}
+    display_name: Get Application
+    description: 'Returns an application by its ID. Discord: GET /applications/{application_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -10790,8 +10984,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_application_command
-    display_name: Get application command
-    description: Discord REST v10 GET /applications/{application_id}/commands/{command_id}
+    display_name: Get Global Application Command
+    description: 'Fetch a global command for your application. Returns an application
+      command object. Discord: GET /applications/{application_id}/commands/{command_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -10850,8 +11045,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_application_emoji
-    display_name: Get application emoji
-    description: Discord REST v10 GET /applications/{application_id}/emojis/{emoji_id}
+    display_name: Get Application Emoji
+    description: 'Returns an emoji object for the given application and emoji IDs. Includes
+      the user field. Discord: GET /applications/{application_id}/emojis/{emoji_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -10909,10 +11105,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_application_identity_profile
-    display_name: Get application identity profile
-    description: Discord REST v10 GET /applications/{application_id}/users/{user_id}/identities/{provider_issued_user_id}/profile.
-      Read a user's game stats profile. The application bot must authenticate and the
-      target user must grant application_identities.write.
+    display_name: Get Application Identity Profile
+    description: 'Returns the Application Identity Profile object stored on the matching
+      Application Identity for the specified user and application. Discord: GET /applications/{application_id}/users/{user_id}/identities/{provider_issued_user_id}/profile.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -10978,8 +11173,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_application_role_connections_metadata
-    display_name: Get application role connections metadata
-    description: Discord REST v10 GET /applications/{application_id}/role-connections/metadata
+    display_name: Get Application Role Connection Metadata Records
+    description: 'Returns a list of application role connection metadata objects for
+      the given application. Discord: GET /applications/{application_id}/role-connections/metadata.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11031,8 +11227,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_application_user_role_connection
-    display_name: Get application user role connection
-    description: Discord REST v10 GET /users/@me/applications/{application_id}/role-connection
+    display_name: Get Current User Application Role Connection
+    description: 'Returns the application role connection for the user. Requires an
+      OAuth2 access token with role_connections.write scope for the application specified
+      in the path. Discord: GET /users/@me/applications/{application_id}/role-connection.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11084,8 +11282,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_auto_moderation_rule
-    display_name: Get auto moderation rule
-    description: Discord REST v10 GET /guilds/{guild_id}/auto-moderation/rules/{rule_id}
+    display_name: Get Auto Moderation Rule
+    description: 'Get a single rule. Returns an auto moderation rule object. Discord:
+      GET /guilds/{guild_id}/auto-moderation/rules/{rule_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11143,8 +11342,12 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_bot_gateway
-    display_name: Get bot gateway
-    description: Discord REST v10 GET /gateway/bot
+    display_name: Get Gateway Bot
+    description: 'Returns an object based on the information in Get Gateway, plus additional
+      metadata that can help during the operation of large or sharded bots. Unlike the
+      Get Gateway, this route should not be cached for extended periods of time as the
+      value is not guaranteed to be the same per-call, and changes as the bot joins/leaves
+      guilds. Discord: GET /gateway/bot.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11190,8 +11393,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_channel
-    display_name: Get channel
-    description: Discord REST v10 GET /channels/{channel_id}
+    display_name: Get Channel
+    description: 'Get a channel by ID. Returns a channel object. If the channel is a
+      thread, a thread member object is included in the returned result. Discord: GET
+      /channels/{channel_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11243,8 +11448,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_channel_member_permissions
-    display_name: Get channel member permissions
-    description: Discord REST v10 GET /channels/{channel_id}/permissions/member/{user_id}
+    display_name: Get Channel Member Permissions
+    description: 'Returns the member''s computed permissions in the channel, including
+      their roles and member-specific overwrites. Threads use their parent channel''s
+      overwrites. Requires the VIEW_CHANNEL permission, and additionally CONNECT for
+      voice and stage channels. Discord: GET /channels/{channel_id}/permissions/member/{user_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11307,8 +11515,12 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_channel_role_permissions
-    display_name: Get channel role permissions
-    description: Discord REST v10 GET /channels/{channel_id}/permissions/role/{role_id}
+    display_name: Get Channel Role Permissions
+    description: 'Returns the permissions granted by the specified role together with
+      @everyone, applying their channel overwrites. Other roles and member-specific
+      overwrites are not included. Threads use their parent channel''s overwrites. Requires
+      the VIEW_CHANNEL permission, and additionally CONNECT for voice and stage channels.
+      Discord: GET /channels/{channel_id}/permissions/role/{role_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11371,8 +11583,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_current_user_application_entitlements
-    display_name: Get current user application entitlements
-    description: Discord REST v10 GET /users/@me/applications/{application_id}/entitlements
+    display_name: Get Current User Application Entitlements
+    description: 'Returns the authorized user''s entitlements for an application. Discord:
+      GET /users/@me/applications/{application_id}/entitlements.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11442,8 +11655,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_entitlement
-    display_name: Get entitlement
-    description: Discord REST v10 GET /applications/{application_id}/entitlements/{entitlement_id}
+    display_name: Get Entitlement
+    description: 'Returns an entitlement. Discord: GET /applications/{application_id}/entitlements/{entitlement_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11502,10 +11715,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_entitlements
-    display_name: Get entitlements
-    description: Discord REST v10 GET /applications/{application_id}/entitlements. With
-      all_pages it reads every page (after the step's cursor, or from the first item
-      without one) and returns next_cursor to pass as after when the list did not end
+    display_name: List Entitlements
+    description: 'Returns all entitlements for a given app, active and expired. Discord:
+      GET /applications/{application_id}/entitlements. With all_pages it reads every
+      page (after the step''s cursor, or from the first item without one) and returns
+      next_cursor to pass as after when the list did not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11637,8 +11851,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_gateway
-    display_name: Get gateway
-    description: Discord REST v10 GET /gateway
+    display_name: Get Gateway
+    description: 'Returns an object with a valid WSS URL which the app can use when
+      Connecting to the Gateway. Apps should cache this value and only call this endpoint
+      to retrieve a new URL when they are unable to properly establish a connection
+      using the cached one. Discord: GET /gateway.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11684,8 +11901,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild
-    display_name: Get guild
-    description: Discord REST v10 GET /guilds/{guild_id}
+    display_name: Get Guild
+    description: 'Returns the guild object for the given id. If with_counts is set to
+      true, this endpoint will also return approximate_member_count and approximate_presence_count
+      for the guild. Discord: GET /guilds/{guild_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11742,8 +11961,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_application_command
-    display_name: Get guild application command
-    description: Discord REST v10 GET /applications/{application_id}/guilds/{guild_id}/commands/{command_id}
+    display_name: Get Guild Application Command
+    description: 'Fetch a guild command for your application. Returns an application
+      command object. Discord: GET /applications/{application_id}/guilds/{guild_id}/commands/{command_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11808,8 +12028,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_application_command_permissions
-    display_name: Get guild application command permissions
-    description: Discord REST v10 GET /applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions
+    display_name: Get Application Command Permissions
+    description: 'Fetches permissions for a specific command for your application in
+      a guild. Returns a guild application command permissions object. Discord: GET
+      /applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11874,8 +12096,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_ban
-    display_name: Get guild ban
-    description: Discord REST v10 GET /guilds/{guild_id}/bans/{user_id}
+    display_name: Get Guild Ban
+    description: 'Returns a ban object for the given user or a 404 not found if the
+      ban cannot be found. Requires the BAN_MEMBERS or VIEW_AUDIT_LOG permission. Discord:
+      GET /guilds/{guild_id}/bans/{user_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11933,8 +12157,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_emoji
-    display_name: Get guild emoji
-    description: Discord REST v10 GET /guilds/{guild_id}/emojis/{emoji_id}
+    display_name: Get Guild Emoji
+    description: 'Returns an emoji object for the given guild and emoji IDs. Includes
+      the user field if the bot has the MANAGE_GUILD_EXPRESSIONS permission, or if the
+      bot created the emoji and has the CREATE_GUILD_EXPRESSIONS permission. Discord:
+      GET /guilds/{guild_id}/emojis/{emoji_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -11992,10 +12219,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_join_requests
-    display_name: Get guild join requests
-    description: Discord REST v10 GET /guilds/{guild_id}/requests. With all_pages it
-      reads every page (after the step's cursor, or from the first item without one)
-      and returns next_cursor to pass as after when the list did not end
+    display_name: Get Guild Join Requests
+    description: 'List join requests for guild, optionally filtered by application status.
+      Discord: GET /guilds/{guild_id}/requests. With all_pages it reads every page (after
+      the step''s cursor, or from the first item without one) and returns next_cursor
+      to pass as after when the list did not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12099,8 +12327,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_member
-    display_name: Get guild member
-    description: Discord REST v10 GET /guilds/{guild_id}/members/{user_id}
+    display_name: Get Guild Member
+    description: 'Returns a guild member object for the specified user. Discord: GET
+      /guilds/{guild_id}/members/{user_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12158,8 +12387,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_member_permissions
-    display_name: Get guild member permissions
-    description: Discord REST v10 GET /guilds/{guild_id}/permissions/member/{user_id}
+    display_name: Get Guild Member Permissions
+    description: 'Returns the member''s computed guild permissions, combining their
+      roles with @everyone. Discord: GET /guilds/{guild_id}/permissions/member/{user_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12217,8 +12447,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_new_member_welcome
-    display_name: Get guild new member welcome
-    description: Discord REST v10 GET /guilds/{guild_id}/new-member-welcome
+    display_name: Get Guild New Member Welcome
+    description: 'Returns the server''s welcome settings for new members. Discord: GET
+      /guilds/{guild_id}/new-member-welcome.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12270,8 +12501,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_preview
-    display_name: Get guild preview
-    description: Discord REST v10 GET /guilds/{guild_id}/preview
+    display_name: Get Guild Preview
+    description: 'Returns the guild preview object for the given id. If the user is
+      not in the guild, then the guild must be discoverable. Discord: GET /guilds/{guild_id}/preview.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12323,8 +12555,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_role
-    display_name: Get guild role
-    description: Discord REST v10 GET /guilds/{guild_id}/roles/{role_id}
+    display_name: Get Guild Role
+    description: 'Returns a role object for the specified role. Discord: GET /guilds/{guild_id}/roles/{role_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12382,8 +12614,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_role_permissions
-    display_name: Get guild role permissions
-    description: Discord REST v10 GET /guilds/{guild_id}/permissions/role/{role_id}
+    display_name: Get Guild Role Permissions
+    description: 'Returns the combined guild permissions of the specified role and @everyone.
+      This calculation does not include other roles or member-specific restrictions.
+      Discord: GET /guilds/{guild_id}/permissions/role/{role_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12441,8 +12675,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_scheduled_event
-    display_name: Get guild scheduled event
-    description: Discord REST v10 GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}
+    display_name: Get Guild Scheduled Event
+    description: 'Get a guild scheduled event. Returns a guild scheduled event object
+      on success. Discord: GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12505,8 +12740,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_soundboard_sound
-    display_name: Get guild soundboard sound
-    description: Discord REST v10 GET /guilds/{guild_id}/soundboard-sounds/{sound_id}
+    display_name: Get Guild Soundboard Sound
+    description: 'Returns a soundboard sound object for the given sound id. Includes
+      the user field if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS
+      permission. Discord: GET /guilds/{guild_id}/soundboard-sounds/{sound_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12564,8 +12801,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_sticker
-    display_name: Get guild sticker
-    description: Discord REST v10 GET /guilds/{guild_id}/stickers/{sticker_id}
+    display_name: Get Guild Sticker
+    description: 'Returns a sticker object for the given guild and sticker IDs. Includes
+      the user field if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS
+      permission. Discord: GET /guilds/{guild_id}/stickers/{sticker_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12623,8 +12862,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_template
-    display_name: Get guild template
-    description: Discord REST v10 GET /guilds/templates/{code}
+    display_name: Get Guild Template
+    description: 'Returns a guild template object for the given code. Discord: GET /guilds/templates/{code}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12676,8 +12915,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_vanity_url
-    display_name: Get guild vanity url
-    description: Discord REST v10 GET /guilds/{guild_id}/vanity-url
+    display_name: Get Guild Vanity URL
+    description: 'Returns a partial invite object for guilds with that feature enabled.
+      Requires the MANAGE_GUILD permission. code will be null if a vanity url for the
+      guild is not set. Discord: GET /guilds/{guild_id}/vanity-url.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12729,8 +12970,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_webhooks
-    display_name: Get guild webhooks
-    description: Discord REST v10 GET /guilds/{guild_id}/webhooks
+    display_name: Get Guild Webhooks
+    description: 'Returns a list of guild webhook objects. Requires the MANAGE_WEBHOOKS
+      permission. Discord: GET /guilds/{guild_id}/webhooks.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12782,8 +13024,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_welcome_screen
-    display_name: Get guild welcome screen
-    description: Discord REST v10 GET /guilds/{guild_id}/welcome-screen
+    display_name: Get Guild Welcome Screen
+    description: 'Returns the Welcome Screen object for the guild. If the welcome screen
+      is not enabled, the MANAGE_GUILD permission is required. Discord: GET /guilds/{guild_id}/welcome-screen.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12835,8 +13078,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_widget
-    display_name: Get guild widget
-    description: Discord REST v10 GET /guilds/{guild_id}/widget.json
+    display_name: Get Guild Widget
+    description: 'Returns the widget for the guild. Fires an Invite Create Gateway event
+      when an invite channel is defined and a new Invite is generated. Discord: GET
+      /guilds/{guild_id}/widget.json.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12888,8 +13133,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_widget_png
-    display_name: Get guild widget png
-    description: Discord REST v10 GET /guilds/{guild_id}/widget.png
+    display_name: Get Guild Widget Image
+    description: 'Returns a PNG image widget for the guild. Requires no permissions
+      or authentication. Discord: GET /guilds/{guild_id}/widget.png.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -12952,8 +13198,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guild_widget_settings
-    display_name: Get guild widget settings
-    description: Discord REST v10 GET /guilds/{guild_id}/widget
+    display_name: Get Guild Widget Settings
+    description: 'Returns a guild widget settings object. Requires the MANAGE_GUILD
+      permission. Discord: GET /guilds/{guild_id}/widget.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13005,8 +13252,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_guilds_onboarding
-    display_name: Get guilds onboarding
-    description: Discord REST v10 GET /guilds/{guild_id}/onboarding
+    display_name: Get Guild Onboarding
+    description: 'Returns the Onboarding object for the guild. Discord: GET /guilds/{guild_id}/onboarding.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13058,8 +13305,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_invite_target_users
-    display_name: Get invite target users
-    description: Discord REST v10 GET /invites/{code}/target-users
+    display_name: Get Target Users
+    description: 'Gets the users allowed to see and accept this invite. Response is
+      a CSV file with the header user_id and each user ID on its own line. Requires
+      the caller to be the inviter, or have MANAGE_GUILD permission, or have VIEW_AUDIT_LOG
+      permission. Discord: GET /invites/{code}/target-users.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13111,8 +13361,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_invite_target_users_job_status
-    display_name: Get invite target users job status
-    description: Discord REST v10 GET /invites/{code}/target-users/job-status
+    display_name: Get Target Users Job Status
+    description: 'Processing target users from a CSV when creating or updating an invite
+      is done asynchronously. This endpoint allows you to check the status of that job.
+      Requires the caller to be the inviter, or have MANAGE_GUILD permission, or have
+      VIEW_AUDIT_LOG permission. Discord: GET /invites/{code}/target-users/job-status.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13164,8 +13417,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_lobby
-    display_name: Get lobby
-    description: Discord REST v10 GET /lobbies/{lobby_id}
+    display_name: Get Lobby
+    description: 'Returns a lobby object for the specified lobby id, if it exists. Discord:
+      GET /lobbies/{lobby_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13217,8 +13471,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_lobby_messages
-    display_name: Get lobby messages
-    description: Discord REST v10 GET /lobbies/{lobby_id}/messages
+    display_name: Get Lobby Messages
+    description: 'Returns the most recent messages in the specified lobby. The calling
+      user must be a member of the lobby. Discord: GET /lobbies/{lobby_id}/messages.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13278,8 +13533,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_message
-    display_name: Get message
-    description: Discord REST v10 GET /channels/{channel_id}/messages/{message_id}
+    display_name: Get Channel Message
+    description: 'Retrieves a specific message in the channel. Returns a message object
+      on success. Discord: GET /channels/{channel_id}/messages/{message_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13337,8 +13593,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_my_application
-    display_name: Get my application
-    description: Discord REST v10 GET /applications/@me
+    display_name: Get Current Application
+    description: 'Returns the application object associated with the requesting bot
+      user. Discord: GET /applications/@me.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13384,8 +13641,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_my_guild_member
-    display_name: Get my guild member
-    description: Discord REST v10 GET /users/@me/guilds/{guild_id}/member
+    display_name: Get Current User Guild Member
+    description: 'Returns a guild member object for the current user. Requires the guilds.members.read
+      OAuth2 scope. Discord: GET /users/@me/guilds/{guild_id}/member.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13437,8 +13695,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_my_oauth2_application
-    display_name: Get my oauth2 application
-    description: Discord REST v10 GET /oauth2/applications/@me
+    display_name: Get Current Bot Application Information
+    description: 'Returns the bot''s application object. Discord: GET /oauth2/applications/@me.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13484,8 +13742,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_my_oauth2_authorization
-    display_name: Get my oauth2 authorization
-    description: Discord REST v10 GET /oauth2/@me
+    display_name: Get Current Authorization Information
+    description: 'Returns info about the current authorization. Requires authentication
+      with a bearer token. Discord: GET /oauth2/@me.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13532,8 +13791,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_my_user
-    display_name: Get my user
-    description: Discord REST v10 GET /users/@me
+    display_name: Get Current User
+    description: 'Returns the user object of the requester''s account. For OAuth2, this
+      requires the identify scope, which will return the object _without_ an email,
+      and optionally the email scope, which returns the object _with_ an email if the
+      user has one. Discord: GET /users/@me.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13580,8 +13842,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_openid_connect_userinfo
-    display_name: Get openid connect userinfo
-    description: Discord REST v10 GET /oauth2/userinfo
+    display_name: Get OpenID Connect User Info
+    description: 'Returns the OpenID Connect user information of the authorized user.
+      Discord: GET /oauth2/userinfo.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13628,8 +13891,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_original_webhook_message
-    display_name: Get original webhook message
-    description: Discord REST v10 GET /webhooks/{webhook_id}/{webhook_token}/messages/@original
+    display_name: Get Original Interaction Response
+    description: 'Returns the initial Interaction response. Functions the same as Get
+      Webhook Message. Discord: GET /webhooks/{webhook_id}/{webhook_token}/messages/@original.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13687,8 +13951,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_public_keys
-    display_name: Get public keys
-    description: Discord REST v10 GET /oauth2/keys
+    display_name: Get OAuth2 Public Keys
+    description: 'Returns Discord''s OAuth2 public signing keys (a JSON Web Key Set).
+      Discord: GET /oauth2/keys.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13734,8 +13999,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_self_voice_state
-    display_name: Get self voice state
-    description: Discord REST v10 GET /guilds/{guild_id}/voice-states/@me
+    display_name: Get Current User Voice State
+    description: 'Returns the current user''s voice state in the guild. Discord: GET
+      /guilds/{guild_id}/voice-states/@me.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13787,8 +14053,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_sku_subscription
-    display_name: Get sku subscription
-    description: Discord REST v10 GET /skus/{sku_id}/subscriptions/{subscription_id}
+    display_name: Get SKU Subscription
+    description: 'Get a subscription by its ID. Returns a subscription object. Discord:
+      GET /skus/{sku_id}/subscriptions/{subscription_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13853,10 +14120,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_sku_subscriptions
-    display_name: Get sku subscriptions
-    description: Discord REST v10 GET /skus/{sku_id}/subscriptions. With all_pages it
-      reads every page (after the step's cursor, or from the first item without one)
-      and returns next_cursor to pass as after when the list did not end
+    display_name: List SKU Subscriptions
+    description: 'Returns all subscriptions containing the SKU, filtered by user. Returns
+      a list of subscription objects. Discord: GET /skus/{sku_id}/subscriptions. With
+      all_pages it reads every page (after the step''s cursor, or from the first item
+      without one) and returns next_cursor to pass as after when the list did not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -13954,8 +14222,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_soundboard_default_sounds
-    display_name: Get soundboard default sounds
-    description: Discord REST v10 GET /soundboard-default-sounds
+    display_name: List Default Soundboard Sounds
+    description: 'Returns an array of soundboard sound objects that can be used by all
+      users. Discord: GET /soundboard-default-sounds.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14001,8 +14270,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_stage_instance
-    display_name: Get stage instance
-    description: Discord REST v10 GET /stage-instances/{channel_id}
+    display_name: Get Stage Instance
+    description: 'Gets the stage instance associated with the Stage channel, if it exists.
+      Discord: GET /stage-instances/{channel_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14054,8 +14324,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_sticker
-    display_name: Get sticker
-    description: Discord REST v10 GET /stickers/{sticker_id}
+    display_name: Get Sticker
+    description: 'Returns a sticker object for the given sticker ID. Discord: GET /stickers/{sticker_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14107,8 +14377,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_sticker_pack
-    display_name: Get sticker pack
-    description: Discord REST v10 GET /sticker-packs/{pack_id}
+    display_name: Get Sticker Pack
+    description: 'Returns a sticker pack object for the given sticker pack ID. Discord:
+      GET /sticker-packs/{pack_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14160,8 +14431,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_thread_member
-    display_name: Get thread member
-    description: Discord REST v10 GET /channels/{channel_id}/thread-members/{user_id}
+    display_name: Get Thread Member
+    description: 'Returns a thread member object for the specified user if they are
+      a member of the thread, returns a 404 response otherwise. Discord: GET /channels/{channel_id}/thread-members/{user_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14224,8 +14496,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_user
-    display_name: Get user
-    description: Discord REST v10 GET /users/{user_id}
+    display_name: Get User
+    description: 'Returns a user object for a given user ID. Discord: GET /users/{user_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14277,8 +14549,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_voice_state
-    display_name: Get voice state
-    description: Discord REST v10 GET /guilds/{guild_id}/voice-states/{user_id}
+    display_name: Get User Voice State
+    description: 'Returns the specified user''s voice state in the guild. Discord: GET
+      /guilds/{guild_id}/voice-states/{user_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14336,8 +14609,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_webhook
-    display_name: Get webhook
-    description: Discord REST v10 GET /webhooks/{webhook_id}
+    display_name: Get Webhook
+    description: 'Returns the new webhook object for the given id. Discord: GET /webhooks/{webhook_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14389,8 +14662,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_webhook_by_token
-    display_name: Get webhook by token
-    description: Discord REST v10 GET /webhooks/{webhook_id}/{webhook_token}
+    display_name: Get Webhook with Token
+    description: 'Same as above, except this call does not require authentication and
+      returns no user in the webhook object. Discord: GET /webhooks/{webhook_id}/{webhook_token}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14442,8 +14716,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_get_webhook_message
-    display_name: Get webhook message
-    description: Discord REST v10 GET /webhooks/{webhook_id}/{webhook_token}/messages/{message_id}
+    display_name: Get Webhook Message
+    description: 'Returns a previously-sent webhook message from the same token. Returns
+      a message object on success. Discord: GET /webhooks/{webhook_id}/{webhook_token}/messages/{message_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14507,8 +14782,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_guild_role_member_counts
-    display_name: Guild role member counts
-    description: Discord REST v10 GET /guilds/{guild_id}/roles/member-counts
+    display_name: Get Guild Role Member Counts
+    description: 'Returns a map of role IDs to the number of members with the role.
+      Does not include the @everyone role. Discord: GET /guilds/{guild_id}/roles/member-counts.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14560,8 +14836,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_guild_search
-    display_name: Guild search
-    description: Discord REST v10 GET /guilds/{guild_id}/messages/search
+    display_name: Search Guild Messages
+    description: 'Returns a list of messages without the reactions key that match a
+      search query in the guild. Requires the READ_MESSAGE_HISTORY permission. Discord:
+      GET /guilds/{guild_id}/messages/search.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14830,8 +15108,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_invite_resolve
-    display_name: Invite resolve
-    description: Discord REST v10 GET /invites/{code}
+    display_name: Get Invite
+    description: 'Returns an invite object for the given code. Discord: GET /invites/{code}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -14906,8 +15184,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_invite_revoke
-    display_name: Invite revoke
-    description: Discord REST v10 DELETE /invites/{code}
+    display_name: Delete Invite
+    description: 'Delete an invite. Requires the MANAGE_CHANNELS permission on the channel
+      this invite belongs to, or MANAGE_GUILD to remove any invite across the guild.
+      Returns an invite object on success. Fires an Invite Delete Gateway event. Discord:
+      DELETE /invites/{code}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -14970,8 +15251,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_invite_revoke
   - operation_id: rest_join_thread
-    display_name: Join thread
-    description: Discord REST v10 PUT /channels/{channel_id}/thread-members/@me
+    display_name: Join Thread
+    description: 'Adds the current user to a thread. Also requires the thread is not
+      archived. Returns a 204 empty response on success. Fires a Thread Members Update
+      and a Thread Create Gateway event. Discord: PUT /channels/{channel_id}/thread-members/@me.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -15034,8 +15317,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_join_thread
   - operation_id: rest_leave_guild
-    display_name: Leave guild
-    description: Discord REST v10 DELETE /users/@me/guilds/{guild_id}
+    display_name: Leave Guild
+    description: 'Leave a guild. Returns a 204 empty response on success. Fires a Guild
+      Delete Gateway event and a Guild Member Remove Gateway event. Discord: DELETE
+      /users/@me/guilds/{guild_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -15098,8 +15383,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_leave_guild
   - operation_id: rest_leave_lobby
-    display_name: Leave lobby
-    description: Discord REST v10 DELETE /lobbies/{lobby_id}/members/@me
+    display_name: Leave Lobby
+    description: 'Removes the current user from the specified lobby. It is safe to call
+      this even if the user is no longer a member of the lobby, but will fail if the
+      lobby does not exist. Discord: DELETE /lobbies/{lobby_id}/members/@me.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -15163,8 +15450,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_leave_lobby
   - operation_id: rest_leave_thread
-    display_name: Leave thread
-    description: Discord REST v10 DELETE /channels/{channel_id}/thread-members/@me
+    display_name: Leave Thread
+    description: 'Removes the current user from a thread. Also requires the thread is
+      not archived. Returns a 204 empty response on success. Fires a Thread Members
+      Update Gateway event. Discord: DELETE /channels/{channel_id}/thread-members/@me.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -15227,8 +15516,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_leave_thread
   - operation_id: rest_list_application_commands
-    display_name: List application commands
-    description: Discord REST v10 GET /applications/{application_id}/commands
+    display_name: Get Global Application Commands
+    description: 'Fetch all of the global commands for your application. Returns an
+      array of application command objects. Discord: GET /applications/{application_id}/commands.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -15286,8 +15576,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_application_emojis
-    display_name: List application emojis
-    description: Discord REST v10 GET /applications/{application_id}/emojis
+    display_name: List Application Emojis
+    description: 'Returns an object containing a list of emoji objects for the given
+      application under the items key. Includes a user object for the team member that
+      uploaded the emoji from the app''s settings, or for the bot user if uploaded using
+      the API. Discord: GET /applications/{application_id}/emojis.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -15339,11 +15632,12 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_application_identities_by_external_id
-    display_name: List application identities by external id
-    description: Discord REST v10 GET /applications/{application_id}/application-identities/{provider_type}/{provider_issued_user_id}.
-      Look up identities by provider and external user ID. An unmatched key returns
-      an empty list. The application bot must authenticate and the target user must
-      grant application_identities.write.
+    display_name: Get Application Identities by External ID
+    description: 'Returns the application identities for the user/application record
+      currently associated with the specified external ID (combination of provider_type,
+      provider_issued_user_id, and optional provider_id). Use this endpoint when you
+      need to resolve the Discord user_id for an Application Identity but only know
+      the external ID fields. Discord: GET /applications/{application_id}/application-identities/{provider_type}/{provider_issued_user_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -15413,10 +15707,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_application_identities_by_user_id
-    display_name: List application identities by user id
-    description: Discord REST v10 GET /users/{user_id}/application-identities/{application_id}.
-      List the user's identity keys without profile data. The application bot must authenticate
-      and the target user must grant application_identities.write.
+    display_name: Get Application Identities by User ID
+    description: 'Returns the application identities for the specified user and application.
+      Use this endpoint to discover the exact external ID values (provider_type, provider_issued_user_id,
+      and optional provider_id) for a user''s application identities. Discord: GET /users/{user_id}/application-identities/{application_id}.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -15476,9 +15770,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_application_skus
-    display_name: List application skus
-    description: Discord REST v10 GET /applications/{application_id}/skus. List all
-      SKUs for the application. Use type 5 for testing subscription entitlements.
+    display_name: List SKUs
+    description: 'Returns all SKUs for a given application. Discord: GET /applications/{application_id}/skus.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -15531,8 +15824,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_auto_moderation_rules
-    display_name: List auto moderation rules
-    description: Discord REST v10 GET /guilds/{guild_id}/auto-moderation/rules
+    display_name: List Auto Moderation Rules for Guild
+    description: 'Get a list of all rules currently configured for the guild. Returns
+      a list of auto moderation rule objects for the given guild. Discord: GET /guilds/{guild_id}/auto-moderation/rules.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -15584,8 +15878,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_channel_invites
-    display_name: List channel invites
-    description: Discord REST v10 GET /channels/{channel_id}/invites
+    display_name: Get Channel Invites
+    description: 'Returns a list of invite objects (with invite metadata) for the channel.
+      Only usable for guild channels. Requires the MANAGE_CHANNELS permission. Discord:
+      GET /channels/{channel_id}/invites.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -15637,8 +15933,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_channel_webhooks
-    display_name: List channel webhooks
-    description: Discord REST v10 GET /channels/{channel_id}/webhooks
+    display_name: Get Channel Webhooks
+    description: 'Returns a list of channel webhook objects. Requires the MANAGE_WEBHOOKS
+      permission. Discord: GET /channels/{channel_id}/webhooks.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -15690,8 +15987,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_application_command_permissions
-    display_name: List guild application command permissions
-    description: Discord REST v10 GET /applications/{application_id}/guilds/{guild_id}/commands/permissions
+    display_name: Get Guild Application Command Permissions
+    description: 'Fetches permissions for all commands for your application in a guild.
+      Returns an array of guild application command permissions objects. Discord: GET
+      /applications/{application_id}/guilds/{guild_id}/commands/permissions.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -15750,8 +16049,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_application_commands
-    display_name: List guild application commands
-    description: Discord REST v10 GET /applications/{application_id}/guilds/{guild_id}/commands
+    display_name: Get Guild Application Commands
+    description: 'Fetch all of the guild commands for your application for a specific
+      guild. Returns an array of application command objects. Discord: GET /applications/{application_id}/guilds/{guild_id}/commands.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -15815,10 +16115,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_audit_log_entries
-    display_name: List guild audit log entries
-    description: Discord REST v10 GET /guilds/{guild_id}/audit-logs. With all_pages
-      it reads every page (before the step's cursor, or from the newest item without
-      one) and returns next_cursor to pass as before when the list did not end
+    display_name: Get Guild Audit Log
+    description: 'Returns an audit log object for the guild. Requires the VIEW_AUDIT_LOG
+      permission. Discord: GET /guilds/{guild_id}/audit-logs. With all_pages it reads
+      every page (before the step''s cursor, or from the newest item without one) and
+      returns next_cursor to pass as before when the list did not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16005,10 +16306,12 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_bans
-    display_name: List guild bans
-    description: Discord REST v10 GET /guilds/{guild_id}/bans. With all_pages it reads
-      every page (after the step's cursor, or from the first item without one) and returns
-      next_cursor to pass as after when the list did not end
+    display_name: Get Guild Bans
+    description: 'Returns a list of ban objects for the users banned from this guild.
+      Requires the BAN_MEMBERS or VIEW_AUDIT_LOG permission. Discord: GET /guilds/{guild_id}/bans.
+      With all_pages it reads every page (after the step''s cursor, or from the first
+      item without one) and returns next_cursor to pass as after when the list did not
+      end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16099,8 +16402,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_channels
-    display_name: List guild channels
-    description: Discord REST v10 GET /guilds/{guild_id}/channels
+    display_name: Get Guild Channels
+    description: 'Returns a list of guild channel objects. Does not include threads.
+      Discord: GET /guilds/{guild_id}/channels.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16153,8 +16457,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_emojis
-    display_name: List guild emojis
-    description: Discord REST v10 GET /guilds/{guild_id}/emojis
+    display_name: List Guild Emojis
+    description: 'Returns a list of emoji objects for the given guild. Includes user
+      fields if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS
+      permission. Discord: GET /guilds/{guild_id}/emojis.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16206,8 +16512,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_integrations
-    display_name: List guild integrations
-    description: Discord REST v10 GET /guilds/{guild_id}/integrations
+    display_name: Get Guild Integrations
+    description: 'Returns a list of integration objects for the guild. Requires the
+      MANAGE_GUILD permission. Discord: GET /guilds/{guild_id}/integrations.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16259,8 +16566,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_invites
-    display_name: List guild invites
-    description: Discord REST v10 GET /guilds/{guild_id}/invites
+    display_name: Get Guild Invites
+    description: 'Returns a list of invite objects. Requires the MANAGE_GUILD or VIEW_AUDIT_LOG
+      permission. Invite Metadata is included with the MANAGE_GUILD permission. Discord:
+      GET /guilds/{guild_id}/invites.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16312,10 +16621,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_members
-    display_name: List guild members
-    description: Discord REST v10 GET /guilds/{guild_id}/members. With all_pages it
-      reads every page (after the step's cursor, or from the first item without one)
-      and returns next_cursor to pass as after when the list did not end
+    display_name: List Guild Members
+    description: 'Returns a list of guild member objects that are members of the guild.
+      Discord: GET /guilds/{guild_id}/members. With all_pages it reads every page (after
+      the step''s cursor, or from the first item without one) and returns next_cursor
+      to pass as after when the list did not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16400,8 +16710,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_roles
-    display_name: List guild roles
-    description: Discord REST v10 GET /guilds/{guild_id}/roles
+    display_name: Get Guild Roles
+    description: 'Returns a list of role objects for the guild. Discord: GET /guilds/{guild_id}/roles.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16453,11 +16763,12 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_scheduled_event_exception_users
-    display_name: List guild scheduled event exception users
-    description: Discord REST v10 GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/{guild_scheduled_event_exception_id}/users.
-      With all_pages it reads every page (after the step's cursor, or from the first
+    display_name: List Guild Scheduled Event Exception Users
+    description: 'Get a list of users subscribed to a guild scheduled event exception.
+      Discord: GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/{guild_scheduled_event_exception_id}/users.
+      With all_pages it reads every page (after the step''s cursor, or from the first
       item without one) and returns next_cursor to pass as after when the list did not
-      end
+      end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16565,11 +16876,14 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_scheduled_event_users
-    display_name: List guild scheduled event users
-    description: Discord REST v10 GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users.
-      With all_pages it reads every page (after the step's cursor, or from the first
+    display_name: Get Guild Scheduled Event Users
+    description: 'Get a list of guild scheduled event users subscribed to a guild scheduled
+      event. Returns a list of guild scheduled event user objects on success. Guild
+      member data, if it exists, is included if the with_member query parameter is set.
+      Discord: GET /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users.
+      With all_pages it reads every page (after the step''s cursor, or from the first
       item without one) and returns next_cursor to pass as after when the list did not
-      end
+      end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16671,8 +16985,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_scheduled_events
-    display_name: List guild scheduled events
-    description: Discord REST v10 GET /guilds/{guild_id}/scheduled-events
+    display_name: List Scheduled Events for Guild
+    description: 'Returns a list of guild scheduled event objects for the given guild.
+      Discord: GET /guilds/{guild_id}/scheduled-events.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16729,8 +17044,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_soundboard_sounds
-    display_name: List guild soundboard sounds
-    description: Discord REST v10 GET /guilds/{guild_id}/soundboard-sounds
+    display_name: List Guild Soundboard Sounds
+    description: 'Returns a list of the guild''s soundboard sounds. Includes user fields
+      if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission.
+      Discord: GET /guilds/{guild_id}/soundboard-sounds.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16782,8 +17099,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_stickers
-    display_name: List guild stickers
-    description: Discord REST v10 GET /guilds/{guild_id}/stickers
+    display_name: List Guild Stickers
+    description: 'Returns an array of sticker objects for the given guild. Includes
+      user fields if the bot has the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS
+      permission. Discord: GET /guilds/{guild_id}/stickers.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16835,8 +17154,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_templates
-    display_name: List guild templates
-    description: Discord REST v10 GET /guilds/{guild_id}/templates
+    display_name: Get Guild Templates
+    description: 'Returns an array of guild template objects. Requires the MANAGE_GUILD
+      permission. Discord: GET /guilds/{guild_id}/templates.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16888,8 +17208,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_guild_voice_regions
-    display_name: List guild voice regions
-    description: Discord REST v10 GET /guilds/{guild_id}/regions
+    display_name: Get Guild Voice Regions
+    description: 'Returns a list of voice region objects for the guild. Unlike the similar
+      /voice route, this returns VIP servers when the guild is VIP-enabled. Discord:
+      GET /guilds/{guild_id}/regions.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -16941,11 +17263,14 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_message_reactions_by_emoji
-    display_name: List message reactions by emoji
-    description: Discord REST v10 GET /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}.
-      With all_pages it reads every page (after the step's cursor, or from the first
+    display_name: Get Reactions
+    description: 'Get a list of users that reacted with this emoji. Returns an array
+      of user objects on success. The emoji must be URL Encoded or the request will
+      fail with 10014: Unknown Emoji. To use custom emoji, you must encode it in the
+      format name:id with the emoji name and emoji id. Discord: GET /channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}.
+      With all_pages it reads every page (after the step''s cursor, or from the first
       item without one) and returns next_cursor to pass as after when the list did not
-      end
+      end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -17050,10 +17375,12 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_messages
-    display_name: List messages
-    description: Discord REST v10 GET /channels/{channel_id}/messages. With all_pages
-      it reads every page (before the step's cursor, or from the newest item without
-      one) and returns next_cursor to pass as before when the list did not end
+    display_name: Get Channel Messages
+    description: 'Retrieves the messages in a channel. Returns an array of message objects
+      from newest to oldest on success. Discord: GET /channels/{channel_id}/messages.
+      With all_pages it reads every page (before the step''s cursor, or from the newest
+      item without one) and returns next_cursor to pass as before when the list did
+      not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -17151,8 +17478,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_my_connections
-    display_name: List my connections
-    description: Discord REST v10 GET /users/@me/connections
+    display_name: Get Current User Connections
+    description: 'Returns a list of connection objects. Requires the connections OAuth2
+      scope. Discord: GET /users/@me/connections.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -17199,10 +17527,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_my_guilds
-    display_name: List my guilds
-    description: Discord REST v10 GET /users/@me/guilds. With all_pages it reads every
-      page (after the step's cursor, or from the first item without one) and returns
-      next_cursor to pass as after when the list did not end
+    display_name: Get Current User Guilds
+    description: 'Returns a list of partial guild objects the current user is a member
+      of. For OAuth2, requires the guilds scope. Discord: GET /users/@me/guilds. With
+      all_pages it reads every page (after the step''s cursor, or from the first item
+      without one) and returns next_cursor to pass as after when the list did not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -17299,11 +17628,13 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_my_private_archived_threads
-    display_name: List my private archived threads
-    description: Discord REST v10 GET /channels/{channel_id}/users/@me/threads/archived/private.
-      With all_pages it reads every page (before the step's cursor, or from the newest
+    display_name: List Joined Private Archived Threads
+    description: 'Returns archived threads in the channel that are of type PRIVATE_THREAD,
+      and the user has joined. Threads are ordered by their id, in descending order.
+      Requires the READ_MESSAGE_HISTORY permission. Discord: GET /channels/{channel_id}/users/@me/threads/archived/private.
+      With all_pages it reads every page (before the step''s cursor, or from the newest
       item without one) and returns next_cursor to pass as before when the list did
-      not end
+      not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -17388,10 +17719,13 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_pins
-    display_name: List pins
-    description: Discord REST v10 GET /channels/{channel_id}/messages/pins. With all_pages
-      it reads every page (before the step's cursor, or from the newest item without
-      one) and returns next_cursor to pass as before when the list did not end
+    display_name: Get Channel Pins
+    description: 'Retrieves the list of pins in a channel. Requires the VIEW_CHANNEL
+      permission. If the user is missing the READ_MESSAGE_HISTORY permission in the
+      channel, then no pins will be returned. Discord: GET /channels/{channel_id}/messages/pins.
+      With all_pages it reads every page (before the step''s cursor, or from the newest
+      item without one) and returns next_cursor to pass as before when the list did
+      not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -17475,11 +17809,13 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_private_archived_threads
-    display_name: List private archived threads
-    description: Discord REST v10 GET /channels/{channel_id}/threads/archived/private.
-      With all_pages it reads every page (before the step's cursor, or from the newest
+    display_name: List Private Archived Threads
+    description: 'Returns archived threads in the channel that are of type PRIVATE_THREAD.
+      Threads are ordered by archive_timestamp, in descending order. Requires both the
+      READ_MESSAGE_HISTORY and MANAGE_THREADS permissions. Discord: GET /channels/{channel_id}/threads/archived/private.
+      With all_pages it reads every page (before the step''s cursor, or from the newest
       item without one) and returns next_cursor to pass as before when the list did
-      not end
+      not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -17563,11 +17899,14 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_public_archived_threads
-    display_name: List public archived threads
-    description: Discord REST v10 GET /channels/{channel_id}/threads/archived/public.
-      With all_pages it reads every page (before the step's cursor, or from the newest
-      item without one) and returns next_cursor to pass as before when the list did
-      not end
+    display_name: List Public Archived Threads
+    description: 'Returns archived threads in the channel that are public. When called
+      on a GUILD_TEXT channel, returns threads of type PUBLIC_THREAD. When called on
+      a GUILD_ANNOUNCEMENT channel returns threads of type ANNOUNCEMENT_THREAD. Threads
+      are ordered by archive_timestamp, in descending order. Requires the READ_MESSAGE_HISTORY
+      permission. Discord: GET /channels/{channel_id}/threads/archived/public. With
+      all_pages it reads every page (before the step''s cursor, or from the newest item
+      without one) and returns next_cursor to pass as before when the list did not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -17651,8 +17990,8 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_sticker_packs
-    display_name: List sticker packs
-    description: Discord REST v10 GET /sticker-packs
+    display_name: List Sticker Packs
+    description: 'Returns a list of available sticker packs. Discord: GET /sticker-packs.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -17698,10 +18037,11 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_thread_members
-    display_name: List thread members
-    description: Discord REST v10 GET /channels/{channel_id}/thread-members. With all_pages
-      it reads every page (after the step's cursor, or from the first item without one)
-      and returns next_cursor to pass as after when the list did not end
+    display_name: List Thread Members
+    description: 'Returns array of thread members objects that are members of the thread.
+      Discord: GET /channels/{channel_id}/thread-members. With all_pages it reads every
+      page (after the step''s cursor, or from the first item without one) and returns
+      next_cursor to pass as after when the list did not end.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -17791,8 +18131,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_list_voice_regions
-    display_name: List voice regions
-    description: Discord REST v10 GET /voice/regions
+    display_name: List Voice Regions
+    description: 'Returns an array of voice region objects that can be used when setting
+      a voice or stage channel''s rtc_region. Discord: GET /voice/regions.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -17838,10 +18179,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_modify_current_user_nick
-    display_name: Modify current user nick
-    description: Discord REST v10 PATCH /guilds/{guild_id}/members/@me/nick. Deprecated.
-      Use Modify Current Member. Changing the nickname requires CHANGE_NICKNAME and
-      supports an audit log reason.
+    display_name: Modify Current User Nick
+    description: 'Modifies the nickname of the current user in a guild. Returns a 200
+      with the nickname on success. Fires a Guild Member Update Gateway event. Discord:
+      PATCH /guilds/{guild_id}/members/@me/nick.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -17922,8 +18263,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_modify_current_user_nick
   - operation_id: rest_partner_sdk_token
-    display_name: Partner sdk token
-    description: Discord REST v10 POST /partner-sdk/token
+    display_name: Social SDK Token
+    description: 'Exchanges an external account''s credentials for a Discord provisional
+      account token (Discord Social SDK). Discord: POST /partner-sdk/token.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -18013,8 +18355,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_partner_sdk_token
   - operation_id: rest_partner_sdk_unmerge_provisional_account
-    display_name: Partner sdk unmerge provisional account
-    description: Discord REST v10 POST /partner-sdk/provisional-accounts/unmerge
+    display_name: Unmerge Provisional Account
+    description: 'Separates a provisional account from the Discord account it was merged
+      into (Discord Social SDK). Discord: POST /partner-sdk/provisional-accounts/unmerge.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -18104,8 +18447,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_partner_sdk_unmerge_provisional_account
   - operation_id: rest_poll_expire
-    display_name: Poll expire
-    description: Discord REST v10 POST /channels/{channel_id}/polls/{message_id}/expire
+    display_name: End Poll
+    description: 'Immediately ends the poll. You cannot end polls from other users.
+      Discord: POST /channels/{channel_id}/polls/{message_id}/expire.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -18174,8 +18518,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_poll_expire
   - operation_id: rest_preview_prune_guild
-    display_name: Preview prune guild
-    description: Discord REST v10 GET /guilds/{guild_id}/prune
+    display_name: Get Guild Prune Count
+    description: 'Returns an object with one pruned key indicating the number of members
+      that would be removed in a prune operation. Requires the MANAGE_GUILD and KICK_MEMBERS
+      permissions, unless the guild has the PRUNE_REQUIRES_ADMIN guild feature, in which
+      case it requires the ADMINISTRATOR permission. Discord: GET /guilds/{guild_id}/prune.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -18247,8 +18594,13 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_prune_guild
-    display_name: Prune guild
-    description: Discord REST v10 POST /guilds/{guild_id}/prune
+    display_name: Begin Guild Prune
+    description: 'Begin a prune operation. Requires the MANAGE_GUILD and KICK_MEMBERS
+      permissions, unless the guild has the PRUNE_REQUIRES_ADMIN guild feature, in which
+      case it requires the ADMINISTRATOR permission. Returns an object with one pruned
+      key indicating the number of members that were removed in the prune operation.
+      For large guilds it''s recommended to set the compute_prune_count option to false,
+      forcing pruned to null. Discord: POST /guilds/{guild_id}/prune.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -18341,8 +18693,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_prune_guild
   - operation_id: rest_put_guilds_onboarding
-    display_name: Put guilds onboarding
-    description: Discord REST v10 PUT /guilds/{guild_id}/onboarding
+    display_name: Modify Guild Onboarding
+    description: 'Modifies the onboarding configuration of the guild. Returns a 200
+      with the Onboarding object for the guild. Requires the MANAGE_GUILD and MANAGE_ROLES
+      permissions. Discord: PUT /guilds/{guild_id}/onboarding.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -18467,8 +18821,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_put_guilds_onboarding
   - operation_id: rest_remove_invite_target_user
-    display_name: Remove invite target user
-    description: Discord REST v10 DELETE /invites/{code}/target-users/{user_id}
+    display_name: Remove Target User
+    description: 'Removes a target user from an existing invite. Requires the caller
+      to be the inviter or have the MANAGE_GUILD permission. Returns a 204 empty response
+      on success. Discord: DELETE /invites/{code}/target-users/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -18537,8 +18893,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_remove_invite_target_user
   - operation_id: rest_search_guild_members
-    display_name: Search guild members
-    description: Discord REST v10 GET /guilds/{guild_id}/members/search
+    display_name: Search Guild Members
+    description: 'Returns a list of guild member objects whose username or nickname
+      starts with a provided string. Discord: GET /guilds/{guild_id}/members/search.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -18604,8 +18961,9 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_send_soundboard_sound
-    display_name: Send soundboard sound
-    description: Discord REST v10 POST /channels/{channel_id}/send-soundboard-sound
+    display_name: Send Soundboard Sound
+    description: 'Send a soundboard sound to a voice channel the user is connected to.
+      Fires a Voice Channel Effect Send Gateway event. Discord: POST /channels/{channel_id}/send-soundboard-sound.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -18690,8 +19048,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_send_soundboard_sound
   - operation_id: rest_set_channel_permission_overwrite
-    display_name: Set channel permission overwrite
-    description: Discord REST v10 PUT /channels/{channel_id}/permissions/{overwrite_id}
+    display_name: Edit Channel Permissions
+    description: 'Edit the channel permission overwrites for a user or role in a channel.
+      Only usable for guild channels. Requires the MANAGE_ROLES permission. Only permissions
+      your bot has in the guild or parent channel (if applicable) can be allowed/denied
+      (unless your bot has a MANAGE_ROLES overwrite in the channel). Returns a 204 empty
+      response on success. Fires a Channel Update Gateway event. Discord: PUT /channels/{channel_id}/permissions/{overwrite_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -18787,8 +19149,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_set_channel_permission_overwrite
   - operation_id: rest_set_guild_application_command_permissions
-    display_name: Set guild application command permissions
-    description: Discord REST v10 PUT /applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions
+    display_name: Edit Application Command Permissions
+    description: 'Edits command permissions for a specific command for your application
+      in a guild and returns a guild application command permissions object. Fires an
+      Application Command Permissions Update Gateway event. Discord: PUT /applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -18894,8 +19258,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_set_guild_application_command_permissions
   - operation_id: rest_sync_guild_template
-    display_name: Sync guild template
-    description: Discord REST v10 PUT /guilds/{guild_id}/templates/{code}
+    display_name: Sync Guild Template
+    description: 'Syncs the template to the guild''s current state. Requires the MANAGE_GUILD
+      permission. Returns the guild template object on success. Discord: PUT /guilds/{guild_id}/templates/{code}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -18964,8 +19329,8 @@ operations:
     - timeout_unknown
     effect_kind: discord_sync_guild_template
   - operation_id: rest_thread_search
-    display_name: Thread search
-    description: Discord REST v10 GET /channels/{channel_id}/threads/search
+    display_name: Search Threads
+    description: 'Searches the threads of a channel. Discord: GET /channels/{channel_id}/threads/search.'
     operation_kind: source
     category: messaging
     connection_type_ids:
@@ -19098,8 +19463,10 @@ operations:
     - invalid_response
     - response_too_large
   - operation_id: rest_trigger_typing_indicator
-    display_name: Trigger typing indicator
-    description: Discord REST v10 POST /channels/{channel_id}/typing
+    display_name: Trigger Typing Indicator
+    description: 'Post a typing indicator for the specified channel, which expires after
+      10 seconds. Returns a 204 empty response on success. Fires a Typing Start Gateway
+      event. Discord: POST /channels/{channel_id}/typing.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -19162,8 +19529,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_trigger_typing_indicator
   - operation_id: rest_unban_user_from_guild
-    display_name: Unban user from guild
-    description: Discord REST v10 DELETE /guilds/{guild_id}/bans/{user_id}
+    display_name: Remove Guild Ban
+    description: 'Remove the ban for a user. Requires the BAN_MEMBERS permissions. Returns
+      a 204 empty response on success. Fires a Guild Ban Remove Gateway event. Discord:
+      DELETE /guilds/{guild_id}/bans/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -19244,8 +19613,8 @@ operations:
     - timeout_unknown
     effect_kind: discord_unban_user_from_guild
   - operation_id: rest_update_application
-    display_name: Update application
-    description: Discord REST v10 PATCH /applications/{application_id}
+    display_name: Modify Application
+    description: 'Changes an application by its ID. Discord: PATCH /applications/{application_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -19450,8 +19819,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_application
   - operation_id: rest_update_application_command
-    display_name: Update application command
-    description: Discord REST v10 PATCH /applications/{application_id}/commands/{command_id}
+    display_name: Edit Global Application Command
+    description: 'Edit a global command. Returns 200 and an application command object.
+      All fields are optional, but any fields provided will entirely overwrite the existing
+      values of those fields. Discord: PATCH /applications/{application_id}/commands/{command_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -19614,8 +19985,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_application_command
   - operation_id: rest_update_application_emoji
-    display_name: Update application emoji
-    description: Discord REST v10 PATCH /applications/{application_id}/emojis/{emoji_id}
+    display_name: Modify Application Emoji
+    description: 'Modify the given emoji. Returns the updated emoji object on success.
+      Discord: PATCH /applications/{application_id}/emojis/{emoji_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -19700,11 +20072,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_application_emoji
   - operation_id: rest_update_application_identity_profile
-    display_name: Update application identity profile
-    description: Discord REST v10 PATCH /applications/{application_id}/users/{user_id}/identities/{provider_issued_user_id}/profile.
-      Create or update a user's game stats profile. Supplying data replaces it entirely.
-      Serialized data must fit within 10 KB. The application bot must authenticate and
-      the target user must grant application_identities.write.
+    display_name: Update Application Identity Profile
+    description: 'Updates the profile data on the user''s matching Application Identity
+      record. Returns an Application Identity Profile object. Discord: PATCH /applications/{application_id}/users/{user_id}/identities/{provider_issued_user_id}/profile.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -19917,8 +20287,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_application_identity_profile
   - operation_id: rest_update_application_role_connections_metadata
-    display_name: Update application role connections metadata
-    description: Discord REST v10 PUT /applications/{application_id}/role-connections/metadata
+    display_name: Update Application Role Connection Metadata Records
+    description: 'Updates and returns a list of application role connection metadata
+      objects for the given application. Discord: PUT /applications/{application_id}/role-connections/metadata.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -20042,8 +20413,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_application_role_connections_metadata
   - operation_id: rest_update_application_user_role_connection
-    display_name: Update application user role connection
-    description: Discord REST v10 PUT /users/@me/applications/{application_id}/role-connection
+    display_name: Update Current User Application Role Connection
+    description: 'Updates and returns the application role connection for the user.
+      Requires an OAuth2 access token with role_connections.write scope for the application
+      specified in the path. Discord: PUT /users/@me/applications/{application_id}/role-connection.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -20136,8 +20509,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_application_user_role_connection
   - operation_id: rest_update_auto_moderation_rule
-    display_name: Update auto moderation rule
-    description: Discord REST v10 PATCH /guilds/{guild_id}/auto-moderation/rules/{rule_id}
+    display_name: Modify Auto Moderation Rule
+    description: 'Modify an existing rule. Returns an auto moderation rule on success.
+      Fires an Auto Moderation Rule Update Gateway event. Discord: PATCH /guilds/{guild_id}/auto-moderation/rules/{rule_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -20450,8 +20824,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_auto_moderation_rule
   - operation_id: rest_update_channel
-    display_name: Update channel
-    description: Discord REST v10 PATCH /channels/{channel_id}
+    display_name: Modify Channel
+    description: 'Update a channel''s settings. Returns a channel on success, and a
+      400 BAD REQUEST on invalid parameters. Discord: PATCH /channels/{channel_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -20710,8 +21085,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_channel
   - operation_id: rest_update_guild
-    display_name: Update guild
-    description: Discord REST v10 PATCH /guilds/{guild_id}
+    display_name: Modify Guild
+    description: 'Modify a guild''s settings. Requires the MANAGE_GUILD permission.
+      Returns the updated guild object on success. Fires a Guild Update Gateway event.
+      Discord: PATCH /guilds/{guild_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -20937,8 +21314,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild
   - operation_id: rest_update_guild_application_command
-    display_name: Update guild application command
-    description: Discord REST v10 PATCH /applications/{application_id}/guilds/{guild_id}/commands/{command_id}
+    display_name: Edit Guild Application Command
+    description: 'Edit a guild command. Updates for guild commands will be available
+      immediately. Returns 200 and an application command object. All fields are optional,
+      but any fields provided will entirely overwrite the existing values of those fields.
+      Discord: PATCH /applications/{application_id}/guilds/{guild_id}/commands/{command_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -21091,8 +21471,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild_application_command
   - operation_id: rest_update_guild_emoji
-    display_name: Update guild emoji
-    description: Discord REST v10 PATCH /guilds/{guild_id}/emojis/{emoji_id}
+    display_name: Modify Guild Emoji
+    description: 'Modify the given emoji. For emojis created by the current user, requires
+      either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission. For
+      other emojis, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns the updated
+      emoji object on success. Fires a Guild Emojis Update Gateway event. Discord: PATCH
+      /guilds/{guild_id}/emojis/{emoji_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -21186,8 +21570,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild_emoji
   - operation_id: rest_update_guild_incident_actions
-    display_name: Update guild incident actions
-    description: Discord REST v10 PUT /guilds/{guild_id}/incident-actions
+    display_name: Modify Guild Incident Actions
+    description: 'Modifies the incident actions of the guild. Returns a 200 with the
+      Incidents Data object for the guild. Requires the MANAGE_GUILD permission. Discord:
+      PUT /guilds/{guild_id}/incident-actions.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -21270,8 +21656,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild_incident_actions
   - operation_id: rest_update_guild_member
-    display_name: Update guild member
-    description: Discord REST v10 PATCH /guilds/{guild_id}/members/{user_id}
+    display_name: Modify Guild Member
+    description: 'Modify attributes of a guild member. Returns a 200 OK with the guild
+      member as the body. Fires a Guild Member Update Gateway event. If the channel_id
+      is set to null, this will force the target user to be disconnected from voice.
+      Discord: PATCH /guilds/{guild_id}/members/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -21387,8 +21776,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild_member
   - operation_id: rest_update_guild_role
-    display_name: Update guild role
-    description: Discord REST v10 PATCH /guilds/{guild_id}/roles/{role_id}
+    display_name: Modify Guild Role
+    description: 'Modify a guild role. Requires the MANAGE_ROLES permission. Returns
+      the updated role on success. Fires a Guild Role Update Gateway event. Discord:
+      PATCH /guilds/{guild_id}/roles/{role_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -21513,8 +21904,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild_role
   - operation_id: rest_update_guild_scheduled_event
-    display_name: Update guild scheduled event
-    description: Discord REST v10 PATCH /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}
+    display_name: Modify Guild Scheduled Event
+    description: 'Modify a guild scheduled event. Returns the modified guild scheduled
+      event object on success. Fires a Guild Scheduled Event Update Gateway event. Discord:
+      PATCH /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -21734,8 +22127,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild_scheduled_event
   - operation_id: rest_update_guild_scheduled_event_exception
-    display_name: Update guild scheduled event exception
-    description: Discord REST v10 PATCH /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions/{exception_id}
+    display_name: Modify Guild Scheduled Event Exception
+    description: 'Modify an exception to a recurring guild scheduled event. Discord:
+      PATCH /guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions/{exception_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -21834,8 +22228,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild_scheduled_event_exception
   - operation_id: rest_update_guild_soundboard_sound
-    display_name: Update guild soundboard sound
-    description: Discord REST v10 PATCH /guilds/{guild_id}/soundboard-sounds/{sound_id}
+    display_name: Modify Guild Soundboard Sound
+    description: 'Modify the given soundboard sound. For sounds created by the current
+      user, requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS
+      permission. For other sounds, requires the MANAGE_GUILD_EXPRESSIONS permission.
+      Returns the updated soundboard sound object on success. Fires a Guild Soundboard
+      Sound Update Gateway event. Discord: PATCH /guilds/{guild_id}/soundboard-sounds/{sound_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -21937,8 +22335,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild_soundboard_sound
   - operation_id: rest_update_guild_sticker
-    display_name: Update guild sticker
-    description: Discord REST v10 PATCH /guilds/{guild_id}/stickers/{sticker_id}
+    display_name: Modify Guild Sticker
+    description: 'Modify the given sticker. For stickers created by the current user,
+      requires either the CREATE_GUILD_EXPRESSIONS or MANAGE_GUILD_EXPRESSIONS permission.
+      For other stickers, requires the MANAGE_GUILD_EXPRESSIONS permission. Returns
+      the updated sticker object on success. Fires a Guild Stickers Update Gateway event.
+      Discord: PATCH /guilds/{guild_id}/stickers/{sticker_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -22032,8 +22434,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild_sticker
   - operation_id: rest_update_guild_template
-    display_name: Update guild template
-    description: Discord REST v10 PATCH /guilds/{guild_id}/templates/{code}
+    display_name: Modify Guild Template
+    description: 'Modifies the template''s metadata. Requires the MANAGE_GUILD permission.
+      Returns the guild template object on success. Discord: PATCH /guilds/{guild_id}/templates/{code}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -22123,8 +22526,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild_template
   - operation_id: rest_update_guild_welcome_screen
-    display_name: Update guild welcome screen
-    description: Discord REST v10 PATCH /guilds/{guild_id}/welcome-screen
+    display_name: Modify Guild Welcome Screen
+    description: 'Modify the guild''s Welcome Screen. Requires the MANAGE_GUILD permission.
+      Returns the updated Welcome Screen object. May fire a Guild Update Gateway event.
+      Discord: PATCH /guilds/{guild_id}/welcome-screen.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -22228,8 +22633,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild_welcome_screen
   - operation_id: rest_update_guild_widget_settings
-    display_name: Update guild widget settings
-    description: Discord REST v10 PATCH /guilds/{guild_id}/widget
+    display_name: Modify Guild Widget
+    description: 'Modify a guild widget settings object for the guild. All attributes
+      may be passed in with JSON and modified. Requires the MANAGE_GUILD permission.
+      Returns the updated guild widget settings object. Fires a Guild Update Gateway
+      event. Discord: PATCH /guilds/{guild_id}/widget.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -22313,8 +22721,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_guild_widget_settings
   - operation_id: rest_update_invite_target_users
-    display_name: Update invite target users
-    description: Discord REST v10 PUT /invites/{code}/target-users
+    display_name: Update Target Users
+    description: 'Updates the users allowed to see and accept this invite. Uploading
+      a file with invalid user IDs will result in a 400 with the invalid IDs described.
+      Requires the caller to be the inviter or have the MANAGE_GUILD permission. Discord:
+      PUT /invites/{code}/target-users.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -22432,8 +22843,11 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_invite_target_users
   - operation_id: rest_update_lobby_message_external_moderation_metadata
-    display_name: Update lobby message external moderation metadata
-    description: Discord REST v10 PUT /lobbies/{lobby_id}/messages/{message_id}/moderation-metadata
+    display_name: Update Lobby Message Moderation Metadata
+    description: 'Sets the moderation metadata for a lobby message. The metadata is
+      app-scoped and delivered to active game clients via the Social SDK as a realtime
+      message update. See Integrate Moderation for the full moderation flow. Discord:
+      PUT /lobbies/{lobby_id}/messages/{message_id}/moderation-metadata.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -22565,8 +22979,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_lobby_message_external_moderation_metadata
   - operation_id: rest_update_message
-    display_name: Update message
-    description: Discord REST v10 PATCH /channels/{channel_id}/messages/{message_id}
+    display_name: Edit Message
+    description: 'Edit a previously sent message. The fields content, embeds, flags
+      and components can be edited by the original message author. Other users can only
+      edit flags and only if they have the MANAGE_MESSAGES permission in the corresponding
+      channel. When specifying flags, ensure to include all previously set flags/bits
+      in addition to ones that you are modifying. Discord: PATCH /channels/{channel_id}/messages/{message_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -22846,8 +23264,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_message
   - operation_id: rest_update_my_application
-    display_name: Update my application
-    description: Discord REST v10 PATCH /applications/@me
+    display_name: Edit Current Application
+    description: 'Edit properties of the app associated with the requesting bot user.
+      Only properties that are passed will be updated. Returns the updated application
+      object on success. Discord: PATCH /applications/@me.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -23001,8 +23421,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_my_application
   - operation_id: rest_update_my_guild_member
-    display_name: Update my guild member
-    description: Discord REST v10 PATCH /guilds/{guild_id}/members/@me
+    display_name: Modify Current Member
+    description: 'Modifies the current member in a guild. Returns a 200 with the updated
+      member object on success. Fires a Guild Member Update Gateway event. Discord:
+      PATCH /guilds/{guild_id}/members/@me.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -23095,8 +23517,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_my_guild_member
   - operation_id: rest_update_my_user
-    display_name: Update my user
-    description: Discord REST v10 PATCH /users/@me
+    display_name: Modify Current User
+    description: 'Modify the requester''s user account settings. Returns a user object
+      on success. Fires a User Update Gateway event. Discord: PATCH /users/@me.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -23179,8 +23602,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_my_user
   - operation_id: rest_update_original_webhook_message
-    display_name: Update original webhook message
-    description: Discord REST v10 PATCH /webhooks/{webhook_id}/{webhook_token}/messages/@original
+    display_name: Edit Original Interaction Response
+    description: 'Edits the initial Interaction response. Functions the same as Edit
+      Webhook Message. Discord: PATCH /webhooks/{webhook_id}/{webhook_token}/messages/@original.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -23461,8 +23885,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_original_webhook_message
   - operation_id: rest_update_self_voice_state
-    display_name: Update self voice state
-    description: Discord REST v10 PATCH /guilds/{guild_id}/voice-states/@me
+    display_name: Modify Current User Voice State
+    description: 'Updates the current user''s voice state. Returns 204 No Content on
+      success. Fires a Voice State Update Gateway event. Discord: PATCH /guilds/{guild_id}/voice-states/@me.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -23550,8 +23975,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_self_voice_state
   - operation_id: rest_update_stage_instance
-    display_name: Update stage instance
-    description: Discord REST v10 PATCH /stage-instances/{channel_id}
+    display_name: Modify Stage Instance
+    description: 'Updates fields of an existing Stage instance. Returns the updated
+      Stage instance. Fires a Stage Instance Update Gateway event. Discord: PATCH /stage-instances/{channel_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -23635,8 +24061,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_stage_instance
   - operation_id: rest_update_user_message_external_moderation_metadata
-    display_name: Update user message external moderation metadata
-    description: Discord REST v10 PUT /partner-sdk/dms/{user_id_1}/{user_id_2}/messages/{message_id}/moderation-metadata
+    display_name: Update User Message Moderation Metadata
+    description: 'Update the external moderation metadata for a user message (DM). Discord:
+      PUT /partner-sdk/dms/{user_id_1}/{user_id_2}/messages/{message_id}/moderation-metadata.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -23774,8 +24201,12 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_user_message_external_moderation_metadata
   - operation_id: rest_update_voice_channel_status
-    display_name: Update voice channel status
-    description: Discord REST v10 PUT /channels/{channel_id}/voice-status
+    display_name: Set Voice Channel Status
+    description: 'Set a voice channel''s status. Requires the SET_VOICE_CHANNEL_STATUS
+      permission, and additionally the MANAGE_CHANNELS permission if the current user
+      is not connected to the voice channel. Users who are connected to the voice channel
+      do not need the CONNECT permission (see Implicit Permissions). Fires a Voice Channel
+      Status Update Gateway event. Discord: PUT /channels/{channel_id}/voice-status.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -23855,8 +24286,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_voice_channel_status
   - operation_id: rest_update_voice_state
-    display_name: Update voice state
-    description: Discord REST v10 PATCH /guilds/{guild_id}/voice-states/{user_id}
+    display_name: Modify User Voice State
+    description: 'Updates another user''s voice state. Returns 204 No Content on success.
+      Fires a Voice State Update Gateway event. Discord: PATCH /guilds/{guild_id}/voice-states/{user_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -23946,8 +24378,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_voice_state
   - operation_id: rest_update_webhook
-    display_name: Update webhook
-    description: Discord REST v10 PATCH /webhooks/{webhook_id}
+    display_name: Modify Webhook
+    description: 'Modify a webhook. Requires the MANAGE_WEBHOOKS permission. Returns
+      the updated webhook object on success. Fires a Webhooks Update Gateway event.
+      Discord: PATCH /webhooks/{webhook_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -24035,8 +24469,10 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_webhook
   - operation_id: rest_update_webhook_by_token
-    display_name: Update webhook by token
-    description: Discord REST v10 PATCH /webhooks/{webhook_id}/{webhook_token}
+    display_name: Modify Webhook with Token
+    description: 'Same as above, except this call does not require authentication, does
+      not accept a channel_id parameter in the body, and does not return a user in the
+      webhook object. Discord: PATCH /webhooks/{webhook_id}/{webhook_token}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -24119,8 +24555,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_webhook_by_token
   - operation_id: rest_update_webhook_message
-    display_name: Update webhook message
-    description: Discord REST v10 PATCH /webhooks/{webhook_id}/{webhook_token}/messages/{message_id}
+    display_name: Edit Webhook Message
+    description: 'Edits a previously-sent webhook message from the same token. Returns
+      a message object on success. Discord: PATCH /webhooks/{webhook_id}/{webhook_token}/messages/{message_id}.'
     operation_kind: action
     category: messaging
     connection_type_ids:
@@ -24407,8 +24844,9 @@ operations:
     - timeout_unknown
     effect_kind: discord_update_webhook_message
   - operation_id: rest_upload_application_attachment
-    display_name: Upload application attachment
-    description: Discord REST v10 POST /applications/{application_id}/attachment
+    display_name: Upload Application Attachment
+    description: 'Uploads a file as an attachment of the application. Discord: POST
+      /applications/{application_id}/attachment.'
     operation_kind: action
     category: messaging
     connection_type_ids:

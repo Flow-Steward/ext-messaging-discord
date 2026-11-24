@@ -1,0 +1,43 @@
+page_id: setup-guide
+title: Setup Guide
+description: Connect a Discord bot in a few minutes.
+components:
+  - component_id: setup_bot
+    type: markdown
+    title: Create the bot
+    body: |
+      1. Open the [Discord Developer Portal](https://discord.com/developers/applications) and press **New Application**.
+      2. Open **Bot**. Press **Reset Token**, copy the token and keep it safe: Discord shows it only once.
+      3. Under **Privileged Gateway Intents** turn on what your steps need:
+         - **Server Members Intent** — List guild members and the other member lists need it.
+         - **Message Content Intent** — without it Discord returns messages with empty content, embeds, attachments and components.
+      4. Save the changes.
+  - component_id: setup_invite
+    type: markdown
+    title: Add the bot to your server
+    body: |
+      1. In the Developer Portal open **OAuth2 → URL Generator**.
+      2. Tick the scope **bot** (and **applications.commands** if you manage slash commands).
+      3. Tick the permissions your steps need, for example **View Channels**, **Send Messages**, **Read Message History**, **Attach Files**, **Manage Messages**, **Manage Roles** or **Manage Webhooks**.
+      4. Open the generated link, choose your server and authorize.
+      5. To give or take roles, drag the bot's role in **Server Settings → Roles** above the roles it manages: a bot can only grant, edit and sort roles below its own highest role, and kick, ban or rename only members whose highest role is below it.
+  - component_id: setup_connect
+    type: markdown
+    title: Connect it to Flow Steward
+    body: |
+      1. On the **Connection** page paste the bot token into **Discord bot** and save it.
+      2. Press **Test connection**: it reads the bot's own user.
+      3. Add Discord steps to a workflow. Start with **Test connection**, **Get channel** or **List channel messages**, then add the steps that change data.
+  - component_id: setup_ids
+    type: markdown
+    title: Find IDs
+    body: |
+      Steps take Discord IDs (numbers such as `1234567890123456789`) for servers, channels, users, roles and messages. In Discord open **User Settings → Advanced** and turn on **Developer Mode**; then right-click a server, channel, user, role or message and choose **Copy ID**.
+  - component_id: setup_other
+    type: markdown
+    title: Webhooks and OAuth2 tokens
+    body: |
+      - **A webhook** posts to one channel without a bot. Create it in **Channel settings → Integrations → Webhooks**, copy its URL and put the token part in a **Discord webhook or interaction token** connection (page **Webhook connection**).
+      - **An OAuth2 token** lets steps act for a person (their servers, connections, or adding them to a server). Get it through your own OAuth2 flow and put it in a **Discord OAuth2 token** connection (page **OAuth2 connection**).
+
+      A test run of a workflow never sends changes.

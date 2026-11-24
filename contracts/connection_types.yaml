@@ -1,7 +1,7 @@
 connection_types:
   - connection_type_id: discord_bot
     display_name: Discord bot
-    description: An application bot installed in your Discord server.
+    description: A Discord bot added to your servers. Most steps act as the bot, with the permissions of its role.
     auth:
       type: api_key
     config_schema:
@@ -18,31 +18,36 @@ connection_types:
           minLength: 8
           maxLength: 512
           title: Bot token
+          description: The token on the Bot page of your application in the Discord Developer Portal.
         access_token:
           minLength: 8
           type: string
           title: Delegated user OAuth2 token
+          description: Optional. A user's OAuth2 token that Add guild member and Add group DM user send in their body.
           maxLength: 10240
         client_secret:
           minLength: 8
           type: string
           title: Application client secret
+          description: Optional. The application's client secret, for the Social SDK token steps.
           maxLength: 1024
         external_auth_token:
           minLength: 8
           type: string
           title: Partner external auth token
+          description: Optional. The external identity provider's token, for the Social SDK token steps.
           maxLength: 10240
         secret:
           minLength: 8
           type: string
           title: Lobby join secret
+          description: Optional. The secret of the lobby Create or join lobby joins.
           maxLength: 10240
     capabilities:
       test_connection: true
   - connection_type_id: discord_oauth_token
     display_name: Discord OAuth2 token
-    description: A scoped Discord credential. Discord controls its access and expiry.
+    description: A Discord user's OAuth2 access token, for steps that act for that person. Discord controls its scopes and expiry.
     auth:
       type: api_key
     config_schema:
@@ -58,11 +63,12 @@ connection_types:
           minLength: 8
           maxLength: 512
           title: Access token
+          description: A user's OAuth2 access token, issued by your application's OAuth2 flow with the scopes the steps need.
       required:
       - access_token
   - connection_type_id: discord_route_token
     display_name: Discord webhook or interaction token
-    description: A scoped Discord credential. Discord controls its access and expiry.
+    description: A webhook token, or an interaction token, for the steps whose Discord address holds the token.
     auth:
       type: api_key
     config_schema:
@@ -78,8 +84,10 @@ connection_types:
           minLength: 8
           maxLength: 512
           title: Webhook token
+          description: The last part of the webhook's URL (/webhooks/<id>/<token>).
         interaction_token:
           type: string
           minLength: 8
           maxLength: 512
           title: Interaction token
+          description: The token Discord gives with an interaction; valid for 15 minutes, for followups to an interaction your own service received.

@@ -1,0 +1,25 @@
+page_id: connection-oauth2
+title: OAuth2 connection
+description: Act for a Discord user with an OAuth2 access token.
+components:
+  - component_id: discord_oauth_connection
+    type: connection_form
+    title: Discord OAuth2 token
+    description: Paste a user's OAuth2 access token. Flow Steward stores it as a secret and never shows it again.
+    data:
+      connection_kind: extension
+      connection_type: discord_oauth_token
+      config_fields: []
+      secret_fields: [access_token]
+    fields:
+      - path: access_token
+        widget: secret
+        label: Access token
+        required: true
+  - component_id: discord_oauth_when
+    type: markdown
+    title: When you need it
+    body: |
+      For steps that act for a person rather than the bot: the user's own servers and connections, their role connection, their entitlements, Social SDK lobbies, and adding a user to a server (Add guild member uses the user's token in its body, which the step takes from this connection).
+
+      Discord issues the token through your application's OAuth2 flow with the scopes the step needs (for example `identify`, `guilds`, `guilds.join`, `connections`). Discord controls its scopes and expiry; when it expires, paste a new one. Each step names the connections it accepts.

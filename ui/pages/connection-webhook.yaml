@@ -1,0 +1,31 @@
+page_id: connection-webhook
+title: Webhook connection
+description: Post through a webhook, or answer an interaction, with its token.
+components:
+  - component_id: discord_route_connection
+    type: connection_form
+    title: Discord webhook or interaction token
+    description: Paste the webhook token, or an interaction token. Flow Steward stores them as secrets and never shows them again.
+    data:
+      connection_kind: extension
+      connection_type: discord_route_token
+      config_fields: []
+      secret_fields: [webhook_token, interaction_token]
+    fields:
+      - path: webhook_token
+        widget: secret
+        label: Webhook token
+        required: false
+      - path: interaction_token
+        widget: secret
+        label: Interaction token
+        required: false
+  - component_id: discord_route_when
+    type: markdown
+    title: When you need it
+    body: |
+      For the steps whose Discord address holds a token: Execute webhook (and its Slack and GitHub compatible forms), get, edit or delete a webhook or its messages by token, and interaction responses and followups.
+
+      **Webhook token.** In Discord open **Channel settings → Integrations → Webhooks**, create a webhook and press **Copy Webhook URL**. The URL ends with `/webhooks/<id>/<token>`: the number goes into the step's `webhook_id`, the last part into this connection. Posting through a webhook needs no bot.
+
+      **Interaction token.** Discord gives one with every interaction your application receives; it stays valid for 15 minutes, and the first answer is due within 3 seconds. Receiving interactions is not part of this version, so this field only serves followups to an interaction your own service received.
