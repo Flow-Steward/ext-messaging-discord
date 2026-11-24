@@ -463,7 +463,8 @@ def parts(call):
     from email.parser import BytesParser
 
     message = BytesParser(policy=policy.default).parsebytes(
-        f"Content-Type: {call['content_type']}\r\nMIME-Version: 1.0\r\n\r\n".encode() + call["data"]
+        f"Content-Type: {call['content_type']}\r\nMIME-Version: 1.0\r\n\r\n".encode()
+        + bytes(call["data"])
     )
     return [part for part in message.iter_parts() if part.get_filename()]
 
@@ -474,6 +475,9 @@ def capture(monkeypatch):
     def send(**kwargs):
         from discord_fakes import reply
 
+        # The body is read as it would be sent; its files are closed after the send.
+        if kwargs.get("data") is not None:
+            kwargs["data"] = bytes(kwargs["data"])
         calls.append(kwargs)
         return reply(200, b'{"id":"1"}')
 
@@ -553,7 +557,7 @@ def test_the_twenty_mib_limit_is_checked_per_file():
     from runtime import files
 
     def read(_handle):
-        return b"0" * (TWENTY_MIB + 1)
+        yield b"0" * (TWENTY_MIB + 1)
 
     with pytest.raises(ValueError, match="larger than 20 MiB"):
         files.file_parts(
@@ -835,3 +839,60 @@ def test_the_docs_name_what_is_outside_this_version():
     for text in (readme, coverage):
         assert "full API coverage" not in text.lower()
         assert "full coverage" not in text.lower()
+
+
+# -- Memory of an upload -------------------------------------------------------------
+
+#: Sizes of the memory test's three workflow files.
+MEMORY_TEST_SIZES = (4 * MIB, 6 * MIB, 8 * MIB)
+
+
+def _three_files(tmp_path):
+    grants = {"inputs": []}
+    entries = []
+    for index, size in enumerate(MEMORY_TEST_SIZES):
+        handle = f"art-m{index}"
+        grants["inputs"] += artifact_grant(tmp_path, handle, b"\x89PNG" + b"0" * (size - 4))[
+            "inputs"
+        ]
+        entries.append(
+            {"field": f"files[{index}]", "filename": f"f{index}.png", "artifact_handle": handle}
+        )
+    return grants, entries
+
+
+def test_an_upload_of_three_files_holds_about_one_piece_in_memory(monkeypatch, tmp_path):
+    """Each workflow file is streamed to a temporary file and sent piece by piece: the
+    peak stays below twice the largest file (it was about three copies of all files)."""
+    import tracemalloc
+
+    from runtime import transport
+
+    sent = []
+
+    def opener(request, *, timeout_seconds, purpose):
+        total = 0
+        for piece in request.data:
+            total += len(piece)
+        sent.append((int(request.get_header("Content-length")), total))
+        return json_response(200, {"id": "1"})
+
+    monkeypatch.setattr(transport, "open_pinned_url", opener, raising=False)
+    grants, entries = _three_files(tmp_path)
+    request = action(
+        "rest_create_message",
+        media_type="multipart/form-data",
+        body={"data": {"content": "three"}},
+        file_artifacts=entries,
+    )
+    request["action"]["artifacts"] = grants
+    tracemalloc.start()
+    try:
+        result = main.dispatch(request)
+        peak = tracemalloc.get_traced_memory()[1]
+    finally:
+        tracemalloc.stop()
+    assert result["ok"] is True, result
+    [(announced, total)] = sent
+    assert announced == total > sum(MEMORY_TEST_SIZES)
+    assert peak < 2 * max(MEMORY_TEST_SIZES), peak

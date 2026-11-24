@@ -23,3 +23,5 @@
 - Name what is outside this version: receiving interactions and answering them within 3 seconds with the event's token, the Gateway and Voice.
 - Name the repository and issue tracker in the manifest; add CI, release, CodeQL and catalog checks.
 - Add a read-only live test that runs when `DISCORD_TOKEN_FILE` is set.
+- Send workflow files without holding them in memory: each is streamed to a temporary file and checked, then the multipart body goes piece by piece with its Content-Length.
+- Name every limit as a constant with its source; size messages are formed from the constant they check.

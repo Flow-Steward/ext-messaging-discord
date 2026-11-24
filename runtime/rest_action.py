@@ -4,12 +4,12 @@ from __future__ import annotations
 
 import hashlib
 import time
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from dataclasses import replace
 from http.client import HTTPException
 from typing import Any
 
-from flowsteward_extension_sdk import PinnedPeerError, read_artifact_bytes
+from flowsteward_extension_sdk import PinnedPeerError, stream_artifact_bytes
 
 from runtime import budget
 from runtime.outcome import Unusable, read_data, write_data
@@ -22,6 +22,7 @@ from runtime.paging import (
     page_complete,
     page_items,
 )
+from runtime.files import READ_CHUNK_BYTES
 from runtime.rest import Prepared, execute, prepare
 from runtime.routes import route_for
 from runtime.transport import (
@@ -45,6 +46,9 @@ STATUS_ERRORS = {
 PAGE_DEADLINE_SECONDS = 15.0
 PAGE_WINDOW_END_SECONDS = 25.0
 MIN_PAGE_WINDOW_SECONDS = 2.0
+#: Create Message: nonce "can be used to verify a message was sent (up to 25 characters)"
+#: (discord-api-docs, message.mdx).
+NONCE_LENGTH = 25
 ARTIFACT_TIMEOUT_SECONDS = 20.0
 TEST_RUN_WARNING = "Test run: the inputs were checked and nothing was sent to Discord"
 
@@ -110,14 +114,18 @@ def connection_of(action: dict[str, Any], inputs: dict[str, Any]) -> dict[str, A
     return connection
 
 
-def artifact_reader(action: dict[str, Any], *, test_mode: bool) -> Callable[[str], bytes]:
+def artifact_reader(action: dict[str, Any], *, test_mode: bool) -> Callable[[str], Iterable[bytes]]:
+    """A workflow file by its handle, streamed from storage in pieces."""
     if test_mode:
         # A test run checks the inputs; the file is not read because nothing is sent.
-        return lambda handle: b""
+        return lambda handle: iter(())
     artifacts = action.get("artifacts")
     payload = {"artifacts": artifacts if isinstance(artifacts, dict) else {}}
-    return lambda handle: read_artifact_bytes(
-        payload, artifact_id=handle, timeout_seconds=ARTIFACT_TIMEOUT_SECONDS
+    return lambda handle: stream_artifact_bytes(
+        payload,
+        artifact_id=handle,
+        chunk_size=READ_CHUNK_BYTES,
+        timeout_seconds=ARTIFACT_TIMEOUT_SECONDS,
     )
 
 
@@ -149,7 +157,7 @@ def dispatch_rest(
             "body": {
                 "data": {
                     **body,
-                    "nonce": hashlib.sha256(execution_id.encode()).hexdigest()[:25],
+                    "nonce": hashlib.sha256(execution_id.encode()).hexdigest()[:NONCE_LENGTH],
                     "enforce_nonce": True,
                 }
             },

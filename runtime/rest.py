@@ -5,17 +5,23 @@ from __future__ import annotations
 import json
 import re
 import uuid
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from typing import Any
 from urllib.parse import quote, unquote, urlencode
 
-from runtime.files import MAX_FILE_BYTES, MAX_FILES, ArtifactReader, Part, file_parts
+from runtime.files import MAX_FILE_BYTES, MAX_FILES, MIB, ArtifactReader, Part, file_parts
 from runtime.routes import RequestTarget, request_target, route_for
 from runtime.transport import DEFAULT_TIMEOUT_SECONDS, Reply, request_raw
 
 MAX_UPLOAD = 2_000_000
+#: X-Audit-Log-Reason: up to 512 characters (discord-api-docs, audit-log.mdx).
+MAX_AUDIT_REASON = 512
+#: Update Application Identity Profile: "Serialized data must fit within 10 KB"
+#: (discord-api-docs 9b737ec, application-identity-profile.mdx).
+MAX_PROFILE_DATA_BYTES = 10_000
 #: A multipart body: up to ten files of up to 20 MiB each, plus payload_json and headers.
-MAX_MULTIPART = MAX_FILES * MAX_FILE_BYTES + 1024 * 1024
+MAX_MULTIPART = MAX_FILES * MAX_FILE_BYTES + MIB
 SAFE_NAME = re.compile(r"[A-Za-z0-9_.\[\]-]{1,160}")
 CREDENTIAL = re.compile(r"[A-Za-z0-9._~-]{1,512}")
 SECRET_FIELDS = frozenset(
@@ -66,7 +72,7 @@ class Prepared:
     authorization: str | None = field(repr=False)
     credentials: tuple[str, ...] = field(repr=False)
     content_type: str | None
-    body: bytes | None = field(repr=False)
+    body: bytes | MultipartBody | None = field(repr=False)
     query: list[tuple[str, str]]
     audit_reason: str
 
@@ -85,9 +91,47 @@ def _pairs(values: dict[str, Any]) -> list[tuple[str, str]]:
     return pairs
 
 
-def _multipart(body: Any, parts: list[Part], *, raw_fields: bool = False) -> tuple[str, bytes]:
+#: Operations whose multipart fields are sent as form fields, not as payload_json
+#: (their Discord forms: sticker, application attachment, invite target users).
+RAW_FIELD_OPERATIONS = frozenset(
+    {"create_guild_sticker", "upload_application_attachment", "update_invite_target_users"}
+)
+
+
+class MultipartBody:
+    """A multipart body sent piece by piece: its length is known before it is sent
+    (``Content-Length``), and each file is read from its temporary file while it is
+    sent, so only one piece is in memory at a time."""
+
+    def __init__(self, pieces: list[bytes | Part]) -> None:
+        self._pieces = pieces
+        self.length = sum(len(p) if isinstance(p, bytes) else p.size for p in pieces)
+
+    def __iter__(self) -> Iterator[bytes]:
+        for piece in self._pieces:
+            if isinstance(piece, bytes):
+                yield piece
+            else:
+                yield from piece.chunks()
+
+    def __len__(self) -> int:
+        return self.length
+
+    def __bytes__(self) -> bytes:
+        """The whole body at once (for checks, not for sending)."""
+        return b"".join(self)
+
+    def close(self) -> None:
+        for piece in self._pieces:
+            if isinstance(piece, Part):
+                piece.close()
+
+
+def _multipart(
+    body: Any, parts: list[Part], *, raw_fields: bool = False
+) -> tuple[str, MultipartBody]:
     boundary = uuid.uuid4().hex
-    chunks: list[bytes] = []
+    chunks: list[bytes | Part] = []
     if raw_fields and body is not None:
         if not isinstance(body, dict):
             raise ValueError("Multipart fields must be an object")
@@ -110,12 +154,13 @@ def _multipart(body: Any, parts: list[Part], *, raw_fields: bool = False) -> tup
         chunks.append(
             f'--{boundary}\r\nContent-Disposition: form-data; name="{part.name}"; '
             f'filename="{part.filename}"\r\nContent-Type: {part.content_type}\r\n\r\n'.encode()
-            + part.data
-            + b"\r\n"
         )
+        chunks.append(part)
+        chunks.append(b"\r\n")
     chunks.append(f"--{boundary}--\r\n".encode())
-    encoded = b"".join(chunks)
-    if len(encoded) > MAX_MULTIPART:
+    encoded = MultipartBody(chunks)
+    if encoded.length > MAX_MULTIPART:
+        encoded.close()
         raise ValueError("Multipart body exceeds the upload budget")
     return f"multipart/form-data; boundary={boundary}", encoded
 
@@ -184,7 +229,7 @@ def prepare(
         raise ValueError("Query parameters do not match this operation")
     target = request_target(operation_id, path_parameters=paths, connection_secrets=route_secrets)
     reason = inputs.get("audit_reason", "")
-    if not isinstance(reason, str) or len(reason) > 512:
+    if not isinstance(reason, str) or len(reason) > MAX_AUDIT_REASON:
         raise ValueError("Audit reason exceeds the limit")
     body_input = inputs.get("body")
     files = inputs.get("files", [])
@@ -197,7 +242,7 @@ def prepare(
         if (
             profile is not None
             and len(json.dumps(profile, ensure_ascii=False, separators=(",", ":")).encode())
-            > 10_000
+            > MAX_PROFILE_DATA_BYTES
         ):
             raise ValueError("Profile data exceeds Discord's limit")
     credential_names = BODY_CREDENTIALS.get(operation_id, set())
@@ -212,7 +257,8 @@ def prepare(
                 if isinstance(value := secrets.get(name), str) and value
             },
         }
-    media_type, encoded = None, None
+    media_type: str | None = None
+    encoded: bytes | MultipartBody | None = None
     if body is not None or files or artifacts:
         supported = route["request_media_types"]
         default = (
@@ -235,16 +281,16 @@ def prepare(
                 read_artifact=read_artifact,
                 valid_name=lambda name: SAFE_NAME.fullmatch(name) is not None,
             )
-            media_type, encoded = _multipart(
-                body,
-                parts,
-                raw_fields=operation_id
-                in {
-                    "create_guild_sticker",
-                    "upload_application_attachment",
-                    "update_invite_target_users",
-                },
-            )
+            try:
+                media_type, encoded = _multipart(
+                    body,
+                    parts,
+                    raw_fields=operation_id in RAW_FIELD_OPERATIONS,
+                )
+            except BaseException:
+                for part in parts:
+                    part.close()
+                raise
         elif files or artifacts:
             raise ValueError("Files require multipart/form-data")
         elif media_type == "application/json":
@@ -257,6 +303,8 @@ def prepare(
             raise ValueError("Unsupported request body")
         limit = MAX_MULTIPART if media_type.startswith("multipart/") else MAX_UPLOAD
         if len(encoded) > limit:
+            if isinstance(encoded, MultipartBody):
+                encoded.close()
             raise ValueError("Request body exceeds the upload budget")
     elif route["request_body_required"]:
         raise ValueError("Request body is required")
@@ -322,17 +370,22 @@ def redact_response(value: Any, credentials: tuple[str, ...]) -> Any:
 def execute(
     prepared: Prepared, *, user_agent: str, timeout: float = DEFAULT_TIMEOUT_SECONDS
 ) -> Reply:
-    """Send the prepared request once."""
+    """Send the prepared request once; a multipart body's temporary files are closed
+    (and deleted) afterwards, whatever happened."""
     target = prepared.target
-    return request_raw(
-        method=target.method,
-        path=target.path,
-        authorization=prepared.authorization,
-        user_agent=user_agent,
-        success_statuses=target.success_statuses,
-        data=prepared.body,
-        content_type=prepared.content_type,
-        query=prepared.query,
-        audit_reason=prepared.audit_reason,
-        timeout=timeout,
-    )
+    try:
+        return request_raw(
+            method=target.method,
+            path=target.path,
+            authorization=prepared.authorization,
+            user_agent=user_agent,
+            success_statuses=target.success_statuses,
+            data=prepared.body,
+            content_type=prepared.content_type,
+            query=prepared.query,
+            audit_reason=prepared.audit_reason,
+            timeout=timeout,
+        )
+    finally:
+        if isinstance(prepared.body, MultipartBody):
+            prepared.body.close()

@@ -10,20 +10,24 @@ from __future__ import annotations
 
 import json
 import math
-from collections.abc import Mapping
+from collections.abc import Iterator, Mapping
 from dataclasses import dataclass, field
 from http.client import HTTPException
-from typing import Any
+from typing import Any, Protocol
 from urllib.error import HTTPError
 from urllib.parse import quote, urlencode
 from urllib.request import Request
 
 from flowsteward_extension_sdk import open_pinned_url
 
+from runtime.files import MIB
+
 API = "https://discord.com/api/v10"
 #: One Discord answer is read up to 8 MiB; a longer one is not read.
-MAX_RESPONSE = 8 * 1024 * 1024
+MAX_RESPONSE = 8 * MIB
 MAX_ERROR = 8_192
+#: The longest rate limit header value kept (our bound; Discord's are short).
+MAX_HEADER_VALUE = 128
 DEFAULT_TIMEOUT_SECONDS = 10.0
 CHUNK = 256 * 1024
 PURPOSE = "Discord API"
@@ -102,7 +106,7 @@ def kept_headers(headers: Any) -> dict[str, str]:
         except AttributeError:
             return kept
         if isinstance(value, str) and value.strip():
-            kept[name] = value.strip()[:128]
+            kept[name] = value.strip()[:MAX_HEADER_VALUE]
     return kept
 
 
@@ -161,6 +165,14 @@ def _read(response: Any) -> tuple[bytes, str | None]:
     return bytes(buffer), None
 
 
+class SizedBody(Protocol):
+    """A body sent piece by piece whose length is known before it is sent."""
+
+    def __iter__(self) -> Iterator[bytes]: ...
+
+    def __len__(self) -> int: ...
+
+
 def request_raw(
     *,
     method: str,
@@ -168,7 +180,7 @@ def request_raw(
     authorization: str | None,
     user_agent: str,
     success_statuses: tuple[int, ...],
-    data: bytes | None,
+    data: bytes | SizedBody | None,
     content_type: str | None,
     query: list[tuple[str, str]],
     audit_reason: str,
@@ -182,6 +194,9 @@ def request_raw(
         headers["Authorization"] = authorization
     if content_type:
         headers["Content-Type"] = content_type
+    if data is not None and not isinstance(data, bytes):
+        # A body sent piece by piece (a multipart body): its length is sent first.
+        headers["Content-Length"] = str(len(data))
     if audit_reason:
         headers["X-Audit-Log-Reason"] = quote(audit_reason, safe="")
     suffix = f"?{urlencode(query)}" if query else ""

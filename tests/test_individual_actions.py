@@ -203,7 +203,8 @@ def test_multipart_upload_delivers_binary_file(monkeypatch, action_id):
     assert main.dispatch(request)["ok"] is True
     [call] = calls
     message = BytesParser(policy=policy.default).parsebytes(
-        f"Content-Type: {call['content_type']}\r\nMIME-Version: 1.0\r\n\r\n".encode() + call["data"]
+        f"Content-Type: {call['content_type']}\r\nMIME-Version: 1.0\r\n\r\n".encode()
+        + bytes(call["data"])
     )
     [attachment] = [part for part in message.iter_parts() if part.get_filename()]
     assert attachment.get_param("name", header="content-disposition") == field

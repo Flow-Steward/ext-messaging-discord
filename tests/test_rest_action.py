@@ -135,8 +135,8 @@ def test_multipart_sticker_payload_and_form_fields_are_encoded():
         write=True,
     )
     assert prepared.content_type.startswith("multipart/form-data; boundary=")
-    assert b'name="name"\r\n\r\nExample\r\n' in prepared.body
-    assert b'name="file"; filename="example.png"' in prepared.body
+    assert b'name="name"\r\n\r\nExample\r\n' in bytes(prepared.body)
+    assert b'name="file"; filename="example.png"' in bytes(prepared.body)
 
 
 @pytest.mark.parametrize(

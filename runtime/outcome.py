@@ -38,7 +38,8 @@ from typing import Any
 
 from runtime.nesting import MAX_ANSWER_DEPTH, too_deep
 from runtime.rest import redact_response
-from runtime.transport import Reply
+from runtime.files import size_text
+from runtime.transport import MAX_RESPONSE, Reply
 
 JSON = "application/json"
 DECODED = {JSON, "text/csv", "image/png"}
@@ -76,7 +77,9 @@ def _decode(kind: str, raw: bytes, credentials: tuple[str, ...]) -> Any:
 def read_data(reply: Reply, route: dict[str, Any], credentials: tuple[str, ...]) -> Any:
     """The data of a read's answer; raises ``Unusable`` when it cannot be returned."""
     if reply.unread == "response_too_large":
-        raise Unusable("response_too_large", "Discord's answer is larger than 8 MiB")
+        raise Unusable(
+            "response_too_large", f"Discord's answer is larger than {size_text(MAX_RESPONSE)}"
+        )
     if reply.unread is not None:
         raise Unusable("invalid_response", "Discord's answer was cut off")
     documented = documented_types(route, reply.status)
@@ -109,7 +112,11 @@ def write_data(
     if promised and kind and kind != JSON:  # T2
         raise Unusable("timeout_unknown", "Discord confirmed the status but not with JSON")
     if reply.unread is not None:  # T4
-        reason = "larger than 8 MiB" if reply.unread == "response_too_large" else "cut off"
+        reason = (
+            f"larger than {size_text(MAX_RESPONSE)}"
+            if reply.unread == "response_too_large"
+            else "cut off"
+        )
         return None, [
             f"Discord confirmed the change ({shown}) but its answer was not read ({reason}); "
             "data is null"

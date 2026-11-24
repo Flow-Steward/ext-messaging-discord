@@ -15,6 +15,12 @@ READ_OPERATIONS = {
 }
 LIST_OPERATIONS = frozenset({"list_messages", "list_guild_channels"})
 MESSAGE_CURSORS = frozenset({"before", "after", "around"})
+#: Get Channel Messages takes limit "Max number of messages to return (1-100)"
+#: (discord-api-docs, channel.mdx).
+MAX_MESSAGE_LIMIT = 100
+#: Messages a single read returns when no limit is given (our default; all_pages asks
+#: for the most per page).
+DEFAULT_MESSAGE_LIMIT = 25
 
 
 def read_arguments(
@@ -45,10 +51,10 @@ def read_arguments(
             if not isinstance(value, str) or not SNOWFLAKE.fullmatch(value):
                 raise ValueError("Message cursor must be a Discord snowflake")
             query[cursor] = value
-        default = 100 if inputs.get("all_pages") is True else 25
+        default = MAX_MESSAGE_LIMIT if inputs.get("all_pages") is True else DEFAULT_MESSAGE_LIMIT
         limit = inputs.get("limit", default)
-        if type(limit) is not int or not 1 <= limit <= 100:
-            raise ValueError("Message limit must be between 1 and 100")
+        if type(limit) is not int or not 1 <= limit <= MAX_MESSAGE_LIMIT:
+            raise ValueError(f"Message limit must be between 1 and {MAX_MESSAGE_LIMIT}")
         query["limit"] = limit
     if inputs.keys() - allowed:
         raise ValueError("Unexpected operation input")

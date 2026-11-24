@@ -11,6 +11,8 @@ from urllib.parse import quote
 
 TOKEN = re.compile(r"[A-Za-z0-9._-]{1,512}")
 PLACEHOLDER = re.compile(r"\{([a-zA-Z0-9_]+)\}")
+#: A path parameter as this extension accepts it (our bound, as for a token).
+MAX_PATH_VALUE = 512
 _ROUTE_DATA = json.loads(Path(__file__).with_name("rest_routes.json").read_text())
 
 
@@ -54,7 +56,7 @@ def request_target(
             isinstance(value, bool)
             or not isinstance(value, (str, int))
             or str(value) in {"", ".", ".."}
-            or len(str(value)) > 512
+            or len(str(value)) > MAX_PATH_VALUE
         ):
             raise ValueError("Discord path parameter is invalid")
         return quote(str(value), safe="")
