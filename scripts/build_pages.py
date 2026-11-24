@@ -100,9 +100,9 @@ def returned_fields(spec: dict[str, Any], method: str, path: str) -> tuple[str, 
             continue
         node = _schema(spec, media.get("schema"))
         shape = "an object"
-        if "array" in (
-            node.get("type") if isinstance(node.get("type"), list) else [node.get("type")]
-        ):
+        kind = node.get("type")
+        kinds: list[Any] = kind if isinstance(kind, list) else [kind]
+        if "array" in kinds:
             node, shape = _schema(spec, node.get("items")), "a list of objects"
         names: list[str] = []
         for part in [
