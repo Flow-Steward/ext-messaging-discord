@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.5
+
+- The Setup Guide, API, API coverage, Changelog and Support pages open without choosing a project; only the connection pages ask for one.
+
 ## 0.1.4
 
 - The Discord API is one tab: every step by group in sections you open, one line per step with what it does.

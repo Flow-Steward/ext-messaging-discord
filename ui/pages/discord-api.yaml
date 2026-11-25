@@ -3,6 +3,7 @@
 page_id: discord-api
 title: API
 description: Every Discord step by group, with what it does.
+project_scoped: false
 components:
 - component_id: api_overview
   type: markdown

@@ -3,6 +3,7 @@
 page_id: api-coverage
 title: Discord API coverage
 description: Every Discord REST operation, the step that calls it, its inputs and what it returns.
+project_scoped: false
 components:
 - component_id: coverage_summary
   type: markdown

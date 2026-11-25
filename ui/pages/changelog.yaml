@@ -1,11 +1,16 @@
 page_id: changelog
 title: Changelog
 description: What changed in each release of this extension.
+project_scoped: false
 components:
 - component_id: changelog_entries
   type: markdown
   title: Release history
   body: |
+    ## 0.1.5
+
+    - Reference pages open without choosing a project; only the connection pages ask for one.
+
     ## 0.1.4
 
     - The Discord API is one tab: every step by group in sections you open, one line per step with what it does.

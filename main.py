@@ -13,7 +13,7 @@ from runtime.individual_actions import dispatch_individual
 from runtime.reads import READ_OPERATIONS, read_arguments, shaped
 from runtime.rest_action import connection_of, dispatch_rest, failure, test_run
 
-USER_AGENT = "DiscordBot (https://github.com/Flow-Steward/ext-messaging-discord, 0.1.4)"
+USER_AGENT = "DiscordBot (https://github.com/Flow-Steward/ext-messaging-discord, 0.1.5)"
 MAX_INPUT = 2_700_000
 SNOWFLAKE = re.compile(r"[0-9]{1,20}")
 TOKEN = re.compile(r"[A-Za-z0-9._-]{8,512}")

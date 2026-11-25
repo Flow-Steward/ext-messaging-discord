@@ -1,6 +1,7 @@
 page_id: setup-guide
 title: Setup Guide
 description: Set up the Discord application once, then connect it to this project.
+project_scoped: false
 components:
   - component_id: setup_operator
     type: markdown

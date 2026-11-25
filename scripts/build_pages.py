@@ -178,6 +178,9 @@ def _page(page_id: str, title: str, description: str, components: list[dict]) ->
         "page_id": page_id,
         "title": title,
         "description": description,
+        # Reference pages need no project: an explicit false wins over the extension's
+        # project scope in every Flow Steward version (manifestPageRequiresProject).
+        "project_scoped": False,
         "components": components,
     }
     return HEADER + yaml.dump(
